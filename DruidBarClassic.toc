@@ -2,6 +2,6 @@
 ## Title: Druid Bar Classic v0.1
 ## Notes: Shows mana in bear/cat form.
 ## Current Author: Tek (port to WoW Classic Beta)
-## Original Author: SkaDemon (GUI: DiabloHu)
+## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
 DruidBar.xml

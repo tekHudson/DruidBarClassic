@@ -1098,6 +1098,7 @@
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="ManaBorder_FrameLevel_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>
@@ -1125,7 +1126,6 @@
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
-
 
 			<Button name="DRUIDBAROptionsFrameClose" inherits="OptionsButtonTemplate" text="DRUIDBAR_OPTIONS_Close">
 				<Anchors>
@@ -1155,6 +1155,7 @@
 				</Layers>
 			</Button>
 		</Frames>
+
 		<Scripts>
 			<OnLoad>
 				DRUIDBAROptions_OnLoad();
