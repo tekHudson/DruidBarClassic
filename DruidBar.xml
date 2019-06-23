@@ -90,7 +90,7 @@
 	<Frame name="DruidBarUpdateFrame">
 		<Scripts>
 			<OnLoad>DruidBar_OnLoad();</OnLoad>
-			<OnEvent>DruidBar_OnEvent(self, event,...);</OnEvent>
+			<OnEvent>DruidBar_OnEvent(self, event, ...);</OnEvent>
 			<OnUpdate function="DruidBar_OnUpdate" />
 		</Scripts>
 	</Frame>

@@ -70,13 +70,13 @@ end
 
 function DRUIDBAROptions_Replace()
 	DruidBarKey.Replace = true;
-	DruidBarKey.XPBar = false;
+	DruidBarKey.Player = false;
 	DruidBarKey.Lock = true;
 	DRUIDBAR_FrameSet();
 end
 
 function DRUIDBAROptions_Player()
-	DruidBarKey.XPBar = true;
+	DruidBarKey.Player = true;
 	DruidBarKey.xvar = 150;
 	DruidBarKey.yvar = 18;
 	DruidBarKey.Replace = false;
@@ -86,7 +86,8 @@ end
 
 function DRUIDBAROptions_Custom()
 	DruidBarKey.Replace = false;
-	DruidBarKey.XPBar = false;
+	DruidBarKey.Player = false;
+	DruidBarKey.Lock = false;
 	DruidBarKey.xvar = DruidBarKey.tempW;
 	DruidBarKey.yvar = DruidBarKey.tempH;
 	DRUIDBAR_FrameSet();
@@ -130,7 +131,10 @@ function DRUIDBAROptions_Text_Initialize()
 end
 
 function DRUIDBAROptions_Text_OnShow()
+	-- Construct dropdown
 	UIDropDownMenu_Initialize(DRUIDBAROptionsTextDropDown, DRUIDBAROptions_Text_Initialize);
+
+	-- Sets initial value
 	if( DruidBarKey.Text == 0 ) then
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 1);
 	elseif( DruidBarKey.Text == 1 ) then
@@ -141,9 +145,10 @@ function DRUIDBAROptions_Text_OnShow()
 	UIDropDownMenu_SetWidth(DRUIDBAROptionsTextDropDown, 100);
 end
 
-function DRUIDBAROptions_Text_OnClick()
+function DRUIDBAROptions_Text_OnClick(self)
 	i = self:GetID();
 	UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, i);
+
 	if(i == 1) then
 		DruidBarKey.Text = 0;
 	elseif(i == 2) then
@@ -175,9 +180,10 @@ function DRUIDBAROptions_Percent_OnShow()
 	UIDropDownMenu_SetWidth(DRUIDBAROptionsPercentDropDown, 112);
 end
 
-function DRUIDBAROptions_Percent_OnClick()
+function DRUIDBAROptions_Percent_OnClick(self)
 	i = self:GetID();
 	UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, i);
+
 	if(i == 1) then
 		DruidBarKey.Percent = 0;
 	elseif(i == 2) then
@@ -408,13 +414,16 @@ function DRUIDBAROptions_MessageOOM_OnClick()
 end
 
 function DRUIDBAR_FrameSet()
+	-- DruidBarKey is not set, get out
 	if not DruidBarKey then return end
+	-- Check temp width and temp height
 	if not DruidBarKey.tempW then DruidBarKey.tempW = 0; end
 	if not DruidBarKey.tempH then DruidBarKey.tempH = 0; end
+
 	DRUIDBAROptionsToggle:SetChecked(DruidBarKey.Enabled);
 	DRUIDBAROptionsVis:SetChecked(DruidBarKey.Graphics);
 	DRUIDBAROptionsReplace:SetChecked(DruidBarKey.Replace);
-	DRUIDBAROptionsPlayer:SetChecked(DruidBarKey.XPBar);
+	DRUIDBAROptionsPlayer:SetChecked(DruidBarKey.Player);
 	DRUIDBAROptionsLock:SetChecked(DruidBarKey.Lock);
 	DRUIDBAROptionsHide:SetChecked(DruidBarKey.Hide);
 	DRUIDBAROptionsFull:SetChecked(DruidBarKey.Full);
@@ -438,7 +447,7 @@ function DRUIDBAR_FrameSet()
 		DRUIDBAROptionsKMGText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_KMG.."|r");
 	end
 
-	if(DruidBarKey.XPBar == false and DruidBarKey.Replace == false) then
+	if(DruidBarKey.Player == false and DruidBarKey.Replace == false) then
 		DRUIDBAROptionsCustom:SetChecked("true");
 		DRUIDBAROptionsWeightText:SetText(DRUIDBAR_OPTIONS_Weight);
 		DRUIDBAROptionsHeightText:SetText(DRUIDBAR_OPTIONS_Height);
@@ -538,7 +547,6 @@ function DRUIDBAROptions_GetBGColor(self)
 	getglobal(self:GetName().."_SwatchBg"):SetVertexColor(DruidBarKey.bgcolor[1], DruidBarKey.bgcolor[2], DruidBarKey.bgcolor[3]);
 end
 
-
 function DRUIDBAROptions_GetBorderColor(self)
 	if not DruidBarKey then return end
 	local info;
@@ -559,8 +567,6 @@ function DRUIDBAROptions_GetBorderColor(self)
 									DruidBarKey.bordercolor[4] = 1.0 - ColorPickerFrame.previousValues.opacity; end;
 	getglobal(self:GetName().."_SwatchBg"):SetVertexColor(DruidBarKey.bordercolor[1], DruidBarKey.bordercolor[2], DruidBarKey.bordercolor[3]);
 end
-
-
 
 function DRUIDBAROptions_ManaBarFrameLevel_Initialize()
 	local info;

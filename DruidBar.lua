@@ -2,31 +2,22 @@
 local aquaformid, travelformid;
 
 function DruidBar_OnLoad()
-	DruidBarUpdateFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
-	DruidBarUpdateFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_FAILED");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_FAILED_QUIET");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_START");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
-	DruidBarUpdateFrame:RegisterEvent("VARIABLES_LOADED");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
 	DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
-	DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
+	DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
 	DruidBarUpdateFrame:RegisterEvent("COMBAT_LOG_EVENT");
-	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_START");
+	DruidBarUpdateFrame:RegisterEvent("VARIABLES_LOADED");
+	DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
 	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_STOP");
+	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_START");
+	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
+	DruidBarUpdateFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
+	DruidBarUpdateFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
+	DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
+	DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
 	SlashCmdList["DRUIDBARSLASH"] = DruidBar_Enable_ChatCommandHandler;
 	SLASH_DRUIDBARSLASH1 = "/dbar";
 	SLASH_DRUIDBARSLASH2 = "/druidbar";
-	-- DBarSpellCatch:SetOwner(DruidBarFrame, "ANCHOR_NONE");
+	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
 end
 
 local className, inform, lowregentimer, fullmanatimer, lastshift, inCombat, firstEZ, pre_UseAction, shiftload, isMoving, waitonce, firstshift;
@@ -83,7 +74,7 @@ function DruidBar_OnEvent(self, event,...)
 		-- Player's power changed
 		elseif event == "UNIT_POWER_UPDATE" and arg1 == "player" then
 			if arg2 == "MANA" then
-				DruidBarKey.keepthemana = UnitPower("player");
+				DruidBarKey.keepthemana = UnitPower("player", 0);
 			elseif DruidBarKey.keepthemana < DruidBarKey.maxmana then
 				-- Not sure whats going on in here yet
 				local add = DruidBar_ReflectionCheck();
@@ -95,6 +86,7 @@ function DruidBar_OnEvent(self, event,...)
 
 		-- Player gained or lost a form, buff, debuff, status, or item bonus
 		elseif event == "UNIT_AURA" or event == "UPDATE_SHAPESHIFT_FORMS" then
+
 			if UnitPowerType("player") == 1 and not inform then
 				--Bear
 				inform = true;
@@ -114,10 +106,10 @@ function DruidBar_OnEvent(self, event,...)
 			end
 
 			DruidBar_Message();
-		elseif (event == "UNIT_SPELLCAST_CHANNEL_UPDATE" or
-						event == "UNIT_SPELLCAST_FAILED_QUIET" or
-						event == "UNIT_SPELLCAST_INTERRUPTED" or
-						event == "UNIT_SPELLCAST_SUCCEEDED") then
+
+		-- Player stopped casting, for any reason.
+		elseif (event == "UNIT_SPELLCAST_STOP") then
+			-- Something for EZCast... I think it is supposed to auto drop form?
 			if (not firstEZ) then
 				if (DruidBarKey.EZShift) then
 					pre_UseAction = UseAction;
@@ -125,7 +117,9 @@ function DruidBar_OnEvent(self, event,...)
 				end
 				firstEZ = true;
 			end
+
 			if UnitPowerType("player") == 0 then lowregentimer = 5;
+
 			waitonce = nil; end
 		end
 	elseif className and className == "DRUID" and not DruidBarKey.Enabled then
@@ -295,7 +289,10 @@ end
 
 --Gets the mana cost of your shapeshifting spells.
 function DruidBar_GetShapeshiftCost()
-	if not DBarSpellCatch:IsOwned(DruidBarUpdateFrame) then DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE"); end
+	if not DBarSpellCatch:IsOwned(DruidBarUpdateFrame) then
+		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
+	end
+
 	DruidBarKey.subtractmana = 0;
 	local a, b, c, d = GetSpellTabInfo(4);
 	for i = 1, c+d, 1 do
@@ -483,7 +480,7 @@ function DruidBar_MainGraphics()
 		end
 		dbarlen();
 		dbarhei();
-		if DruidBarKey.XPBar then
+		if DruidBarKey.Player then
 			DruidBarFrame:ClearAllPoints();
 			DruidBarFrame:SetPoint("TOPLEFT","PlayerFrame","TOPLEFT", 80, -63);
 			PlayerFrame:SetFrameLevel("1");
@@ -825,8 +822,8 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		DruidBarKey.DontShiftBack = DruidBar_Toggle(DruidBarKey.DontShiftBack, "Prevent shifting to human using different forms is");
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "player" then
-		DruidBarKey.XPBar = DruidBar_Toggle(DruidBarKey.XPBar, "Showing the bar below the Player Frame is");
-		if DruidBarKey.XPBar then DruidBarKey.xvar = 150; DruidBarKey.yvar = 18; else DruidBarKey.xvar = 160; DruidBarKey.yvar = 18; end
+		DruidBarKey.Player = DruidBar_Toggle(DruidBarKey.Player, "Showing the bar below the Player Frame is");
+		if DruidBarKey.Player then DruidBarKey.xvar = 150; DruidBarKey.yvar = 18; else DruidBarKey.xvar = 160; DruidBarKey.yvar = 18; end
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "text" then
 		if not DruidBarKey.Text then DruidBarKey.Text = 0; DruidBar_Print("Original-Style text on!"); elseif DruidBarKey.Text == 0 then DruidBarKey.Text = 1; DruidBar_Print("New-Style text on!"); elseif DruidBarKey.Text == 1 then DruidBarKey.Text = nil; DruidBar_Print("Text removed."); end
@@ -901,7 +898,7 @@ function DruidBar_Status()
 	DruidBar_Print("Hiding when in caster is "..DruidBar_On(DruidBarKey.Hide));
 	DruidBar_Print("Hiding when mana is full is "..DruidBar_On(DruidBarKey.Full));
 	DruidBar_Print("Replacing the Player Frame's mana bar is "..DruidBar_On(DruidBarKey.Replace));
-	DruidBar_Print("Showing under the Player Frame is "..DruidBar_On(DruidBarKey.XPBar));
+	DruidBar_Print("Showing under the Player Frame is "..DruidBar_On(DruidBarKey.Player));
 	local str;
 	if not DruidBarKey.Text then str = "|CFF888888Off|r"; elseif DruidBarKey.Text == 1 then str = "|CFFFFFFFFModern|r"; else str = "|CFF00FF00Classic|r"; end
 	DruidBar_Print("The current style of text is "..str);
@@ -919,10 +916,8 @@ function DruidBar_On(tog)
 end
 
 function DruidBar_MaxManaScript()
-	print("In DruidBar_MaxManaScript")
-
+	-- TODO: not sure what int is in this case, RENAME
 	local _, int = UnitStat("player", 4);
-	print("int = ", int)
 
 	DruidBar_GetShapeshiftCost();
 	if UnitPowerType("player") == 0 then

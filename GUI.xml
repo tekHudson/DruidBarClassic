@@ -420,7 +420,7 @@
 				</Scripts>
 			</CheckButton>
 
-			<Frame name="DRUIDBAROptionsTextDropDown" inherits="UIDropDownMenuTemplate" enableMouse="true">
+			<Frame name="DRUIDBAROptionsTextDropDown" inherits="UIDropDownMenuTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
@@ -445,7 +445,7 @@
 
 				<Scripts>
 					<OnShow>
-						DRUIDBAROptions_Text_OnShow();
+						DRUIDBAROptions_Text_OnShow(self);
 					</OnShow>
 				</Scripts>
 			</Frame>
@@ -1158,17 +1158,10 @@
 		<Scripts>
 			<OnLoad>
 				DRUIDBAROptions_OnLoad();
+				self:RegisterForDrag("LeftButton");
 			</OnLoad>
-			<OnMouseDown>
-				if (arg1 == 'LeftButton') then
-					self:StartMoving();
-				end
-			</OnMouseDown>
-			<OnMouseUp>
-				if (arg1 == 'LeftButton') then
-					self:StopMovingOrSizing();
-				end
-			</OnMouseUp>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
 		</Scripts>
 	</Frame>
 </Ui>

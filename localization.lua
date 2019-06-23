@@ -57,12 +57,12 @@ DRUIDBAR_OPTIONS_DROP = {
 	["Text"] = {
 		[0] = "Original";
 		[1] = "New";
-		[2] = "No Text";	
+		[2] = "No Text";
 	};
 	["Percent"] = {
 		[0] = "Raw numbers";
 		[1] = "Percentages";
-		[2] = "Both above";	
+		[2] = "Both above";
 	};
 	["Message"] = {
 		[0] = "SAY";
@@ -134,7 +134,7 @@ elseif GetLocale() == "zhTW" then
 	DRUIDBAR_CAT_FORM = "獵豹形態";
 	DRUIDBAR_BEAR_FORM = "熊形態";
 	DRUIDBAR_MANA_DELIM = "法力";
-	
+
 	DRUIDBAR_META = "變形符文";
 	DRUIDBAR_AQ1 = "安其拉";
 	DRUIDBAR_AQ2 = "安其拉之門";
@@ -144,7 +144,7 @@ elseif GetLocale() == "zhTW" then
 	DRUIDBAR_FEL = "召喚地獄戰馬";
 	DRUIDBAR_GHOST = "幽魂之狼";
 	DRUIDBAR_WAR = "召喚戰馬";
-  
+
 	DRUIDBAR_OPTIONS_TITLE = "Druid Bar設定";
 	DRUIDBAR_OPTIONS_Bar = "狀態條設定";
 	DRUIDBAR_OPTIONS_MessageO = "變形訊息設定";
@@ -173,12 +173,12 @@ elseif GetLocale() == "zhTW" then
 		["Text"] = {
 			[0] = "原始樣式";
 			[1] = "新樣式";
-			[2] = "不顯示文字";	
+			[2] = "不顯示文字";
 		};
 		["Percent"] = {
 			[0] = "數值";
 			[1] = "百分比";
-			[2] = "數值/百分比";	
+			[2] = "數值/百分比";
 		};
 		["Message"] = {
 			[0] = "SAY";
@@ -194,7 +194,6 @@ elseif GetLocale() == "zhTW" then
 	DRUIDBAR_OPTIONS_Shift = "由任何形態變回人型";
 	DRUIDBAR_OPTIONS_EZShift = "簡易變形";
 	DRUIDBAR_OPTIONS_Debug = "除錯模式";
-  
 elseif GetLocale() == "zhCN" then
 	DRUIDBAR_DRUIDCLASS	= "德鲁伊";
 	DRUIDBAR_INNERVATE	= "激活";
@@ -206,9 +205,9 @@ elseif GetLocale() == "zhCN" then
 	DRUIDBAR_REGEN3 = "装备： 每5秒恢复(%d+)点法力值。"
 	DRUIDBAR_REGEN4 = "每5秒恢复(%d+)点法力值。";
 	DRUIDBAR_CAT_FORM = "猎豹形态";
-	
+
 	DRUIDBAR_BEAR_FORM = "熊形态";
-	
+
 	DRUIDBAR_MANA_DELIM = "法力值";
 	DRUIDBAR_META = "变形符文";
 	DRUIDBAR_OPTIONS_TITLE = "Druid Bar 设置";
@@ -239,12 +238,12 @@ elseif GetLocale() == "zhCN" then
 		["Text"] = {
 			[0] = "原样式";
 			[1] = "新样式";
-			[2] = "无文本";	
+			[2] = "无文本";
 		};
 		["Percent"] = {
 			[0] = "具体数字";
 			[1] = "百分比";
-			[2] = "显示两者";	
+			[2] = "显示两者";
 		};
 		["Message"] = {
 			[0] = "说";
