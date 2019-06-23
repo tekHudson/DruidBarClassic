@@ -2,6 +2,12 @@
 
 Druid Bar is a movable mana bar that keeps track of your current mana, even in a shapeshifted form like bear or cat. remember that this addon is an estimation of your mana, and it could be slightly higher or lower depending on your level(Lower levels will have more problems since there is much less room for error with their smaller mana pools).
 
+## Installation
+* Download ZIP
+* Extract into Interface/Addons/
+  * Ensure to rename folder and remove "-master"
+  * Should be `DruidBarClassic`
+* Enjoy and keep WoW weird :D
 
 ## Slash Commands
 There are 2 available /druidbar or /dbar and either may recieve a number of parameters: [on/off/toggle/vis/width/height/hide/lock/replace/player/text/message/status]
