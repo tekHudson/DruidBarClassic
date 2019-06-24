@@ -11,13 +11,13 @@ function DRUIDBAROptions_OnLoad()
 	UIPanelWindows['DRUIDBAROptionsFrame'] = {area = 'center', pushable = 0};
 end
 
-function DRUIDBAROptions_CheckWeight(self)
-	if ( DRUIDBAROptionsWeightEditBox:GetText() < "1" ) then
-		DRUIDBAROptionsWeightEditBox:SetText("1");
+function DRUIDBAROptions_CheckWidth(self)
+	if ( DRUIDBAROptionsWidthEditBox:GetText() < "1" ) then
+		DRUIDBAROptionsWidthEditBox:SetText("1");
 		DruidBarKey.xvar = self:GetNumber();
 		DruidBarKey.tempW = DruidBarKey.xvar;
-	elseif( DRUIDBAROptionsWeightEditBox:GetText() > "9999" ) then
-		DRUIDBAROptionsWeightEditBox:SetText("9999");
+	elseif( DRUIDBAROptionsWidthEditBox:GetText() > "9999" ) then
+		DRUIDBAROptionsWidthEditBox:SetText("9999");
 		DruidBarKey.xvar = self:GetNumber();
 		DruidBarKey.tempW = DruidBarKey.xvar;
 	else
@@ -59,32 +59,27 @@ function DRUIDBAROptions_Vis()
 	DRUIDBAR_FrameSet();
 end
 
-function DRUIDBAROptions_KMG()
-	if(DruidBarKey.kmg) then
-		DruidBarKey.kmg = false;
-	else
-		DruidBarKey.kmg = true;
-	end
-	DRUIDBAR_FrameSet();
-end
-
 function DRUIDBAROptions_Replace()
 	DruidBarKey.Replace = true;
 	DruidBarKey.Player = false;
+	DruidBarKey.Custom = false;
 	DruidBarKey.Lock = true;
 	DRUIDBAR_FrameSet();
 end
 
 function DRUIDBAROptions_Player()
+	DruidBarKey.Replace = false;
 	DruidBarKey.Player = true;
+	DruidBarKey.Custom = false;
+	--Assign value that default to match player frame
 	DruidBarKey.xvar = 150;
 	DruidBarKey.yvar = 18;
-	DruidBarKey.Replace = false;
 	DruidBarKey.Lock = true;
 	DRUIDBAR_FrameSet();
 end
 
 function DRUIDBAROptions_Custom()
+	DruidBarKey.Custom = true;
 	DruidBarKey.Replace = false;
 	DruidBarKey.Player = false;
 	DruidBarKey.Lock = false;
@@ -416,19 +411,30 @@ end
 function DRUIDBAR_FrameSet()
 	-- DruidBarKey is not set, get out
 	if not DruidBarKey then return end
+
+	local gold = {1, 0.82, 0}
+	local grey = {0.5, 0.5, 0.5}
+	local allDisplayStyleTexts = {DRUIDBAROptionsVisText, DRUIDBAROptionsReplaceText,
+		DRUIDBAROptionsPlayerText, DRUIDBAROptionsCustomText, DRUIDBAROptionsHideText,
+	  DRUIDBAROptionsFullText, DRUIDBAROptionsLockText, DRUIDBAROptionsTextDropDownText,
+    DRUIDBAROptionsPercentDropDownText}
+
 	-- Check temp width and temp height
 	if not DruidBarKey.tempW then DruidBarKey.tempW = 0; end
 	if not DruidBarKey.tempH then DruidBarKey.tempH = 0; end
 
+	-- Toggle Checkboxes/Buttons
 	DRUIDBAROptionsToggle:SetChecked(DruidBarKey.Enabled);
 	DRUIDBAROptionsVis:SetChecked(DruidBarKey.Graphics);
 	DRUIDBAROptionsReplace:SetChecked(DruidBarKey.Replace);
 	DRUIDBAROptionsPlayer:SetChecked(DruidBarKey.Player);
+	DRUIDBAROptionsCustom:SetChecked(DruidBarKey.Custom);
 	DRUIDBAROptionsLock:SetChecked(DruidBarKey.Lock);
 	DRUIDBAROptionsHide:SetChecked(DruidBarKey.Hide);
 	DRUIDBAROptionsFull:SetChecked(DruidBarKey.Full);
 	DRUIDBAROptionsMessage:SetChecked(DruidBarKey.message);
-	DRUIDBAROptionsWeightEditBox:SetText(DruidBarKey.tempW);
+	-- Assign Text Box Values
+	DRUIDBAROptionsWidthEditBox:SetText(DruidBarKey.tempW);
 	DRUIDBAROptionsHeightEditBox:SetText(DruidBarKey.tempH);
 	Bear_Message_EditBox:SetText(DruidBarKey.BearMessage[1]);
 	Aqua_Message_EditBox:SetText(DruidBarKey.AquaMessage[1]);
@@ -437,71 +443,58 @@ function DRUIDBAR_FrameSet()
 	OOM_Message_EditBox:SetText(DruidBarKey.OOMMessage[1]);
 	ManaBar_FrameLevel_EditBox:SetText(DruidBarKey.manatexture);
 	ManaBorder_FrameLevel_EditBox:SetText(DruidBarKey.bordertexture);
-	DRUIDBAROptionsKMG:SetChecked(DruidBarKey.kmg);
 
-	if(MGplayer_ManaBar) then
-		DRUIDBAROptionsKMG:Enable();
-		DRUIDBAROptionsKMGText:SetText(DRUIDBAR_OPTIONS_KMG);
-	else
-		DRUIDBAROptionsKMG:Disable();
-		DRUIDBAROptionsKMGText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_KMG.."|r");
-	end
-
-	if(DruidBarKey.Player == false and DruidBarKey.Replace == false) then
-		DRUIDBAROptionsCustom:SetChecked("true");
-		DRUIDBAROptionsWeightText:SetText(DRUIDBAR_OPTIONS_Weight);
-		DRUIDBAROptionsHeightText:SetText(DRUIDBAR_OPTIONS_Height);
-	else
-		DRUIDBAROptionsCustom:SetChecked("false");
-		DRUIDBAROptionsWeightText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Weight.."|r");
-		DRUIDBAROptionsHeightText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Height.."|r");
-	end
-
+	-- Addon Enabled and Graphics on
 	if(DruidBarKey.Enabled and DruidBarKey.Graphics) then
 		DRUIDBAROptionsVis:Enable();
-		DRUIDBAROptionsVisText:SetText(DRUIDBAR_OPTIONS_Vis);
 		DRUIDBAROptionsReplace:Enable();
-		DRUIDBAROptionsReplaceText:SetText(DRUIDBAR_OPTIONS_Replace);
 		DRUIDBAROptionsPlayer:Enable();
-		DRUIDBAROptionsPlayerText:SetText(DRUIDBAR_OPTIONS_Player);
 		DRUIDBAROptionsCustom:Enable();
-		DRUIDBAROptionsCustomText:SetText(DRUIDBAR_OPTIONS_Custom);
 		DRUIDBAROptionsHide:Enable();
-		DRUIDBAROptionsHideText:SetText(DRUIDBAR_OPTIONS_Hide);
 		DRUIDBAROptionsFull:Enable();
-		DRUIDBAROptionsFullText:SetText(DRUIDBAR_OPTIONS_Full);
 		DRUIDBAROptionsLock:Enable();
-		DRUIDBAROptionsLockText:SetText(DRUIDBAR_OPTIONS_Lock);
+		SetTextColorFor(allDisplayStyleTexts, gold);
+	-- Addon Enabled and Graphics off
 	elseif DruidBarKey.Enabled and not DruidBarKey.Graphics then
-		DRUIDBAROptionsVis:Enable();
-		DRUIDBAROptionsVisText:SetText(DRUIDBAR_OPTIONS_Vis);
 		DRUIDBAROptionsReplace:Disable();
-		DRUIDBAROptionsReplaceText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Replace.."|r");
 		DRUIDBAROptionsPlayer:Disable();
-		DRUIDBAROptionsPlayerText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Player.."|r");
 		DRUIDBAROptionsCustom:Disable();
-		DRUIDBAROptionsCustomText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Custom.."|r");
 		DRUIDBAROptionsHide:Disable();
-		DRUIDBAROptionsHideText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Hide.."|r");
 		DRUIDBAROptionsFull:Disable();
-		DRUIDBAROptionsFullText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Full.."|r");
 		DRUIDBAROptionsLock:Disable();
-		DRUIDBAROptionsLockText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Lock.."|r");
+		SetTextColorFor(allDisplayStyleTexts, grey);
+		SetTextColorFor({DRUIDBAROptionsVisText}, gold);
 	elseif not DruidBarKey.Enabled then
 		DRUIDBAROptionsVis:Disable();
-		DRUIDBAROptionsVisText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Vis.."|r");
 		DRUIDBAROptionsReplace:Disable();
-		DRUIDBAROptionsReplaceText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Replace.."|r");
 		DRUIDBAROptionsPlayer:Disable();
-		DRUIDBAROptionsPlayerText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Player.."|r");
 		DRUIDBAROptionsCustom:Disable();
-		DRUIDBAROptionsCustomText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Custom.."|r");
 		DRUIDBAROptionsHide:Disable();
-		DRUIDBAROptionsHideText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Hide.."|r");
 		DRUIDBAROptionsFull:Disable();
-		DRUIDBAROptionsFullText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Full.."|r");
 		DRUIDBAROptionsLock:Disable();
-		DRUIDBAROptionsLockText:SetText("|cff9d9d9d"..DRUIDBAR_OPTIONS_Lock.."|r");
+
+		SetTextColorFor(allDisplayStyleTexts, grey);
+	end
+
+	-- Player or Replace is selected
+	if(DruidBarKey.Player == true or DruidBarKey.Replace == true) then
+		DRUIDBAROptionsLock:Disable();
+		DRUIDBAROptionsWidthEditBox:Disable();
+		DRUIDBAROptionsHeightEditBox:Disable();
+
+		SetTextColorFor({DRUIDBAROptionsLockText, DRUIDBAROptionsWidthText, DRUIDBAROptionsHeightText}, grey);
+	else
+		DRUIDBAROptionsLock:Enable();
+		DRUIDBAROptionsWidthEditBox:Enable();
+		DRUIDBAROptionsHeightEditBox:Enable();
+
+		SetTextColorFor({DRUIDBAROptionsLockText, DRUIDBAROptionsWidthText, DRUIDBAROptionsHeightText}, gold);
+	end
+end
+
+function SetTextColorFor(objects, color)
+	for k, v in pairs (objects) do
+	  v:SetTextColor(unpack(color))
 	end
 end
 

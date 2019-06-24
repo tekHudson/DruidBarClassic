@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Frame name="DRUIDBAROptionsFrame" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent">
 		<Size>
-			<AbsDimension x="460" y="550"/>
+			<AbsDimension x="460" y="600"/>
 		</Size>
 
 		<Anchors>
@@ -51,10 +51,13 @@
 			</Layer>
 		</Layers>
 
+		<!-- Layout for all options -->
 		<Frames>
+			<!-- BAR OPTIONS SUBFRAME -->
+			<!-- Text Header for 'Bar Options' -->
 			<Frame name="DRUIDBAROptions_Bar">
 				<Size>
-					<AbsDimension x="420" y="153"/>
+					<AbsDimension x="420" y="200"/>
 				</Size>
 
 				<Anchors>
@@ -101,11 +104,12 @@
 				</Scripts>
 			</Frame>
 
+			<!-- Toggle for 'Enable' -->
 			<CheckButton name="DRUIDBAROptionsToggle" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="30" y="-54"/>
+							<AbsDimension x="30" y="-30"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -121,11 +125,12 @@
 				</Scripts>
 			</CheckButton>
 
+			<!-- Toggle for 'Graphics' -->
 			<CheckButton name="DRUIDBAROptionsVis" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="170" y="-54"/>
+							<AbsDimension x="175" y="-30"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -148,40 +153,54 @@
 				</Scripts>
 			</CheckButton>
 
-			<CheckButton name="DRUIDBAROptionsKMG" inherits="OptionsCheckButtonTemplate">
+			<!-- Toggle for 'Hide when in caster form' -->
+			<CheckButton name="DRUIDBAROptionsHide" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="310" y="-54"/>
+							<AbsDimension x="30" y="-60"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Scripts>
 					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_KMG);
+						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Hide);
 					</OnLoad>
 
 					<OnClick>
-						DRUIDBAROptions_KMG();
+						DRUIDBAROptions_Hide();
 					</OnClick>
-
-					<OnEnter>
-						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-						GameTooltip:SetText(DRUIDBAR_OPTIONS_KMGTT);
-						GameTooltip:Show();
-					</OnEnter>
-
-					<OnLeave>
-						GameTooltip:Hide();
-					</OnLeave>
 				</Scripts>
 			</CheckButton>
 
-			<CheckButton name="DRUIDBAROptionsReplace" inherits="OptionsCheckButtonTemplate">
+			<!-- Toggle for 'Hide when mana is full' -->
+			<CheckButton name="DRUIDBAROptionsFull" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="30" y="-80"/>
+							<AbsDimension x="225" y="-60"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Full);
+					</OnLoad>
+
+					<OnClick>
+						DRUIDBAROptions_Full();
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+			<!-- Radio for style 'Replace' -->
+			<CheckButton name="DRUIDBAROptionsReplace" inherits="UIRadioButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="35" y="-100"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -207,11 +226,12 @@
 				</Scripts>
 			</CheckButton>
 
-			<CheckButton name="DRUIDBAROptionsPlayer" inherits="OptionsCheckButtonTemplate">
+			<!-- Radio for style 'Player' -->
+			<CheckButton name="DRUIDBAROptionsPlayer" inherits="UIRadioButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="170" y="-80"/>
+							<AbsDimension x="120" y="-100"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -237,11 +257,12 @@
 				</Scripts>
 			</CheckButton>
 
-			<CheckButton name="DRUIDBAROptionsCustom" inherits="OptionsCheckButtonTemplate">
+			<!-- Radio for style 'Custom' -->
+			<CheckButton name="DRUIDBAROptionsCustom" inherits="UIRadioButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="310" y="-80"/>
+							<AbsDimension x="230" y="-100"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -257,15 +278,16 @@
 				</Scripts>
 			</CheckButton>
 
-			<EditBox name="DRUIDBAROptionsWeightEditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
+			<!-- Input for 'Width' -->
+			<EditBox name="DRUIDBAROptionsWidthEditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="34" y="16"/>
 				</Size>
 
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptionsCustom" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="100" y="-108"/>
+							<AbsDimension x="20" y="-30"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -284,7 +306,7 @@
 					</OnEscapePressed>
 
 					<OnTextChanged>
-						DRUIDBAROptions_CheckWeight(self);
+						DRUIDBAROptions_CheckWidth(self);
 					</OnTextChanged>
 				</Scripts>
 
@@ -292,15 +314,15 @@
 
 				<Layers>
 					<Layer level="OVERLAY">
-						<FontString name="DRUIDBAROptionsWeightText" inherits="GameFontNormalSmall" justifyH="RIGHT" text="DRUIDBAR_OPTIONS_Weight">
+						<FontString name="DRUIDBAROptionsWidthText" inherits="GameFontNormalSmall" justifyH="RIGHT" text="DRUIDBAR_OPTIONS_Width">
 							<Size>
 								<AbsDimension x="0" y="20"/>
 							</Size>
 
 							<Anchors>
-								<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsWeightEditBox" relativePoint="LEFT">
+								<Anchor point="LEFT" relativeTo="DRUIDBAROptionsWidthEditBox" relativePoint="RIGHT">
 									<Offset>
-										<AbsDimension x="-10" y="0"/>
+										<AbsDimension x="5" y="0"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
@@ -309,14 +331,16 @@
 				</Layers>
 			</EditBox>
 
+			<!-- Input for 'Height' -->
 			<EditBox name="DRUIDBAROptionsHeightEditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
-					<AbsDimension x="28" y="16"/>
+					<AbsDimension x="34" y="16"/>
 				</Size>
+
 				<Anchors>
-					<Anchor point="LEFT" relativeTo="DRUIDBAROptionsWeightEditBox" relativePoint="RIGHT">
+					<Anchor point="LEFT" relativeTo="DRUIDBAROptionsWidthEditBox" relativePoint="RIGHT">
 						<Offset>
-							<AbsDimension x="110" y="0"/>
+							<AbsDimension x="50" y="0"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -345,13 +369,13 @@
 					<Layer level="OVERLAY">
 						<FontString name="DRUIDBAROptionsHeightText" inherits="GameFontNormalSmall" justifyH="RIGHT" text="DRUIDBAR_OPTIONS_Height">
 							<Size>
-								<AbsDimension x="60" y="20"/>
+								<AbsDimension x="0" y="20"/>
 							</Size>
 
 							<Anchors>
-								<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsHeightEditBox" relativePoint="LEFT">
+								<Anchor point="LEFT" relativeTo="DRUIDBAROptionsHeightEditBox" relativePoint="RIGHT">
 									<Offset>
-										<AbsDimension x="-10" y="0"/>
+										<AbsDimension x="5" y="0"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
@@ -360,11 +384,12 @@
 				</Layers>
 			</EditBox>
 
+			<!-- Toggle for 'Lock' -->
 			<CheckButton name="DRUIDBAROptionsLock" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="LEFT" relativeTo="DRUIDBAROptionsHeightEditBox" relativePoint="RIGHT">
+					<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsCustom" relativePoint="LEFT">
 						<Offset>
-							<AbsDimension x="74" y="0"/>
+							<AbsDimension x="100" y=""/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -380,51 +405,12 @@
 				</Scripts>
 			</CheckButton>
 
-			<CheckButton name="DRUIDBAROptionsHide" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT">
-						<Offset>
-							<AbsDimension x="30" y="-124"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-
-				<Scripts>
-					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Hide);
-					</OnLoad>
-
-					<OnClick>
-						DRUIDBAROptions_Hide();
-					</OnClick>
-				</Scripts>
-			</CheckButton>
-
-			<CheckButton name="DRUIDBAROptionsFull" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT">
-						<Offset>
-							<AbsDimension x="230" y="-124"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-
-				<Scripts>
-					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Full);
-					</OnLoad>
-
-					<OnClick>
-						DRUIDBAROptions_Full();
-					</OnClick>
-				</Scripts>
-			</CheckButton>
-
+			<!-- Dropdown to select 'Text Style' -->
 			<Frame name="DRUIDBAROptionsTextDropDown" inherits="UIDropDownMenuTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="80" y="-150"/>
+							<AbsDimension x="75" y="-130"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -435,7 +421,7 @@
 							<Anchors>
 								<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsTextDropDown" relativePoint="LEFT">
 									<Offset>
-										<AbsDimension x="16" y="2"/>
+										<AbsDimension x="10" y="2"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
@@ -450,21 +436,23 @@
 				</Scripts>
 			</Frame>
 
+			<!-- Dropdown to select 'Number Style' -->
 			<Frame name="DRUIDBAROptionsPercentDropDown" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="290" y="-150"/>
+							<AbsDimension x="75" y="-160"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Layers>
 					<Layer level="BACKGROUND">
 						<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="DRUIDBAR_OPTIONS_Percent">
 							<Anchors>
 								<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsPercentDropDown" relativePoint="LEFT">
 									<Offset>
-										<AbsDimension x="16" y="2"/>
+										<AbsDimension x="10" y="2"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
@@ -478,29 +466,35 @@
 				</Scripts>
 			</Frame>
 
-
-			<Frame name="DRUIDBAROptions_Message">
+			<!-- MESSAGES SUBFRAME -->
+			<!-- Text Header for 'Messages' -->
+			<Frame name="DRUIDBAROptions_Messages">
 				<Size>
-					<AbsDimension x="420" y="177"/>
+					<AbsDimension x="420" y="195"/>
 				</Size>
+
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-190"/>
+							<AbsDimension x="20" y="-235"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 					<EdgeSize>
 						<AbsValue val="8"/>
 					</EdgeSize>
+
 					<TileSize>
 						<AbsValue val="8"/>
 					</TileSize>
+
 					<BackgroundInsets>
 						<AbsInset left="2" right="2" top="2" bottom="2"/>
 					</BackgroundInsets>
 				</Backdrop>
+
 				<Layers>
 					<Layer>
 						<FontString inherits="GameFontHighlight" text="DRUIDBAR_OPTIONS_MessageO">
@@ -514,6 +508,7 @@
 						</FontString>
 					</Layer>
 				</Layers>
+
 				<Scripts>
 					<OnLoad>
 						self:SetBackdropBorderColor(0.4, 0.4, 0.4);
@@ -521,14 +516,17 @@
 					</OnLoad>
 				</Scripts>
 			</Frame>
+
+			<!-- Toggle for 'Enable' -->
 			<CheckButton name="DRUIDBAROptionsMessage" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Messages" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="30" y="-204"/>
+							<AbsDimension x="30" y="-30"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Scripts>
 					<OnLoad>
 						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Message);
@@ -546,14 +544,16 @@
 					</OnLeave>
 				</Scripts>
 			</CheckButton>
+
 			<Frame name="Bear_Message" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>
-					<Anchor point="TOPLEFT">
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Messages" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="80" y="-234"/>
+							<AbsDimension x="55" y="-60"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Layers>
 					<Layer level="BACKGROUND">
 						<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="DRUIDBAR_OPTIONS_Message_Bear">
@@ -573,6 +573,7 @@
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="Bear_Message_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>
@@ -600,6 +601,7 @@
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
+
 			<Frame name="Aqua_Message" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>
 					<Anchor point="TOP" relativeTo="Bear_Message" relativePoint="BOTTOM">
@@ -627,6 +629,7 @@
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="Aqua_Message_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>
@@ -654,6 +657,7 @@
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
+
 			<Frame name="Cat_Message" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>
 					<Anchor point="TOP" relativeTo="Aqua_Message" relativePoint="BOTTOM">
@@ -681,6 +685,7 @@
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="Cat_Message_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>
@@ -708,6 +713,7 @@
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
+
 			<Frame name="Trav_Message" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>
 					<Anchor point="TOP" relativeTo="Cat_Message" relativePoint="BOTTOM">
@@ -735,6 +741,7 @@
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="Trav_Message_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>
@@ -790,6 +797,7 @@
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="OOM_Message_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>
@@ -818,29 +826,35 @@
 				<FontString inherits="ChatFontNormal"/>
 			</EditBox>
 
-
+			<!-- MISC SUBFRAME -->
+			<!-- Text Header for 'Misc' -->
 			<Frame name="DRUIDBAROptions_Misc">
 				<Size>
-					<AbsDimension x="420" y="100"/>
+					<AbsDimension x="420" y="120"/>
 				</Size>
+
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset>
-							<AbsDimension x="20" y="-380"/>
+							<AbsDimension x="20" y="-435"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
 					<EdgeSize>
 						<AbsValue val="8"/>
 					</EdgeSize>
+
 					<TileSize>
 						<AbsValue val="8"/>
 					</TileSize>
+
 					<BackgroundInsets>
 						<AbsInset left="2" right="2" top="2" bottom="2"/>
 					</BackgroundInsets>
 				</Backdrop>
+
 				<Layers>
 					<Layer>
 						<FontString inherits="GameFontHighlight" text="DRUIDBAR_OPTIONS_MiscO">
@@ -854,6 +868,7 @@
 						</FontString>
 					</Layer>
 				</Layers>
+
 				<Scripts>
 					<OnLoad>
 						self:SetBackdropBorderColor(0.4, 0.4, 0.4);
@@ -861,21 +876,27 @@
 					</OnLoad>
 				</Scripts>
 			</Frame>
+
 			<Button name="DBColorSwatch" hidden="false" virtual="true">
 				<Size>
 					<AbsDimension x="20" y="20"/>
 				</Size>
+
 				<Anchors>
-					<Anchor point="TOPLEFT">
-						<Offset><AbsDimension x="35" y="-397"/></Offset>
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Misc" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="30" y="-30"/>
+						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Layers>
 					<Layer level="ARTWORK">
 						<Texture name="$parent_SwatchBg" file="Interface\TargetingFrame\UI-StatusBar">
 							<Size>
 								<AbsDimension x="14" y="14"/>
 							</Size>
+
 							<Anchors>
 								<Anchor point="LEFT" relativeTo="$parent" relativePoint="CENTER">
 									<Offset>
@@ -883,22 +904,26 @@
 									</Offset>
 								</Anchor>
 							</Anchors>
+
 							<Color r="1.0" g="1.0" b="1.0"/>
 						</Texture>
+
 						<FontString name="$parentText" inherits="GameFontNormalSmall" text="Bar Color" JustifyH="LEFT">
 							<Size>
 								<AbsDimension x="75" y="16"/>
 							</Size>
+
 							<Anchors>
 								<Anchor point="LEFT" relativeTo="$parent_SwatchBg" relativePoint="RIGHT">
 									<Offset>
-										<AbsDimension x="0" y="0"/>
+										<AbsDimension x="10" y="0"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
 						</FontString>
 					</Layer>
 				</Layers>
+
 				<Scripts>
 					<OnLoad>
 						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_ColorBar);
@@ -912,21 +937,27 @@
 					</OnClick>
 				</Scripts>
 			</Button>
+
 			<Button name="DBBGSwatch" hidden="false" virtual="true">
 				<Size>
 					<AbsDimension x="20" y="20"/>
 				</Size>
+
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="DBColorSwatchText" relativePoint="RIGHT">
-						<Offset><AbsDimension x="0" y="0"/></Offset>
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Layers>
 					<Layer level="ARTWORK">
 						<Texture name="$parent_SwatchBg" file="Interface\TargetingFrame\UI-StatusBar">
 							<Size>
 								<AbsDimension x="14" y="14"/>
 							</Size>
+
 							<Anchors>
 								<Anchor point="LEFT" relativeTo="$parent" relativePoint="CENTER">
 									<Offset>
@@ -934,16 +965,19 @@
 									</Offset>
 								</Anchor>
 							</Anchors>
+
 							<Color r="1.0" g="1.0" b="1.0"/>
 						</Texture>
+
 						<FontString name="$parentText" inherits="GameFontNormalSmall" text="Background Color" JustifyH="LEFT">
 							<Size>
 								<AbsDimension x="75" y="16"/>
 							</Size>
+
 							<Anchors>
 								<Anchor point="LEFT" relativeTo="$parent_SwatchBg" relativePoint="RIGHT">
 									<Offset>
-										<AbsDimension x="0" y="0"/>
+										<AbsDimension x="10" y="0"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
@@ -968,17 +1002,22 @@
 				<Size>
 					<AbsDimension x="20" y="20"/>
 				</Size>
+
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="DBBGSwatchText" relativePoint="RIGHT">
-						<Offset><AbsDimension x="0" y="0"/></Offset>
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Layers>
 					<Layer level="ARTWORK">
 						<Texture name="$parent_SwatchBg" file="Interface\TargetingFrame\UI-StatusBar">
 							<Size>
 								<AbsDimension x="14" y="14"/>
 							</Size>
+
 							<Anchors>
 								<Anchor point="LEFT" relativeTo="$parent" relativePoint="CENTER">
 									<Offset>
@@ -986,22 +1025,26 @@
 									</Offset>
 								</Anchor>
 							</Anchors>
+
 							<Color r="1.0" g="1.0" b="1.0"/>
 						</Texture>
+
 						<FontString name="$parentText" inherits="GameFontNormalSmall" text="Border Color" JustifyH="LEFT">
 							<Size>
 								<AbsDimension x="75" y="16"/>
 							</Size>
+
 							<Anchors>
 								<Anchor point="LEFT" relativeTo="$parent_SwatchBg" relativePoint="RIGHT">
 									<Offset>
-										<AbsDimension x="0" y="0"/>
+										<AbsDimension x="10" y="0"/>
 									</Offset>
 								</Anchor>
 							</Anchors>
 						</FontString>
 					</Layer>
 				</Layers>
+
 				<Scripts>
 					<OnLoad>
 						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_ColorBorder);
@@ -1020,10 +1063,11 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="DBColorSwatch" relativePoint="BOTTOM">
 						<Offset>
-							<AbsDimension x="30" y="-5"/>
+							<AbsDimension x="15" y="-5"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
+
 				<Layers>
 					<Layer level="BACKGROUND">
 						<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="DRUIDBAR_OPTIONS_Message_Mana">
@@ -1037,12 +1081,14 @@
 						</FontString>
 					</Layer>
 				</Layers>
+
 				<Scripts>
 					<OnShow>
 						DRUIDBAROptions_ManaBarFrameLevel_OnShow();
 					</OnShow>
 				</Scripts>
 			</Frame>
+
 			<EditBox name="ManaBar_FrameLevel_EditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
 				<Size>
 					<AbsDimension x="230" y="16"/>

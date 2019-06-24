@@ -46,8 +46,6 @@ There are 2 available /druidbar or /dbar and either may recieve a number of para
 
 * Best: This will try to determine which is the best travel form for you to be in; Mounted, Cheetah, or Aquatic.
 
-* kmg: This will try to replace the MiniGroup window's mana bar with a split-screen bar like with replace.
-
 * Debug: dumps some junk into the chat frame to help me(and you) figure out why the bar is not subtracting the proper amount of mana.
 
 * shift: enables or disables the "shift back to caster using any form" option built-in to druidbar. defaults to enabled.
@@ -69,6 +67,10 @@ In-game: COMING SOON!
 Discord: https://discord.gg/b5sPQnu
 
 ## Version History
+
+#### 0.2
+Remove KMG suport.
+Re-align options.
 
 #### 0.1:
 Got most things up and running for basic functionality.

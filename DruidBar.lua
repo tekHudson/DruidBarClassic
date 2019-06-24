@@ -222,41 +222,37 @@ function DruidBar_OnUpdate(self, elapsed)
 			end
 			notyet = true;
 		end
+
 		if lowregentimer > 0 then
 			lowregentimer = lowregentimer - elapsed;
 			if lowregentimer <= 0 then lowregentimer = 0; end
 		end
+
 		if UnitPowerType("player") ~= 0 then
 			fullmanatimer = fullmanatimer + elapsed;
 			if fullmanatimer > 6 and floor((DruidBarKey.keepthemana*100) / DruidBarKey.maxmana) > 90 then
 				DruidBarKey.keepthemana = DruidBarKey.maxmana;
 			end
 		end
+
+		-- Graphics ON
 		if DruidBarKey.Graphics then
-			if DruidBarKey.kmg then
-				dbarhide(DruidBarFrame);
-				dbarhide(DruidBarReplaceText);
-				DruidBar_KMGraphics();
+			if DruidBarKey.Replace then
+				DruidBar_ReplaceGraphics();
 			else
-				dbarhide(DruidBarKMG);
-				if DruidBarKey.Replace then
-					DruidBar_ReplaceGraphics();
-				else
-					DruidBarMana:SetMinMaxValues(0, DruidBarKey.maxmana);
-					DruidBarMana:SetValue(DruidBarKey.keepthemana);
-					if timer > 2 then DruidBar_ColorAndStrataAndTexture(); timer = 0; end
-					DruidBar_MainGraphics();
-				end
+				DruidBarMana:SetMinMaxValues(0, DruidBarKey.maxmana);
+				DruidBarMana:SetValue(DruidBarKey.keepthemana);
+				if timer > 2 then DruidBar_ColorAndStrataAndTexture(); timer = 0; end
+				DruidBar_MainGraphics();
 			end
+		--Graphics OFF
 		else
 			dbarhide(DruidBarFrame);
 			dbarhide(DruidBarReplaceText);
-			dbarhide(DruidBarKMG);
 			if PlayerFrameManaBar:GetWidth() < 100 then PlayerFrameManaBar:SetWidth(120); end
 		end
 	else
 		dbarhide(DruidBarFrame);
-		dbarhide(DruidBarKMG);
 		dbarhide(DruidBarUpdateFrame);
 	end
 end
@@ -565,52 +561,6 @@ function DruidBar_ReplaceGraphics()
 	end
 end
 
-function DruidBar_KMGraphics()
-	if (MGplayer_ManaBar) then
-		dbarhide(DruidBarManaBg);
-		if UnitPowerType("player") == 0 then
-			MGplayer_ManaBar:SetWidth(MGplayer_HealthBar:GetWidth());
-			MGplayer_ManaBar:ClearAllPoints();
-			MGplayer_ManaBar:SetPoint("TOP","MGplayer_HealthBar","BOTTOM",0,-2);
-			DruidBarKMG:Hide();
-		else
-			local sub = 0;
-			if MG_Get("ShowEndcaps") == 1 then sub = 1; else sub = -1; end
-			KMGDruidBar:SetWidth(MGplayer_HealthBar:GetWidth() / 2 - sub);
-			KMGDruidBar:SetHeight(MGplayer_ManaBar:GetHeight());
-			MGplayer_ManaBar:SetWidth(MGplayer_HealthBar:GetWidth() / 2);
-			DruidBarKMG:Show();
-			DruidBarKMG:ClearAllPoints();
-			MGplayer_ManaBar:ClearAllPoints();
-			MGplayer_ManaBar:SetPoint("TOPLEFT","MGplayer_HealthBar","BOTTOMLEFT",0,-2);
-			local points = MGplayer_HealthBar:GetWidth() / 4 * 3;
-			if MG_Get("ShowEndcaps") == 1 then
-				dbarshow(KMGDruidBar_ManaEndcapRight);
-			else
-				dbarhide(KMGDruidBar_ManaEndcapRight);
-				if MGplayer_ManaBar:GetWidth() <= 92 then points = points - 1; else points = points - 1; end
-			end
-			DruidBarKMG:SetScale(MGplayer_HealthBar:GetScale());
-			DruidBarKMG:SetPoint("LEFT","MGplayer_ManaBar","LEFT", points, 0);
-			DruidBarKMG:SetFrameLevel("1");
-			KMGDruidBar:SetFrameLevel(MGplayer_ManaBar:GetFrameLevel());
-			KMGDruidBar:SetMinMaxValues(0, DruidBarKey.maxmana);
-			KMGDruidBar:SetValue(DruidBarKey.keepthemana);
-			if (DruidBarKey.Percent and MGplayer_HealthBar:GetWidth() <= 92) then
-				local curstat = (UnitPower("player") / UnitPowerMax("player") * 100);
-				local manstat = (floor(DruidBarKey.keepthemana / DruidBarKey.maxmana * 100)).."%";
-				MGplayer_ManaText:SetText(curstat.."/"..manstat);
-			elseif (MGplayer_HealthBar:GetWidth() <= 92) then
-				local curstat = UnitPower("player");
-				MGplayer_ManaText:SetText(curstat.."/"..floor(DruidBarKey.keepthemana));
-			end
-		end
-	else
-		DruidBarKMG:Hide();
-		DruidBarKey.kmg = nil;
-	end
-end
-
 --Text Parsing. Yay!
 function TextParse(InputString)
   --[[ By FERNANDO!
@@ -854,14 +804,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 				DruidBarKey.color[3] = tonumber(msg[4]);
 			end
 		end
-	elseif msg[1] == "kmg" then
-		if (MGplayer_ManaBar) then
-			DruidBarKey.kmg = DruidBar_Toggle(DruidBarKey.kmg, "Replacing the MiniGroup mana bar is");
-		else
-			DruidBarKey.kmg = nil;
-			DruidBar_Print("Can't replace MiniGroup if it don't exist, YO!");
-		end
-		DRUIDBAR_FrameSet();
 	elseif msg[1] == "debug" then
 		DruidBarKey.Debug = DruidBar_Toggle(DruidBarKey.Debug, "Debug options");
 		DRUIDBAR_FrameSet();
