@@ -50,8 +50,6 @@ There are 2 available /druidbar or /dbar and either may recieve a number of para
 
 * shift: enables or disables the "shift back to caster using any form" option built-in to druidbar. defaults to enabled.
 
-* ez: enables or disables shifting from the actionbar. default to enabled.
-
 * color: Changes the color of the mana bar by rgb vales. works like
 	* /dbar color [r/g/b/a/#(0-1)] [#(0-1)] {#(0-1)}
 	  * this way you can change a specific color at once (like /dbar color r 0.75)
@@ -70,6 +68,7 @@ Discord: https://discord.gg/b5sPQnu
 
 #### 0.2
 Remove KMG suport.
+Remove EZshift.
 Re-align options.
 
 #### 0.1:

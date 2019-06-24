@@ -169,7 +169,7 @@
 					</OnLoad>
 
 					<OnClick>
-						DRUIDBAROptions_Hide();
+						DRUIDBAROptions_HideInCaster();
 					</OnClick>
 				</Scripts>
 			</CheckButton>

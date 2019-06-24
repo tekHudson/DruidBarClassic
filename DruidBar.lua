@@ -20,7 +20,7 @@ function DruidBar_OnLoad()
 	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
 end
 
-local className, inform, lowregentimer, fullmanatimer, lastshift, inCombat, firstEZ, pre_UseAction, shiftload, isMoving, waitonce, firstshift;
+local className, inform, lowregentimer, fullmanatimer, lastshift, inCombat, pre_UseAction, shiftload, isMoving, waitonce, firstshift;
 lowregentimer = 0;
 fullmanatimer = 0;
 
@@ -39,19 +39,15 @@ function DruidBar_OnEvent(self, event,...)
 	if event == "PLAYER_ENTERING_WORLD" then
 		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
 		DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
-		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
-		DruidBarUpdateFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
-		DruidBarUpdateFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
+		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
 		DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
 		return;
 	elseif event == "PLAYER_LEAVING_WORLD" then
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_AURA");
-		DruidBarUpdateFrame:UnregisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_MAXPOWER");
-		DruidBarUpdateFrame:UnregisterEvent("PLAYER_REGEN_ENABLED");
-		DruidBarUpdateFrame:UnregisterEvent("PLAYER_REGEN_DISABLED");
+		DruidBarUpdateFrame:UnregisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_INVENTORY_CHANGED");
 		DruidBarUpdateFrame:UnregisterEvent("UPDATE_SHAPESHIFT_FORMS");
 		return;
@@ -74,12 +70,12 @@ function DruidBar_OnEvent(self, event,...)
 		-- Player's power changed
 		elseif event == "UNIT_POWER_UPDATE" and arg1 == "player" then
 			if arg2 == "MANA" then
-				DruidBarKey.keepthemana = UnitPower("player", 0);
-			elseif DruidBarKey.keepthemana < DruidBarKey.maxmana then
+				DruidBarKey.currentmana = UnitPower("player", 0);
+			elseif DruidBarKey.currentmana < DruidBarKey.maxmana then
 				-- Not sure whats going on in here yet
 				local add = DruidBar_ReflectionCheck();
-				DruidBarKey.keepthemana = DruidBarKey.keepthemana + add + DruidBarKey.extra;
-				if DruidBarKey.keepthemana > DruidBarKey.maxmana then DruidBarKey.keepthemana = DruidBarKey.maxmana; end
+				DruidBarKey.currentmana = DruidBarKey.currentmana + add + DruidBarKey.extra;
+				if DruidBarKey.currentmana > DruidBarKey.maxmana then DruidBarKey.currentmana = DruidBarKey.maxmana; end
 			end
 
 			fullmanatimer = 0;
@@ -99,7 +95,7 @@ function DruidBar_OnEvent(self, event,...)
 				--Player/Aquatic/Travel
 				inform = nil;
 				-- Update current and max mana values
-				DruidBarKey.keepthemana = UnitPower("player");
+				DruidBarKey.currentmana = UnitPower("player");
 				if DruidBarKey.maxmana ~= UnitPowerMax("player") then
 					DruidBarKey.maxmana = UnitPowerMax("player");
 				end
@@ -109,15 +105,6 @@ function DruidBar_OnEvent(self, event,...)
 
 		-- Player stopped casting, for any reason.
 		elseif (event == "UNIT_SPELLCAST_STOP") then
-			-- Something for EZCast... I think it is supposed to auto drop form?
-			if (not firstEZ) then
-				if (DruidBarKey.EZShift) then
-					pre_UseAction = UseAction;
-					UseAction = DruidBar_UseAction;
-				end
-				firstEZ = true;
-			end
-
 			if UnitPowerType("player") == 0 then lowregentimer = 5;
 
 			waitonce = nil; end
@@ -133,13 +120,12 @@ function Load_Variables(className)
 	-- Populate primary data store 'DruidBarKey'
 	if not DruidBarKey then
 		DruidBarKey = {};
-		DruidBarKey.keepthemana = 0;
+		DruidBarKey.currentmana = 0;
 		DruidBarKey.maxmana = 10;
 		DruidBarKey.int = 0;
 		DruidBarKey.subtractmana = 0;
 		DruidBarKey.extra = 0;
 		DruidBarKey.Enabled = true;
-		DruidBarKey.EZShift = true;
 		DruidBarKey.Graphics = true;
 		DruidBarKey.DontShiftBack = false;
 		DruidBarKey.tempW = 0;
@@ -160,7 +146,6 @@ function Load_Variables(className)
 	if not DruidBarKey.bgstrata then DruidBarKey.bgstrata = "BORDER" end
 	if(not DruidBarKey.tempW or DruidBarKey.tempW == 0) then DruidBarKey.tempW = DruidBarKey.xvar; end
 	if(not DruidBarKey.tempH or DruidBarKey.tempH == 0) then DruidBarKey.tempH = DruidBarKey.yvar; end
-	if(not DruidBarKey.EZShift) then DruidBarKey.EZShift = true; end
 	if(not DruidBarKey.DontShiftBack) then DruidBarKey.DontShiftBack = false; end
 
 	if not DruidBarKey.BearMessage or not strfind(tostring(DruidBarKey.BearMessage), "table:") then
@@ -230,8 +215,8 @@ function DruidBar_OnUpdate(self, elapsed)
 
 		if UnitPowerType("player") ~= 0 then
 			fullmanatimer = fullmanatimer + elapsed;
-			if fullmanatimer > 6 and floor((DruidBarKey.keepthemana*100) / DruidBarKey.maxmana) > 90 then
-				DruidBarKey.keepthemana = DruidBarKey.maxmana;
+			if fullmanatimer > 6 and floor((DruidBarKey.currentmana*100) / DruidBarKey.maxmana) > 90 then
+				DruidBarKey.currentmana = DruidBarKey.maxmana;
 			end
 		end
 
@@ -241,7 +226,7 @@ function DruidBar_OnUpdate(self, elapsed)
 				DruidBar_ReplaceGraphics();
 			else
 				DruidBarMana:SetMinMaxValues(0, DruidBarKey.maxmana);
-				DruidBarMana:SetValue(DruidBarKey.keepthemana);
+				DruidBarMana:SetValue(DruidBarKey.currentmana);
 				if timer > 2 then DruidBar_ColorAndStrataAndTexture(); timer = 0; end
 				DruidBar_MainGraphics();
 			end
@@ -370,7 +355,7 @@ function DruidBar_Subtract()
 			end
 			j = j + 1;
 		end
-		DruidBarKey.keepthemana = DruidBarKey.keepthemana - DruidBarKey.subtractmana;
+		DruidBarKey.currentmana = DruidBarKey.currentmana - DruidBarKey.subtractmana;
 		if DruidBarKey.Debug then DEFAULT_CHAT_FRAME:AddMessage("Mana Deduction: "..DruidBarKey.subtractmana); end
 	else
 		firstshift = nil;
@@ -392,30 +377,12 @@ function DruidBar_ChangeForm(id)
 	end
 end
 
---Hooks into the original UseAction. Passes ChangeForm to shift out of caster.
-function DruidBar_UseAction(id, ex, theSelf)
-	local texture = GetActionTexture(id);
-	local a, b, c, d;
-	a = "Interface\\Icons\\Ability_Druid_AquaticForm";
-	b = "Interface\\Icons\\Ability_Racial_BearForm";
-	c = "Interface\\Icons\\Ability_Druid_CatForm";
-	d = "Interface\\Icons\\Ability_Druid_TravelForm";
-	e = ".blp";
-	if (texture == a or texture == b or texture == c or texture == d or texture == a..e or texture == b..e or texture == c..e or texture == d..e) then
-		local fix = DruidBar_ChangeForm(nil);
-		if (GetActionText(id) or fix) then
-			pre_UseAction(id, ex, theSelf);
-		end
-	else
-		pre_UseAction(id, ex, theSelf);
-	end
-end
-
 function dbarhide(frame)
 	if frame:IsVisible() then
 		frame:Hide();
 	end
 end
+
 function dbarshow(frame)
 	if not frame:IsVisible() then
 		frame:Show();
@@ -423,11 +390,13 @@ function dbarshow(frame)
 end
 
 function dbarlen()
-	if not DruidBarKey.xvar then DruidBarKey.xvar = 160; end
+	if not DruidBarKey.xvar then DruidBarKey.xvar = 150; end
+
 	if DruidBarFrame:GetWidth() ~= DruidBarKey.xvar then
 		DruidBarFrame:SetWidth(DruidBarKey.xvar);
 		DruidBarKey.xvar = DruidBarFrame:GetWidth();
 	end
+
 	DruidBarMana:SetWidth(DruidBarKey.xvar*0.9375);
 	DruidBarManaBg:SetWidth(DruidBarKey.xvar*0.9375);
 	DruidBarDontMove:SetWidth(DruidBarKey.xvar*0.9375);
@@ -435,33 +404,42 @@ end
 
 function dbarhei()
 	if not DruidBarKey.yvar then DruidBarKey.yvar = 18; end
+
 	if DruidBarFrame:GetHeight() ~= DruidBarKey.yvar then
 		DruidBarFrame:SetHeight(DruidBarKey.yvar);
 		DruidBarKey.yvar = DruidBarFrame:GetHeight();
 	end
+
 	DruidBarMana:SetHeight(DruidBarKey.yvar*(2/3));
 	DruidBarManaBg:SetHeight(DruidBarKey.yvar*(2/3));
 	DruidBarDontMove:SetHeight(DruidBarKey.yvar*(2/3));
-
 end
 
 local DruidBar_Anchored = nil
 function DruidBar_MainGraphics()
 	local str;
+
+	-- If we are ucung percent, calculate percentage
 	if DruidBarKey.Percent and DruidBarKey.Percent == 1 then
-		str = "|CFFFFFFFF"..floor(DruidBarKey.keepthemana / DruidBarKey.maxmana * 100).."%|r";
+		str = "|CFFFFFFFF"..floor(DruidBarKey.currentmana / DruidBarKey.maxmana * 100).."%|r";
 	elseif DruidBarKey.Percent then
-		str = "|CFFFFFFFF"..floor(DruidBarKey.keepthemana).."/"..floor(DruidBarKey.maxmana).."|r";
+		str = "|CFFFFFFFF"..floor(DruidBarKey.currentmana).."/"..floor(DruidBarKey.maxmana).."|r";
 	else
-		str = "|CFFFFFFFF"..floor(DruidBarKey.keepthemana).."/"..floor(DruidBarKey.maxmana).." "..floor(DruidBarKey.keepthemana / DruidBarKey.maxmana * 100).."%|r";
+		str = "|CFFFFFFFF"..floor(DruidBarKey.currentmana).."/"..floor(DruidBarKey.maxmana).." "..floor(DruidBarKey.currentmana / DruidBarKey.maxmana * 100).."%|r";
 	end
+
 	dbarhide(DruidBarReplaceText);
+
 	if PlayerFrameManaBar:GetWidth() < 100 then PlayerFrameManaBar:SetWidth(120); end
 
-	if DruidBar_Full() and ((DruidBarKey.Hide and UnitPowerType("player") ~= 0) or not DruidBarKey.Hide) then
+	-- If DruidBar should show based on settings
+	if DruidBar_ShouldBeVisible() then
+		-- Render DruidBar
 		dbarshow(DruidBarFrame);
 		dbarshow(DruidBarManaBg);
 		dbarshow(DruidBarBorder);
+
+		-- Text options --
 		if (DruidBarKey.Text and DruidBarKey.Text == 1) or (not DruidBarKey.Text and MouseIsOver(DruidBarDontMove)) then
 			dbarshow(DruidBarText1);
 			dbarhide(DruidBarText);
@@ -474,23 +452,26 @@ function DruidBar_MainGraphics()
 			dbarhide(DruidBarText);
 			dbarhide(DruidBarText1);
 		end
+
 		dbarlen();
 		dbarhei();
+
 		if DruidBarKey.Player then
 			DruidBarFrame:ClearAllPoints();
 			DruidBarFrame:SetPoint("TOPLEFT","PlayerFrame","TOPLEFT", 80, -63);
-			PlayerFrame:SetFrameLevel("1");
+			-- PlayerFrame:SetFrameLevel("1");
 			DruidBarFrame:SetFrameLevel("1");
 			DruidBarMana:SetFrameLevel("1");
 			DruidBar_Anchored = true;
 		elseif DruidBar_Anchored then
 			DruidBarFrame:ClearAllPoints();
 			DruidBarFrame:SetPoint("CENTER","UIParent","CENTER", 0, 0);
-			PlayerFrame:SetFrameLevel("1")
+			-- PlayerFrame:SetFrameLevel("1")
 			DruidBarFrame:SetFrameLevel("1");
-			DruidBarFrame:SetFrameLevel("1");
+			DruidBarMana:SetFrameLevel("1");
 			DruidBar_Anchored = nil;
 		end
+
 		if DruidBarKey.Lock then
 			dbarshow(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(0);
@@ -523,11 +504,11 @@ function DruidBar_ReplaceGraphics()
 		local str, str1;
 		str = "|CFFFFFFFF"..UnitPower("player").."|r";
 		if DruidBarKey.Percent and DruidBarKey.Percent == 1 then
-			str1 = "|CFFFFFFFF"..floor(DruidBarKey.keepthemana / DruidBarKey.maxmana * 100).."%|r";
+			str1 = "|CFFFFFFFF"..floor(DruidBarKey.currentmana / DruidBarKey.maxmana * 100).."%|r";
 		elseif DruidBarKey.Percent then
-			str1 = "|CFFFFFFFF"..floor(DruidBarKey.keepthemana).."|r";
+			str1 = "|CFFFFFFFF"..floor(DruidBarKey.currentmana).."|r";
 		else
-			str1 = "|CFFFFFFFF"..(floor(DruidBarKey.keepthemana / 100)/10).."k,"..floor(DruidBarKey.keepthemana / DruidBarKey.maxmana * 100).."%|r";
+			str1 = "|CFFFFFFFF"..(floor(DruidBarKey.currentmana / 100)/10).."k,"..floor(DruidBarKey.currentmana / DruidBarKey.maxmana * 100).."%|r";
 		end
 		DruidBarReplaceText:SetFrameLevel("2");
 		if (DruidBarKey.Text and DruidBarKey.Text == 1) or (not DruidBarKey.Text and (MouseIsOver(DruidBarFrame) or MouseIsOver(PlayerFrameManaBar)))then
@@ -757,10 +738,10 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		DruidBar_Print("Height is now set to "..msg[2]);
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "hide" then
-		DruidBarKey.Hide = DruidBar_Toggle(DruidBarKey.Hide, "Hiding bar when in caster form is");
+		DruidBarKey.HideInCaster = DruidBar_Toggle(DruidBarKey.HideInCaster, "Hiding bar when in caster form is");
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "full" then
-		DruidBarKey.Full = DruidBar_Toggle(DruidBarKey.Full, "Hiding bar when mana is full is");
+		DruidBarKey.HideWhenFull = DruidBar_Toggle(DruidBarKey.HideWhenFull, "Hiding bar when mana is full is");
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "lock" then
 		DruidBarKey.Lock = DruidBar_Toggle(DruidBarKey.Lock, "Lock feature is");
@@ -785,9 +766,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		DruidBar_Status();
 	elseif msg[1] == "best" then
 		DruidBar_ChangeBestForm();
-	elseif msg[1] == "ez" then
-		DruidBarKey.EZShift = DruidBar_Toggle(DruidBarKey.EZShift, "Easy Shifting is now");
-		DRUIDBAR_FrameSet();
 	elseif msg[1] == "color" then
 		if tonumber(msg[3]) then
 			if msg[2] == "r" then
@@ -837,8 +815,8 @@ function DruidBar_Status()
 	DruidBar_Print("Graphics are "..DruidBar_On(DruidBarKey.Graphics));
 	DruidBar_Print("Shapeshift messages are "..DruidBar_On(DruidBarKey.message));
 	DruidBar_Print("Prevention of shapeshifting to human using other forms is "..DruidBar_On(DruidBarKey.DontShiftBack));
-	DruidBar_Print("Hiding when in caster is "..DruidBar_On(DruidBarKey.Hide));
-	DruidBar_Print("Hiding when mana is full is "..DruidBar_On(DruidBarKey.Full));
+	DruidBar_Print("Hiding when in caster is "..DruidBar_On(DruidBarKey.HideInCaster));
+	DruidBar_Print("Hiding when mana is full is "..DruidBar_On(DruidBarKey.HideWhenFull));
 	DruidBar_Print("Replacing the Player Frame's mana bar is "..DruidBar_On(DruidBarKey.Replace));
 	DruidBar_Print("Showing under the Player Frame is "..DruidBar_On(DruidBarKey.Player));
 	local str;
@@ -865,7 +843,7 @@ function DruidBar_MaxManaScript()
 	if UnitPowerType("player") == 0 then
 		if UnitPowerMax("player") > 0 then
 			DruidBarKey.maxmana = UnitPowerMax("player");
-			DruidBarKey.keepthemana = UnitPower("player");
+			DruidBarKey.currentmana = UnitPower("player");
 			DruidBarKey.int = int;
 		end
 	elseif UnitPowerType("player") ~= 0 then
@@ -880,8 +858,8 @@ function DruidBar_MaxManaScript()
 				DruidBarKey.int = int;
 			end
 		end
-		if DruidBarKey.keepthemana > DruidBarKey.maxmana then
-			DruidBarKey.keepthemana = DruidBarKey.maxmana;
+		if DruidBarKey.currentmana > DruidBarKey.maxmana then
+			DruidBarKey.currentmana = DruidBarKey.maxmana;
 		end
 	end
 	DruidBarKey.extra = 0;
@@ -904,28 +882,22 @@ function DruidBar_MaxManaScript()
 	DruidBarKey.extra = (DruidBarKey.extra * 2) / 5;
 end
 
-function DruidBar_Full()
-	if DruidBarKey.Full then
-		if DruidBarKey.keepthemana < DruidBarKey.maxmana then
-			return true;
-		else
-			return nil;
-		end
-	else
-		return true;
-	end
+function DruidBar_ShouldBeVisible()
+	if (DruidBarKey.HideInCaster and UnitPowerType("player") == 0) then return false; end;
+	if (DruidBarKey.HideWhenFull and not (DruidBarKey.currentmana < DruidBarKey.maxmana)) then return false; end;
+	return true;
 end
 
 function DruidBar_ColorAndStrataAndTexture()
-		DruidBarMana:SetStatusBarColor(DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3], DruidBarKey.color[4]);
-		DruidBarManaBg:SetVertexColor(DruidBarKey.bgcolor[1],DruidBarKey.bgcolor[2],DruidBarKey.bgcolor[3],DruidBarKey.bgcolor[4]);
-		DruidBarBorder:SetVertexColor(DruidBarKey.bordercolor[1],DruidBarKey.bordercolor[2],DruidBarKey.bordercolor[3],DruidBarKey.bordercolor[4]);
-		DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
-		DruidBarManaBg:SetTexture(DruidBarKey.manatexture);
-		DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
-		DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
-		DruidBarManaBg:SetDrawLayer(DruidBarKey.bgstrata);
-		DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
+	DruidBarMana:SetStatusBarColor(DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3], DruidBarKey.color[4]);
+	DruidBarManaBg:SetVertexColor(DruidBarKey.bgcolor[1],DruidBarKey.bgcolor[2],DruidBarKey.bgcolor[3],DruidBarKey.bgcolor[4]);
+	DruidBarBorder:SetVertexColor(DruidBarKey.bordercolor[1],DruidBarKey.bordercolor[2],DruidBarKey.bordercolor[3],DruidBarKey.bordercolor[4]);
+	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
+	DruidBarManaBg:SetTexture(DruidBarKey.manatexture);
+	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
+	DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
+	DruidBarManaBg:SetDrawLayer(DruidBarKey.bgstrata);
+	DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
 end
 
 function UIErrorsFrame:realEcho()
@@ -933,12 +905,11 @@ function UIErrorsFrame:realEcho()
 end
 
 function UIErrorsFrame:fakeEcho(str, a1, a2, a3, a4, a5, a6)
-    --DruidBar_Print(str, a1, a2, a3)
-    --The outdoors message is normally delayed by lag so that it doesn't actually come until after the function is re-enabled.  However, on occasion when the latency is very low and the interface lags, it will come while the function is still disabled.  Allow the message through if this is the case.
-    if(str == "Can only use outside") then
-        UIErrorsFrame:realEcho(str, a1, a2, a3, a4, a5, a6)
-    end
-
+  --DruidBar_Print(str, a1, a2, a3)
+  --The outdoors message is normally delayed by lag so that it doesn't actually come until after the function is re-enabled.  However, on occasion when the latency is very low and the interface lags, it will come while the function is still disabled.  Allow the message through if this is the case.
+  if(str == "Can only use outside") then
+      UIErrorsFrame:realEcho(str, a1, a2, a3, a4, a5, a6)
+  end
 end
 
 --[[              Shapeshifting Code                    ]]--

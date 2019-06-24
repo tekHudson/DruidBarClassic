@@ -97,20 +97,20 @@ function DRUIDBAROptions_Lock()
 	DRUIDBAR_FrameSet();
 end
 
-function DRUIDBAROptions_Hide()
-	if(DruidBarKey.Hide) then
-		DruidBarKey.Hide = false;
+function DRUIDBAROptions_HideInCaster()
+	if(DruidBarKey.HideInCaster) then
+		DruidBarKey.HideInCaster = false;
 	else
-		DruidBarKey.Hide = true;
+		DruidBarKey.HideInCaster = true;
 	end
 	DRUIDBAR_FrameSet();
 end
 
 function DRUIDBAROptions_Full()
-	if(DruidBarKey.Full) then
-		DruidBarKey.Full = false;
+	if(DruidBarKey.HideWhenFull) then
+		DruidBarKey.HideWhenFull = false;
 	else
-		DruidBarKey.Full = true;
+		DruidBarKey.HideWhenFull = true;
 	end
 	DRUIDBAR_FrameSet();
 end
@@ -430,8 +430,8 @@ function DRUIDBAR_FrameSet()
 	DRUIDBAROptionsPlayer:SetChecked(DruidBarKey.Player);
 	DRUIDBAROptionsCustom:SetChecked(DruidBarKey.Custom);
 	DRUIDBAROptionsLock:SetChecked(DruidBarKey.Lock);
-	DRUIDBAROptionsHide:SetChecked(DruidBarKey.Hide);
-	DRUIDBAROptionsFull:SetChecked(DruidBarKey.Full);
+	DRUIDBAROptionsHide:SetChecked(DruidBarKey.HideInCaster);
+	DRUIDBAROptionsFull:SetChecked(DruidBarKey.HideWhenFull);
 	DRUIDBAROptionsMessage:SetChecked(DruidBarKey.message);
 	-- Assign Text Box Values
 	DRUIDBAROptionsWidthEditBox:SetText(DruidBarKey.tempW);
@@ -454,6 +454,7 @@ function DRUIDBAR_FrameSet()
 		DRUIDBAROptionsFull:Enable();
 		DRUIDBAROptionsLock:Enable();
 		SetTextColorFor(allDisplayStyleTexts, gold);
+
 	-- Addon Enabled and Graphics off
 	elseif DruidBarKey.Enabled and not DruidBarKey.Graphics then
 		DRUIDBAROptionsReplace:Disable();
@@ -464,6 +465,8 @@ function DRUIDBAR_FrameSet()
 		DRUIDBAROptionsLock:Disable();
 		SetTextColorFor(allDisplayStyleTexts, grey);
 		SetTextColorFor({DRUIDBAROptionsVisText}, gold);
+
+	-- Addon Disabled
 	elseif not DruidBarKey.Enabled then
 		DRUIDBAROptionsVis:Disable();
 		DRUIDBAROptionsReplace:Disable();
@@ -472,7 +475,6 @@ function DRUIDBAR_FrameSet()
 		DRUIDBAROptionsHide:Disable();
 		DRUIDBAROptionsFull:Disable();
 		DRUIDBAROptionsLock:Disable();
-
 		SetTextColorFor(allDisplayStyleTexts, grey);
 	end
 
@@ -481,13 +483,13 @@ function DRUIDBAR_FrameSet()
 		DRUIDBAROptionsLock:Disable();
 		DRUIDBAROptionsWidthEditBox:Disable();
 		DRUIDBAROptionsHeightEditBox:Disable();
-
 		SetTextColorFor({DRUIDBAROptionsLockText, DRUIDBAROptionsWidthText, DRUIDBAROptionsHeightText}, grey);
+
+	-- Custom is selected
 	else
 		DRUIDBAROptionsLock:Enable();
 		DRUIDBAROptionsWidthEditBox:Enable();
 		DRUIDBAROptionsHeightEditBox:Enable();
-
 		SetTextColorFor({DRUIDBAROptionsLockText, DRUIDBAROptionsWidthText, DRUIDBAROptionsHeightText}, gold);
 	end
 end
