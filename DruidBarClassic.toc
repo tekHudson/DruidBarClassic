@@ -1,5 +1,5 @@
-## Interface: 11200
-## Title: Druid Bar Classic v0.1
+## Interface: 11300
+## Title: Druid Bar Classic v1.13
 ## Notes: Shows mana in bear/cat form.
 ## Current Author: Tek (port to WoW Classic Beta)
 ## Original Authors: SkaDemon (GUI: DiabloHu)
