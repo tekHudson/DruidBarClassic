@@ -66,6 +66,9 @@ Discord: https://discord.gg/b5sPQnu
 
 ## Version History
 
+#### 1.13
+Prepair for classic release. Update TOC to work with launcher version listed.
+
 #### 0.2
 Remove KMG suport.
 Remove EZshift.
