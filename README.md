@@ -1,4 +1,4 @@
-# Druid Bar Classic, v0.01
+# Druid Bar Classic
 
 Druid Bar is a movable mana bar that keeps track of your current mana, even in a shapeshifted form like bear or cat. remember that this addon is an estimation of your mana, and it could be slightly higher or lower depending on your level(Lower levels will have more problems since there is much less room for error with their smaller mana pools).
 
@@ -70,6 +70,8 @@ Discord: https://discord.gg/b5sPQnu
 Prepair for classic release.
 Update TOC to work with launcher version listed.
 Get drag working.
+Fix text position.
+All primary settings in Bar Options category appear to be working.
 
 #### 0.2
 Remove KMG suport.
