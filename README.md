@@ -66,8 +66,10 @@ Discord: https://discord.gg/b5sPQnu
 
 ## Version History
 
-#### 1.13
-Prepair for classic release. Update TOC to work with launcher version listed.
+#### 0.3
+Prepair for classic release.
+Update TOC to work with launcher version listed.
+Get drag working.
 
 #### 0.2
 Remove KMG suport.

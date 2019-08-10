@@ -83,9 +83,35 @@
 					<OnLoad>
 						self:SetFrameLevel("1");
 					</OnLoad>
+					<OnMouseDown>
+					  if button == "LeftButton" and not self.isMoving then
+					   self:GetParent():StartMoving();
+					   self.isMoving = true;
+					  end
+					 </OnMouseDown>
+					 <OnMouseUp>
+					  if button == "LeftButton" and self.isMoving then
+					   self:GetParent():StopMovingOrSizing();
+					   self.isMoving = false;
+					  end
+					 </OnMouseUp>
+					 <OnHide>
+					  if ( this.isMoving ) then
+					   self:GetParent():StopMovingOrSizing();
+					   this.isMoving = false;
+					  end
+					 </OnHide>
 				</Scripts>
 			</StatusBar>
 		</Frames>
+
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
   </Frame>
 
 	<Frame name="DruidBarUpdateFrame">
