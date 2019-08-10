@@ -96,9 +96,9 @@
 					  end
 					 </OnMouseUp>
 					 <OnHide>
-					  if ( this.isMoving ) then
+					  if self.isMoving then
 					   self:GetParent():StopMovingOrSizing();
-					   this.isMoving = false;
+					   self.isMoving = false;
 					  end
 					 </OnHide>
 				</Scripts>

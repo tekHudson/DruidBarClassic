@@ -46,6 +46,9 @@ function DRUIDBAROptions_Toggle()
 		DruidBarKey.Enabled = false;
 	else
 		DruidBarKey.Enabled = true;
+		-- Show DruidBarUpdateFrame if hidden
+		-- Incase no other event triggers the redraw, we do this now
+		if not DruidBarUpdateFrame:IsVisible() then DruidBarUpdateFrame:Show(); end
 	end
 	DRUIDBAR_FrameSet();
 end
