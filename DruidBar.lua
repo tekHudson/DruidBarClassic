@@ -129,12 +129,13 @@ function Load_Variables(className)
 		DruidBarKey.Enabled = true;
 		DruidBarKey.Graphics = true;
 		DruidBarKey.DontShiftBack = false;
-		DruidBarKey.tempW = 0;
-		DruidBarKey.tempH = 0;
+		DruidBarKey.tempW = 170;
+		DruidBarKey.tempH = 18;
 		DruidBarKey.color = {0,0,1,1};
 		DruidBarKey.bordercolor = {1,1,1,1};
 		DruidBarKey.bgcolor = {0,0,0,0.5};
 		DruidBarKey.barstrata = 2;
+		-- Below aren't currently used
 		DruidBarKey.borderstrata = "BACKGROUND";
 		DruidBarKey.bgstrata = "BORDER";
 	end
@@ -391,7 +392,7 @@ function dbarshow(frame)
 end
 
 function dbarlen()
-	if not DruidBarKey.xvar then DruidBarKey.xvar = 150; end
+	if not DruidBarKey.xvar then DruidBarKey.xvar = 170; end
 
 	if DruidBarFrame:GetWidth() ~= DruidBarKey.xvar then
 		DruidBarFrame:SetWidth(DruidBarKey.xvar);
@@ -755,7 +756,7 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "player" then
 		DruidBarKey.Player = DruidBar_Toggle(DruidBarKey.Player, "Showing the bar below the Player Frame is");
-		if DruidBarKey.Player then DruidBarKey.xvar = 150; DruidBarKey.yvar = 18; else DruidBarKey.xvar = 160; DruidBarKey.yvar = 18; end
+		if DruidBarKey.Player then DruidBarKey.xvar = 150; DruidBarKey.yvar = 18; else DruidBarKey.xvar = 170; DruidBarKey.yvar = 18; end
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "text" then
 		if not DruidBarKey.Text then DruidBarKey.Text = 0; DruidBar_Print("Original-Style text on!"); elseif DruidBarKey.Text == 0 then DruidBarKey.Text = 1; DruidBar_Print("New-Style text on!"); elseif DruidBarKey.Text == 1 then DruidBarKey.Text = nil; DruidBar_Print("Text removed."); end

@@ -64,7 +64,7 @@
 		<Frames>
 			<StatusBar name="DruidBarMana" movable="true" inherits="TextStatusBar">
 				<Size>
-					<AbsDimension x="150" y="12"/>
+					<AbsDimension x="165" y="12"/>
 				</Size>
 				<Anchors>
 					<Anchor point="CENTER" relativeTo="$Parent" relativePoint="CENTER">
@@ -125,7 +125,7 @@
 
 	<Button name="DruidBarDontMove" frameStrata="TOOLTIP" toplevel="true" parent="DruidBarFrame" enableMouse="false" movable="false" hidden="true">
 		<Size>
-			<AbsDimension x="160" y="18"/>
+			<AbsDimension x="170" y="18"/>
 		</Size>
 
 		<Anchors>
