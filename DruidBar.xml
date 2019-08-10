@@ -25,7 +25,7 @@
 			</Layer>
 
 			<Layer level="BORDER">
-				<Texture name="DruidBarManaBg">
+				<Texture name="DruidBarManaBackground">
 					<Size>
 						<AbsDimension x="164" y="12"/>
 					</Size>

@@ -183,7 +183,7 @@ function Load_Variables(className)
 	if not DruidBarKey.bordertexture then DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border"; end
 
 	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
-	DruidBarManaBg:SetTexture(DruidBarKey.manatexture);
+	DruidBarManaBackground:SetTexture(DruidBarKey.manatexture);
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
 
 	-- Not sure what 'shiftload' is all about yet
@@ -398,9 +398,9 @@ function dbarlen()
 		DruidBarKey.xvar = DruidBarFrame:GetWidth();
 	end
 
-	DruidBarMana:SetWidth(DruidBarKey.xvar*0.9375);
-	DruidBarManaBg:SetWidth(DruidBarKey.xvar*0.9375);
-	DruidBarDontMove:SetWidth(DruidBarKey.xvar*0.9375);
+	DruidBarMana:SetWidth(DruidBarKey.xvar*0.95);
+	DruidBarManaBackground:SetWidth(DruidBarKey.xvar*0.95);
+	DruidBarDontMove:SetWidth(DruidBarKey.xvar*0.95);
 end
 
 function dbarhei()
@@ -412,7 +412,7 @@ function dbarhei()
 	end
 
 	DruidBarMana:SetHeight(DruidBarKey.yvar*(2/3));
-	DruidBarManaBg:SetHeight(DruidBarKey.yvar*(2/3));
+	DruidBarManaBackground:SetHeight(DruidBarKey.yvar*(2/3));
 	DruidBarDontMove:SetHeight(DruidBarKey.yvar*(2/3));
 end
 
@@ -437,7 +437,7 @@ function DruidBar_MainGraphics()
 	if DruidBar_ShouldBeVisible() then
 		-- Render DruidBar
 		dbarshow(DruidBarFrame);
-		dbarshow(DruidBarManaBg);
+		dbarshow(DruidBarManaBackground);
 		dbarshow(DruidBarBorder);
 
 		-- Text options --
@@ -489,7 +489,7 @@ end
 function DruidBar_ReplaceGraphics()
 	if UnitPowerType("player") ~= 0 then
 		dbarshow(DruidBarFrame);
-		dbarhide(DruidBarManaBg);
+		dbarhide(DruidBarManaBackground);
 		dbarhide(DruidBarDontMove);
 		dbarhide(DruidBarBorder);
 		dbarhide(DruidBarText);
@@ -891,13 +891,13 @@ end
 
 function DruidBar_ColorAndStrataAndTexture()
 	DruidBarMana:SetStatusBarColor(DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3], DruidBarKey.color[4]);
-	DruidBarManaBg:SetVertexColor(DruidBarKey.bgcolor[1],DruidBarKey.bgcolor[2],DruidBarKey.bgcolor[3],DruidBarKey.bgcolor[4]);
+	DruidBarManaBackground:SetVertexColor(DruidBarKey.bgcolor[1],DruidBarKey.bgcolor[2],DruidBarKey.bgcolor[3],DruidBarKey.bgcolor[4]);
 	DruidBarBorder:SetVertexColor(DruidBarKey.bordercolor[1],DruidBarKey.bordercolor[2],DruidBarKey.bordercolor[3],DruidBarKey.bordercolor[4]);
 	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
-	DruidBarManaBg:SetTexture(DruidBarKey.manatexture);
+	DruidBarManaBackground:SetTexture(DruidBarKey.manatexture);
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
 	-- DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
-	DruidBarManaBg:SetDrawLayer(DruidBarKey.bgstrata);
+	DruidBarManaBackground:SetDrawLayer(DruidBarKey.bgstrata);
 	DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
 end
 
