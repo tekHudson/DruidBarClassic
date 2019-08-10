@@ -133,11 +133,11 @@ function DRUIDBAROptions_Text_OnShow()
 	UIDropDownMenu_Initialize(DRUIDBAROptionsTextDropDown, DRUIDBAROptions_Text_Initialize);
 
 	-- Sets initial value
-	if( DruidBarKey.Text == 0 ) then
+	if( DruidBarKey.Text == 0 ) then -- ORIGINAL
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 1);
-	elseif( DruidBarKey.Text == 1 ) then
+	elseif( DruidBarKey.Text == 1 ) then -- NEW
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 2);
-	elseif( DruidBarKey.Text == nil ) then
+	elseif( DruidBarKey.Text == nil ) then -- NO TEXT
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 3);
 	end
 	UIDropDownMenu_SetWidth(DRUIDBAROptionsTextDropDown, 100);

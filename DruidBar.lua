@@ -1,29 +1,22 @@
+local className, inform, lowregentimer, fullmanatimer, lastshift, inCombat,
+			pre_UseAction, shiftload, isMoving, waitonce, firstshift, aquaformid,
+			travelformid, notyet;
 
-local aquaformid, travelformid;
+local timer = 0;
+local lowregentimer = 0;
+local fullmanatimer = 0;
+local DruidBar_Anchored = nil;
 
 function DruidBar_OnLoad()
-	DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
 	DruidBarUpdateFrame:RegisterEvent("ADDON_LOADED");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
-	DruidBarUpdateFrame:RegisterEvent("COMBAT_LOG_EVENT");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
-	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_STOP");
-	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_START");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
 	DruidBarUpdateFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
 	DruidBarUpdateFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
-	DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
-	DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
 
 	SlashCmdList["DRUIDBARSLASH"] = DruidBar_Enable_ChatCommandHandler;
 	SLASH_DRUIDBARSLASH1 = "/dbar";
 	SLASH_DRUIDBARSLASH2 = "/druidbar";
 	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
 end
-
-local className, inform, lowregentimer, fullmanatimer, lastshift, inCombat, pre_UseAction, shiftload, isMoving, waitonce, firstshift;
-lowregentimer = 0;
-fullmanatimer = 0;
 
 function DruidBar_OnEvent(self, event,...)
 	local arg1,arg2,arg3,arg4,arg5,arg6 = ...
@@ -41,14 +34,18 @@ function DruidBar_OnEvent(self, event,...)
 		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
 		DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
+		DruidBarUpdateFrame:RegisterEvent("COMBAT_LOG_EVENT");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
+		DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
 		DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
 		return;
 	elseif event == "PLAYER_LEAVING_WORLD" then
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_AURA");
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_MAXPOWER");
+		DruidBarUpdateFrame:UnregisterEvent("COMBAT_LOG_EVENT");
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_POWER_UPDATE");
+		DruidBarUpdateFrame:UnregisterEvent("UNIT_SPELLCAST_STOP");
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_INVENTORY_CHANGED");
 		DruidBarUpdateFrame:UnregisterEvent("UPDATE_SHAPESHIFT_FORMS");
 		return;
@@ -143,12 +140,13 @@ function Load_Variables(className)
 	if not DruidBarKey.color then DruidBarKey.color = {0,0,1,1}; end
 	if not DruidBarKey.bordercolor then DruidBarKey.bordercolor = {1,1,1,1}; end
 	if not DruidBarKey.bgcolor then DruidBarKey.bgcolor = {0,0,0,0.5}; end
-	if not DruidBarKey.barstrata then DruidBarKey.barstrata = 2; end
-	if not DruidBarKey.borderstrata then DruidBarKey.borderstrata = "BACKGROUND" end
-	if not DruidBarKey.bgstrata then DruidBarKey.bgstrata = "BORDER" end
 	if(not DruidBarKey.tempW or DruidBarKey.tempW == 0) then DruidBarKey.tempW = DruidBarKey.xvar; end
 	if(not DruidBarKey.tempH or DruidBarKey.tempH == 0) then DruidBarKey.tempH = DruidBarKey.yvar; end
 	if(not DruidBarKey.DontShiftBack) then DruidBarKey.DontShiftBack = false; end
+		-- Below aren't currently used
+	if not DruidBarKey.barstrata then DruidBarKey.barstrata = 2; end
+	if not DruidBarKey.borderstrata then DruidBarKey.borderstrata = "BACKGROUND" end
+	if not DruidBarKey.bgstrata then DruidBarKey.bgstrata = "BORDER" end
 
 	if not DruidBarKey.BearMessage or not strfind(tostring(DruidBarKey.BearMessage), "table:") then
 		DruidBarKey.BearMessage = {};
@@ -195,8 +193,6 @@ function Load_Variables(className)
 	end
 end
 
-local notyet;
-local timer = 0;
 function DruidBar_OnUpdate(self, elapsed)
 	if className and className == "DRUID" and DruidBarKey.Enabled then
 		timer = (timer or 0) + elapsed;
@@ -417,7 +413,6 @@ function dbarhei()
 	DruidBarDontMove:SetHeight(DruidBarKey.yvar*(2/3));
 end
 
-local DruidBar_Anchored = nil
 function DruidBar_MainGraphics()
 	local str;
 
@@ -903,7 +898,6 @@ function DruidBar_ColorAndStrataAndTexture()
 end
 
 function UIErrorsFrame:realEcho()
-
 end
 
 function UIErrorsFrame:fakeEcho(str, a1, a2, a3, a4, a5, a6)
