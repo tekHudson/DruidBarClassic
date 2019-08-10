@@ -898,7 +898,7 @@ function DruidBar_ColorAndStrataAndTexture()
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
 	-- DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
 	DruidBarManaBackground:SetDrawLayer(DruidBarKey.bgstrata);
-	DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
+	-- DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
 end
 
 function UIErrorsFrame:realEcho()
