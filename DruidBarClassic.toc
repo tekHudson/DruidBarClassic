@@ -4,5 +4,5 @@
 ## Current Author: Tek (port to WoW Classic Beta)
 ## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
-## Version: 0.3
+## Version: 0.4
 DruidBar.xml

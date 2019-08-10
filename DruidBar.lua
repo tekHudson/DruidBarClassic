@@ -114,6 +114,53 @@ function DruidBar_OnEvent(self, event,...)
 	end
 end
 
+function DruidBar_OnUpdate(self, elapsed)
+	if className and className == "DRUID" and DruidBarKey.Enabled then
+		timer = (timer or 0) + elapsed;
+		if not notyet then
+			DruidBar_MaxManaScript();
+			for i = 1, GetNumShapeshiftForms() do
+				local icon = GetShapeshiftFormInfo(i);
+				if icon == "Interface\\Icons\\Ability_Druid_AquaticForm" then aquaformid = i; end
+				if icon == "Interface\\Icons\\Ability_Druid_TravelForm" then travelformid = i; end
+			end
+			notyet = true;
+		end
+
+		if lowregentimer > 0 then
+			lowregentimer = lowregentimer - elapsed;
+			if lowregentimer <= 0 then lowregentimer = 0; end
+		end
+
+		if UnitPowerType("player") ~= 0 then
+			fullmanatimer = fullmanatimer + elapsed;
+			if fullmanatimer > 6 and floor((DruidBarKey.currentmana*100) / DruidBarKey.maxmana) > 90 then
+				DruidBarKey.currentmana = DruidBarKey.maxmana;
+			end
+		end
+
+		-- Graphics ON
+		if DruidBarKey.Graphics then
+			if DruidBarKey.Replace then
+				DruidBar_ReplaceGraphics();
+			else
+				DruidBarMana:SetMinMaxValues(0, DruidBarKey.maxmana);
+				DruidBarMana:SetValue(DruidBarKey.currentmana);
+				if timer > 2 then DruidBar_ColorAndStrataAndTexture(); timer = 0; end
+				DruidBar_MainGraphics();
+			end
+		--Graphics OFF
+		else
+			dbarhide(DruidBarFrame);
+			dbarhide(DruidBarReplaceText);
+			if PlayerFrameManaBar:GetWidth() < 100 then PlayerFrameManaBar:SetWidth(120); end
+		end
+	else
+		dbarhide(DruidBarFrame);
+		dbarhide(DruidBarUpdateFrame);
+	end
+end
+
 function Load_Variables(className)
 	-- Populate primary data store 'DruidBarKey'
 	if not DruidBarKey then
@@ -190,53 +237,6 @@ function Load_Variables(className)
 		pre_ShapeshiftBar_ChangeForm = ShapeshiftBar_ChangeForm;
 		ShapeshiftBar_ChangeForm = DruidBar_ChangeForm;
 		shiftload = true;
-	end
-end
-
-function DruidBar_OnUpdate(self, elapsed)
-	if className and className == "DRUID" and DruidBarKey.Enabled then
-		timer = (timer or 0) + elapsed;
-		if not notyet then
-			DruidBar_MaxManaScript();
-			for i = 1, GetNumShapeshiftForms() do
-				local icon = GetShapeshiftFormInfo(i);
-				if icon == "Interface\\Icons\\Ability_Druid_AquaticForm" then aquaformid = i; end
-				if icon == "Interface\\Icons\\Ability_Druid_TravelForm" then travelformid = i; end
-			end
-			notyet = true;
-		end
-
-		if lowregentimer > 0 then
-			lowregentimer = lowregentimer - elapsed;
-			if lowregentimer <= 0 then lowregentimer = 0; end
-		end
-
-		if UnitPowerType("player") ~= 0 then
-			fullmanatimer = fullmanatimer + elapsed;
-			if fullmanatimer > 6 and floor((DruidBarKey.currentmana*100) / DruidBarKey.maxmana) > 90 then
-				DruidBarKey.currentmana = DruidBarKey.maxmana;
-			end
-		end
-
-		-- Graphics ON
-		if DruidBarKey.Graphics then
-			if DruidBarKey.Replace then
-				DruidBar_ReplaceGraphics();
-			else
-				DruidBarMana:SetMinMaxValues(0, DruidBarKey.maxmana);
-				DruidBarMana:SetValue(DruidBarKey.currentmana);
-				if timer > 2 then DruidBar_ColorAndStrataAndTexture(); timer = 0; end
-				DruidBar_MainGraphics();
-			end
-		--Graphics OFF
-		else
-			dbarhide(DruidBarFrame);
-			dbarhide(DruidBarReplaceText);
-			if PlayerFrameManaBar:GetWidth() < 100 then PlayerFrameManaBar:SetWidth(120); end
-		end
-	else
-		dbarhide(DruidBarFrame);
-		dbarhide(DruidBarUpdateFrame);
 	end
 end
 
@@ -650,7 +650,13 @@ function DruidBar_Print(msg,r,g,b,frame,id,unknown4th)
 	end
 end
 
-function DruidBar_Toggle(tog, str) if tog then DruidBar_Print(str.." off"); return nil; else DruidBar_Print(str.." on"); return true; end end
+function DruidBar_Toggle(tog, str)
+	if tog then DruidBar_Print(str.." off");
+		return nil;
+	else DruidBar_Print(str.." on");
+		return true;
+	end
+end
 
 function DruidBar_Enable_ChatCommandHandler(text)
 	local msg = TextParse(text);

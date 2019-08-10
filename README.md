@@ -18,7 +18,7 @@ There are 2 available /druidbar or /dbar and either may recieve a number of para
 
 * Vis: This will enable or disable any and all graphical stuff. if you use with other addons like StatusBars or Linoleum, turn it off. If not, leave it on ^^
 
-* Width (#): This will let you set the width of the bar. Default is 160px.
+* Width (#): This will let you set the width of the bar. Default is 170px.
 
 * height (#): This will let you set the height of the bar. Default is 18px.
 
@@ -65,6 +65,10 @@ In-game: COMING SOON!
 Discord: https://discord.gg/b5sPQnu
 
 ## Version History
+
+### 0.4
+Add minimap icon.
+Clean up UI to resolve frame under manabar.
 
 #### 0.3
 Prepair for classic release.
