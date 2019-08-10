@@ -576,7 +576,7 @@ end
 function DRUIDBAROptions_ManaBarFrameLevel_OnShow()
 		UIDropDownMenu_Initialize(ManaBar_FrameLevel, DRUIDBAROptions_ManaBarFrameLevel_Initialize);
 		if DruidBarKey.barstrata then
-			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, DruidBarKey.barstrata+1);
+			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, DruidBarKey.barstrata + 1);
 		elseif not DruidBarKey.barstrata then
 			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, 2);
 			DruidBarKey.barstrata = 2;
@@ -585,8 +585,8 @@ function DRUIDBAROptions_ManaBarFrameLevel_OnShow()
 end
 
 function DRUIDBAROptions_ManaBarFrameLevel_OnClick()
-	i = self:GetID();
-	DruidBarKey.barstrata = i-1;
+	i = UIDropDownMenu_GetSelectedID(ManaBar_FrameLevel);
+	DruidBarKey.barstrata = i - 1;
 	UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, i);
 	DEFAULT_CHAT_FRAME:AddMessage(i);
 end
@@ -607,7 +607,7 @@ function DRUIDBAROptions_ManaBorderFrameLevel_OnShow()
 			local i;
 			local j = DruidBarKey.borderstrata;
 			if j == "BACKGROUND" then i = 1; elseif j == "BORDER" then i = 2; elseif j == "ARTWORK" then i = 3; elseif j == "OVERLAY" then i = 4; end
-			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, i+1);
+			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, i + 1);
 		elseif not DruidBarKey.borderstrata then
 			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, 1);
 			DruidBarKey.borderstrata = "BACKGROUND";
@@ -616,7 +616,7 @@ function DRUIDBAROptions_ManaBorderFrameLevel_OnShow()
 end
 
 function DRUIDBAROptions_ManaBorderFrameLevel_OnClick()
-	i = self:GetID();
+	i = UIDropDownMenu_GetSelectedID(ManaBorder_FrameLevel);
 	local j;
 	if i == 1 then j = "BACKGROUND"; elseif i == 2 then j = "BORDER"; elseif i == 3 then j = "ARTWORK"; elseif i == 4 then j = "OVERLAY"; end
 	DruidBarKey.borderstrata = j;
