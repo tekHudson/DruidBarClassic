@@ -8,7 +8,7 @@
 
 	<Frame name="DruidBarFrame" hidden="true" frameStrata="BACKGROUND" enableMouse="true" movable="true" parent="UIParent">
 		<Size>
-			<AbsDimension x="160" y="18"/>
+			<AbsDimension x="170" y="18"/>
 		</Size>
 
 		<Anchors>

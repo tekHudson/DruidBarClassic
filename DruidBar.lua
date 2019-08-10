@@ -3,9 +3,9 @@ local aquaformid, travelformid;
 
 function DruidBar_OnLoad()
 	DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
+	DruidBarUpdateFrame:RegisterEvent("ADDON_LOADED");
 	DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
 	DruidBarUpdateFrame:RegisterEvent("COMBAT_LOG_EVENT");
-	DruidBarUpdateFrame:RegisterEvent("ADDON_LOADED");
 	DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
 	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_STOP");
 	DruidBarUpdateFrame:RegisterEvent("INSTANCE_BOOT_START");

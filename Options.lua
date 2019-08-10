@@ -13,7 +13,7 @@ end
 
 function DRUIDBAROptions_CheckWidth(self)
 	if ( DRUIDBAROptionsWidthEditBox:GetText() < "1" ) then
-		DRUIDBAROptionsWidthEditBox:SetText("1");
+		DRUIDBAROptionsWidthEditBox:SetText("170");
 		DruidBarKey.xvar = self:GetNumber();
 		DruidBarKey.tempW = DruidBarKey.xvar;
 	elseif( DRUIDBAROptionsWidthEditBox:GetText() > "9999" ) then
@@ -28,7 +28,7 @@ end
 
 function DRUIDBAROptions_CheckHeight(self)
 	if ( DRUIDBAROptionsHeightEditBox:GetText() < "1" ) then
-		DRUIDBAROptionsHeightEditBox:SetText("1");
+		DRUIDBAROptionsHeightEditBox:SetText("18");
 		DruidBarKey.yvar = self:GetNumber();
 		DruidBarKey.tempH = DruidBarKey.yvar;
 	elseif( DRUIDBAROptionsHeightEditBox:GetText() > "999" ) then
