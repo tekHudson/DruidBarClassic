@@ -84,23 +84,23 @@
 						self:SetFrameLevel("1");
 					</OnLoad>
 					<OnMouseDown>
-					  if button == "LeftButton" and not self.isMoving then
-					   self:GetParent():StartMoving();
-					   self.isMoving = true;
-					  end
-					 </OnMouseDown>
-					 <OnMouseUp>
-					  if button == "LeftButton" and self.isMoving then
-					   self:GetParent():StopMovingOrSizing();
-					   self.isMoving = false;
-					  end
-					 </OnMouseUp>
-					 <OnHide>
-					  if self.isMoving then
-					   self:GetParent():StopMovingOrSizing();
-					   self.isMoving = false;
-					  end
-					 </OnHide>
+						if button == "LeftButton" and not self.isMoving then
+						self:GetParent():StartMoving();
+						self.isMoving = true;
+						end
+					</OnMouseDown>
+					<OnMouseUp>
+						if button == "LeftButton" and self.isMoving then
+						self:GetParent():StopMovingOrSizing();
+						self.isMoving = false;
+						end
+					</OnMouseUp>
+					<OnHide>
+						if self.isMoving then
+						self:GetParent():StopMovingOrSizing();
+						self.isMoving = false;
+						end
+					</OnHide>
 				</Scripts>
 			</StatusBar>
 		</Frames>
@@ -112,7 +112,7 @@
 			<OnDragStart>self:StartMoving();</OnDragStart>
 			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
 		</Scripts>
-  </Frame>
+	</Frame>
 
 	<Frame name="DruidBarUpdateFrame">
 		<Scripts>
@@ -122,7 +122,7 @@
 		</Scripts>
 	</Frame>
 
-  <Button name="DruidBarDontMove" frameStrata="TOOLTIP" toplevel="true" parent="DruidBarFrame" enableMouse="false" movable="false" hidden="true">
+	<Button name="DruidBarDontMove" frameStrata="TOOLTIP" toplevel="true" parent="DruidBarFrame" enableMouse="false" movable="false" hidden="true">
 		<Size>
 			<AbsDimension x="160" y="18"/>
 		</Size>
@@ -134,7 +134,62 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
-  </Button>
+	</Button>
+
+	<Button name="DruidBar_MinimapButton" parent="Minimap" enableMouse="true" movable="true" hidden="false">
+		<Size>
+			<AbsDimension x="33" y="33"/>
+		</Size>
+
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="DruidBar_MinimapButton_Icon" file="Interface\Icons\ABILITY_DRUID_DEMORALIZINGROAR">
+					<Size>
+						<AbsDimension x="21" y="21"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="7" y="-6"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+					<Size>
+						<AbsDimension x="56" y="56"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+
+		<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+			<OnClick>
+				DruidBar_MinimapButton_OnClick()
+			</OnClick>
+		</Scripts>
+	</Button>
 
 	<Frame name="DruidBarReplaceText" frameStrata="LOW" enableMouse="true" movable="true" parent="UIParent" hidden="true">
 		<Size>
@@ -149,7 +204,7 @@
 			</Anchor>
 		</Anchors>
 
-    <Layers>
+		<Layers>
 			<Layer level="FOREGROUND">
 				<FontString name="DEnergyText" inherits="GameFontNormalSmall" wraponspaces="true">
 					<Size>
@@ -191,6 +246,6 @@
 					</Anchors>
 				</FontString>
 			</Layer>
-    </Layers>
-  </Frame>
+		</Layers>
+	</Frame>
 </Ui>

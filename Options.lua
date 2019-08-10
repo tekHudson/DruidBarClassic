@@ -1,3 +1,7 @@
+function DRUIDBAROptions_OnLoad()
+	UIPanelWindows['DRUIDBAROptionsFrame'] = {area = 'center', pushable = 0};
+end
+
 function DRUIDBAROptionsFrame_Toggle()
 	if(DRUIDBAROptionsFrame:IsVisible()) then
 		DRUIDBAROptionsFrame:Hide();
@@ -5,10 +9,6 @@ function DRUIDBAROptionsFrame_Toggle()
 		DRUIDBAR_FrameSet();
 		DRUIDBAROptionsFrame:Show();
 	end
-end
-
-function DRUIDBAROptions_OnLoad()
-	UIPanelWindows['DRUIDBAROptionsFrame'] = {area = 'center', pushable = 0};
 end
 
 function DRUIDBAROptions_CheckWidth(self)
@@ -367,7 +367,6 @@ function DRUIDBAROptions_MessageTrav_OnClick()
 			DruidBarKey.TravMessage[2] = "EMOTE";
 	end
 end
-
 
 function DRUIDBAROptions_MessageOOM_Initialize()
 	local info;

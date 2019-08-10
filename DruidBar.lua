@@ -14,6 +14,7 @@ function DruidBar_OnLoad()
 	DruidBarUpdateFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 	DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
 	DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
+
 	SlashCmdList["DRUIDBARSLASH"] = DruidBar_Enable_ChatCommandHandler;
 	SLASH_DRUIDBARSLASH1 = "/dbar";
 	SLASH_DRUIDBARSLASH2 = "/druidbar";
@@ -999,4 +1000,8 @@ function DruidBar_ChangeBestForm()
 		--then we allow error messages again
 		UIErrorsFrame.AddMessage = UIErrorsFrame.realEcho;
 	end
+end
+
+function DruidBar_MinimapButton_OnClick()
+	DRUIDBAROptionsFrame_Toggle();
 end
