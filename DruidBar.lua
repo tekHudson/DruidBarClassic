@@ -460,15 +460,15 @@ function DruidBar_MainGraphics()
 			DruidBarFrame:ClearAllPoints();
 			DruidBarFrame:SetPoint("TOPLEFT","PlayerFrame","TOPLEFT", 80, -63);
 			-- PlayerFrame:SetFrameLevel("1");
-			DruidBarFrame:SetFrameLevel("1");
-			DruidBarMana:SetFrameLevel("1");
+			-- DruidBarFrame:SetFrameLevel("1");
+			-- DruidBarMana:SetFrameLevel("1");
 			DruidBar_Anchored = true;
 		elseif DruidBar_Anchored then
 			DruidBarFrame:ClearAllPoints();
 			DruidBarFrame:SetPoint("CENTER","UIParent","CENTER", 0, 0);
 			-- PlayerFrame:SetFrameLevel("1")
-			DruidBarFrame:SetFrameLevel("1");
-			DruidBarMana:SetFrameLevel("1");
+			-- DruidBarFrame:SetFrameLevel("1");
+			-- DruidBarMana:SetFrameLevel("1");
 			DruidBar_Anchored = nil;
 		end
 
@@ -500,7 +500,7 @@ function DruidBar_ReplaceGraphics()
 		DruidBarFrame:SetPoint("TOPLEFT","PlayerFrame","TOPLEFT", 116, -50);
 		DruidBarMana:SetWidth(60);
 		DruidBarMana:SetHeight(10);
-		DruidBarMana:SetFrameLevel("1");
+		-- DruidBarMana:SetFrameLevel("1");
 		local str, str1;
 		str = "|CFFFFFFFF"..UnitPower("player").."|r";
 		if DruidBarKey.Percent and DruidBarKey.Percent == 1 then
@@ -510,7 +510,7 @@ function DruidBar_ReplaceGraphics()
 		else
 			str1 = "|CFFFFFFFF"..(floor(DruidBarKey.currentmana / 100)/10).."k,"..floor(DruidBarKey.currentmana / DruidBarKey.maxmana * 100).."%|r";
 		end
-		DruidBarReplaceText:SetFrameLevel("2");
+		-- DruidBarReplaceText:SetFrameLevel("2");
 		if (DruidBarKey.Text and DruidBarKey.Text == 1) or (not DruidBarKey.Text and (MouseIsOver(DruidBarFrame) or MouseIsOver(PlayerFrameManaBar)))then
 			dbarshow(DEnergyText1);
 			dbarshow(DManaText1);
@@ -895,7 +895,7 @@ function DruidBar_ColorAndStrataAndTexture()
 	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
 	DruidBarManaBg:SetTexture(DruidBarKey.manatexture);
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
-	DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
+	-- DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
 	DruidBarManaBg:SetDrawLayer(DruidBarKey.bgstrata);
 	DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
 end
