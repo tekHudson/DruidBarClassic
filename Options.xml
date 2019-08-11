@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Frame name="DRUIDBAROptionsFrame" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent">
 		<Size>
-			<AbsDimension x="460" y="600"/>
+			<AbsDimension x="460" y="540"/>
 		</Size>
 
 		<Anchors>
@@ -859,7 +859,7 @@
 			<!-- Text Header for 'Misc' -->
 			<Frame name="DRUIDBAROptions_Misc">
 				<Size>
-					<AbsDimension x="420" y="120"/>
+					<AbsDimension x="420" y="60"/>
 				</Size>
 
 				<Anchors>
@@ -1088,7 +1088,7 @@
 				</Scripts>
 			</Button>
 
-			<Frame name="ManaBar_FrameLevel" inherits="UIDropDownMenuTemplate" enableMouse="true">
+			<!-- <Frame name="ManaBar_FrameLevel" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="DBColorSwatch" relativePoint="BOTTOM">
 						<Offset>
@@ -1200,7 +1200,7 @@
 					</OnTextChanged>
 				</Scripts>
 				<FontString inherits="ChatFontNormal"/>
-			</EditBox>
+			</EditBox> -->
 
 			<Button name="DRUIDBAROptionsFrameClose" inherits="OptionsButtonTemplate" text="DRUIDBAR_OPTIONS_Close">
 				<Anchors>

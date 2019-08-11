@@ -455,8 +455,8 @@ function DRUIDBAR_FrameSet()
 	Cat_Message_EditBox:SetText(DruidBarKey.CatMessage[1]);
 	Trav_Message_EditBox:SetText(DruidBarKey.TravMessage[1]);
 	OOM_Message_EditBox:SetText(DruidBarKey.OOMMessage[1]);
-	ManaBar_FrameLevel_EditBox:SetText(DruidBarKey.manatexture);
-	ManaBorder_FrameLevel_EditBox:SetText(DruidBarKey.bordertexture);
+	-- ManaBar_FrameLevel_EditBox:SetText(DruidBarKey.manatexture);
+	-- ManaBorder_FrameLevel_EditBox:SetText(DruidBarKey.bordertexture);
 
 	-- Addon Enabled and Graphics on
 	if(DruidBarKey.Enabled and DruidBarKey.Graphics) then
@@ -577,62 +577,62 @@ function DRUIDBAROptions_GetBorderColor(self)
 	getglobal(self:GetName().."_SwatchBg"):SetVertexColor(DruidBarKey.bordercolor[1], DruidBarKey.bordercolor[2], DruidBarKey.bordercolor[3]);
 end
 
-function DRUIDBAROptions_ManaBarFrameLevel_Initialize()
-	local info;
-	for i = 0, 3, 1 do
-		info = { };
-		info.text = DRUIDBAR_OPTIONS_DROP.Strata[i];
-		info.func = DRUIDBAROptions_ManaBarFrameLevel_OnClick;
-		UIDropDownMenu_AddButton(info);
-	end
-end
+-- function DRUIDBAROptions_ManaBarFrameLevel_Initialize()
+-- 	local info;
+-- 	for i = 0, 3, 1 do
+-- 		info = { };
+-- 		info.text = DRUIDBAR_OPTIONS_DROP.Strata[i];
+-- 		info.func = DRUIDBAROptions_ManaBarFrameLevel_OnClick;
+-- 		UIDropDownMenu_AddButton(info);
+-- 	end
+-- end
 
-function DRUIDBAROptions_ManaBarFrameLevel_OnShow()
-		UIDropDownMenu_Initialize(ManaBar_FrameLevel, DRUIDBAROptions_ManaBarFrameLevel_Initialize);
-		if DruidBarKey.barstrata then
-			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, DruidBarKey.barstrata + 1);
-		elseif not DruidBarKey.barstrata then
-			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, 2);
-			DruidBarKey.barstrata = 2;
-		end
-	UIDropDownMenu_SetWidth(ManaBar_FrameLevel, 80);
-end
+-- function DRUIDBAROptions_ManaBarFrameLevel_OnShow()
+-- 		UIDropDownMenu_Initialize(ManaBar_FrameLevel, DRUIDBAROptions_ManaBarFrameLevel_Initialize);
+-- 		if DruidBarKey.barstrata then
+-- 			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, DruidBarKey.barstrata + 1);
+-- 		elseif not DruidBarKey.barstrata then
+-- 			UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, 2);
+-- 			DruidBarKey.barstrata = 2;
+-- 		end
+-- 	UIDropDownMenu_SetWidth(ManaBar_FrameLevel, 80);
+-- end
 
-function DRUIDBAROptions_ManaBarFrameLevel_OnClick()
-	i = UIDropDownMenu_GetSelectedID(ManaBar_FrameLevel);
-	DruidBarKey.barstrata = i - 1;
-	UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, i);
-	DEFAULT_CHAT_FRAME:AddMessage(i);
-end
+-- function DRUIDBAROptions_ManaBarFrameLevel_OnClick()
+-- 	i = UIDropDownMenu_GetSelectedID(ManaBar_FrameLevel);
+-- 	DruidBarKey.barstrata = i - 1;
+-- 	UIDropDownMenu_SetSelectedID(ManaBar_FrameLevel, i);
+-- 	DEFAULT_CHAT_FRAME:AddMessage(i);
+-- end
 
-function DRUIDBAROptions_ManaBorderFrameLevel_Initialize()
-	local info;
-	for i = 0, 3, 1 do
-		info = { };
-		info.text = DRUIDBAR_OPTIONS_DROP.Strata[i];
-		info.func = DRUIDBAROptions_ManaBorderFrameLevel_OnClick;
-		UIDropDownMenu_AddButton(info);
-	end
-end
+-- function DRUIDBAROptions_ManaBorderFrameLevel_Initialize()
+-- 	local info;
+-- 	for i = 0, 3, 1 do
+-- 		info = { };
+-- 		info.text = DRUIDBAR_OPTIONS_DROP.Strata[i];
+-- 		info.func = DRUIDBAROptions_ManaBorderFrameLevel_OnClick;
+-- 		UIDropDownMenu_AddButton(info);
+-- 	end
+-- end
 
-function DRUIDBAROptions_ManaBorderFrameLevel_OnShow()
-		UIDropDownMenu_Initialize(ManaBorder_FrameLevel, DRUIDBAROptions_ManaBorderFrameLevel_Initialize);
-		if DruidBarKey.borderstrata then
-			local i;
-			local j = DruidBarKey.borderstrata;
-			if j == "BACKGROUND" then i = 1; elseif j == "BORDER" then i = 2; elseif j == "ARTWORK" then i = 3; elseif j == "OVERLAY" then i = 4; end
-			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, i + 1);
-		elseif not DruidBarKey.borderstrata then
-			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, 1);
-			DruidBarKey.borderstrata = "BACKGROUND";
-		end
-	UIDropDownMenu_SetWidth(ManaBorder_FrameLevel, 80);
-end
+-- function DRUIDBAROptions_ManaBorderFrameLevel_OnShow()
+-- 		UIDropDownMenu_Initialize(ManaBorder_FrameLevel, DRUIDBAROptions_ManaBorderFrameLevel_Initialize);
+-- 		if DruidBarKey.borderstrata then
+-- 			local i;
+-- 			local j = DruidBarKey.borderstrata;
+-- 			if j == "BACKGROUND" then i = 1; elseif j == "BORDER" then i = 2; elseif j == "ARTWORK" then i = 3; elseif j == "OVERLAY" then i = 4; end
+-- 			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, i + 1);
+-- 		elseif not DruidBarKey.borderstrata then
+-- 			UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, 1);
+-- 			DruidBarKey.borderstrata = "BACKGROUND";
+-- 		end
+-- 	UIDropDownMenu_SetWidth(ManaBorder_FrameLevel, 80);
+-- end
 
-function DRUIDBAROptions_ManaBorderFrameLevel_OnClick()
-	i = UIDropDownMenu_GetSelectedID(ManaBorder_FrameLevel);
-	local j;
-	if i == 1 then j = "BACKGROUND"; elseif i == 2 then j = "BORDER"; elseif i == 3 then j = "ARTWORK"; elseif i == 4 then j = "OVERLAY"; end
-	DruidBarKey.borderstrata = j;
-	UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, i);
-end
+-- function DRUIDBAROptions_ManaBorderFrameLevel_OnClick()
+-- 	i = UIDropDownMenu_GetSelectedID(ManaBorder_FrameLevel);
+-- 	local j;
+-- 	if i == 1 then j = "BACKGROUND"; elseif i == 2 then j = "BORDER"; elseif i == 3 then j = "ARTWORK"; elseif i == 4 then j = "OVERLAY"; end
+-- 	DruidBarKey.borderstrata = j;
+-- 	UIDropDownMenu_SetSelectedID(ManaBorder_FrameLevel, i);
+-- end
