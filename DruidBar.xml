@@ -4,6 +4,7 @@
 	<Script file="localization.lua"/>
 
 	<Include file="Options.xml"/>
+
 	<GameTooltip name="DBarSpellCatch" frameStrata="TOOLTIP" inherits="GameTooltipTemplate"/>
 
 	<Frame name="DruidBarFrame" hidden="true" frameStrata="BACKGROUND" enableMouse="true" movable="true" parent="UIParent">
@@ -135,61 +136,6 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
-	</Button>
-
-	<Button name="DruidBar_MinimapButton" parent="Minimap" enableMouse="true" movable="true" hidden="false">
-		<Size>
-			<AbsDimension x="33" y="33"/>
-		</Size>
-
-		<Anchors>
-			<Anchor point="TOPLEFT"/>
-		</Anchors>
-
-		<Layers>
-			<Layer level="OVERLAY">
-				<Texture name="DruidBar_MinimapButton_Border" file="Interface\Minimap\MiniMap-TrackingBorder">
-					<Size>
-						<AbsDimension x="56" y="56"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT"/>
-					</Anchors>
-				</Texture>
-			</Layer>
-
-			<Layer level="ARTWORK">
-				<Texture name="DruidBar_MinimapButton_Icon" file="Interface\Icons\ABILITY_DRUID_DEMORALIZINGROAR">
-					<Size>
-						<AbsDimension x="21" y="21"/>
-					</Size>
-					<Anchors>
-						<Anchor point="TOPLEFT">
-							<Offset>
-								<AbsDimension x="7" y="-6"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</Texture>
-			</Layer>
-		</Layers>
-
-		<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
-
-		<Scripts>
-			<OnLoad>
-				self:RegisterForDrag("LeftButton");
-			</OnLoad>
-			<OnDragStart>
-				self:StartMoving();
-			</OnDragStart>
-			<OnDragStop>
-				self:StopMovingOrSizing();
-			</OnDragStop>
-			<OnClick>
-				DruidBar_MinimapButton_OnClick()
-			</OnClick>
-		</Scripts>
 	</Button>
 
 	<Frame name="DruidBarReplaceText" frameStrata="LOW" enableMouse="true" movable="true" parent="UIParent" hidden="true">

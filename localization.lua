@@ -90,7 +90,7 @@ DRUIDBAR_OPTIONS_ColorBack = "Bg Color";
 DRUIDBAR_OPTIONS_ColorBorder = "Border Color";
 DRUIDBAR_OPTIONS_Message_Mana = "Mana Bar";
 DRUIDBAR_OPTIONS_Message_border = "Bar Border";
-DRUIDBAR_OPTIONS_Version = "|cff9d9d9dDruid Bar Classic v0.4\nby Tek|r";
+DRUIDBAR_OPTIONS_Version = "|cff9d9d9dDruid Bar Classic\nby Tek|r";
 
 
 if ( GetLocale() == "frFR" ) then

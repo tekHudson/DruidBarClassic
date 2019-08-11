@@ -66,7 +66,12 @@ Discord: https://discord.gg/b5sPQnu
 
 ## Version History
 
-### 0.4
+#### 0.5
+Update Icon to use LibDBIcon.
+Remove Frame level UI options for now.
+ - Note: Might add back in later.
+
+#### 0.4
 Add minimap icon.
 Clean up UI to resolve frame under manabar.
 

@@ -7,6 +7,15 @@ local lowregentimer = 0;
 local fullmanatimer = 0;
 local DruidBar_Anchored = nil;
 
+local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("DruidBarMinimapIcon", {
+	type = "data source",
+	text = "Druid Bar Classic",
+	icon = "Interface\\Icons\\ABILITY_DRUID_DEMORALIZINGROAR",
+	OnClick = function (self, button) if button == "LeftButton" then DRUIDBAROptionsFrame_Toggle(); end end
+});
+
+local DruidBar_MinimapButton = LibStub("LibDBIcon-1.0");
+
 function DruidBar_OnLoad()
 	DruidBarUpdateFrame:RegisterEvent("ADDON_LOADED");
 	DruidBarUpdateFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
@@ -16,6 +25,9 @@ function DruidBar_OnLoad()
 	SLASH_DRUIDBARSLASH1 = "/dbar";
 	SLASH_DRUIDBARSLASH2 = "/druidbar";
 	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
+
+    -- Creating the minimap config icon
+	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 end
 
 function DruidBar_OnEvent(self, event,...)
