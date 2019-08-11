@@ -38,6 +38,7 @@ DRUIDBAR_OPTIONS_MiscO = "Misc";
 DRUIDBAR_OPTIONS_Toggle = "Enable";
 DRUIDBAR_OPTIONS_Vis = "Graphics";
 DRUIDBAR_OPTIONS_VisTT = "Enable or disable any and all graphical stuff.\nIf you use with other addons like StatusBars or Linoleum, turn it off. If not, leave it on.";
+DRUIDBAR_OPTIONS_Minimap = "Show Minimap Button"
 DRUIDBAR_OPTIONS_Replace = "Replace";
 DRUIDBAR_OPTIONS_ReplaceTT = "Replace the Player Frame's mana bar, splitting it into two when shifted.";
 DRUIDBAR_OPTIONS_Player = "Player Frame";

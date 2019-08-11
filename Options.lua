@@ -62,6 +62,15 @@ function DRUIDBAROptions_Vis()
 	DRUIDBAR_FrameSet();
 end
 
+function DRUIDBAROptions_Minimap()
+	if(DruidBarKey.Minimap) then
+		DruidBarKey.Minimap = false;
+	else
+		DruidBarKey.Minimap = true;
+	end
+	DRUIDBAR_FrameSet();
+end
+
 function DRUIDBAROptions_Replace()
 	DruidBarKey.Replace = true;
 	DruidBarKey.Player = false;
@@ -416,10 +425,12 @@ function DRUIDBAR_FrameSet()
 
 	local gold = {1, 0.82, 0}
 	local grey = {0.5, 0.5, 0.5}
-	local allDisplayStyleTexts = {DRUIDBAROptionsVisText, DRUIDBAROptionsReplaceText,
-		DRUIDBAROptionsPlayerText, DRUIDBAROptionsCustomText, DRUIDBAROptionsHideText,
-	  DRUIDBAROptionsFullText, DRUIDBAROptionsLockText, DRUIDBAROptionsTextDropDownText,
-    DRUIDBAROptionsPercentDropDownText}
+	local allDisplayStyleTexts = {
+		DRUIDBAROptionsVisText,DRUIDBAROptionsReplaceText, DRUIDBAROptionsPlayerText,
+		DRUIDBAROptionsCustomText, DRUIDBAROptionsHideText, DRUIDBAROptionsFullText,
+		DRUIDBAROptionsLockText, DRUIDBAROptionsTextDropDownText,
+		DRUIDBAROptionsPercentDropDownText
+	}
 
 	-- Check temp width and temp height
 	if not DruidBarKey.tempW then DruidBarKey.tempW = 0; end
@@ -428,6 +439,7 @@ function DRUIDBAR_FrameSet()
 	-- Toggle Checkboxes/Buttons
 	DRUIDBAROptionsToggle:SetChecked(DruidBarKey.Enabled);
 	DRUIDBAROptionsVis:SetChecked(DruidBarKey.Graphics);
+	DRUIDBAROptionsMinimap:SetChecked(DruidBarKey.Minimap);
 	DRUIDBAROptionsReplace:SetChecked(DruidBarKey.Replace);
 	DRUIDBAROptionsPlayer:SetChecked(DruidBarKey.Player);
 	DRUIDBAROptionsCustom:SetChecked(DruidBarKey.Custom);

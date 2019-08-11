@@ -104,23 +104,26 @@
 				</Scripts>
 			</Frame>
 
-			<!-- Toggle for 'Enable' -->
-			<CheckButton name="DRUIDBAROptionsToggle" inherits="OptionsCheckButtonTemplate">
+			<!-- IMPORTANT -->
+			<!-- Element order required to prevent overlapping checkboxs -->
+
+			<!-- ROW 1 -->
+			<!-- Toggle for 'Hide Minimap Button' -->
+			<CheckButton name="DRUIDBAROptionsMinimap" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="30" y="-30"/>
+							<AbsDimension x="225" y="-30"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
 
 				<Scripts>
 					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Toggle);
+						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Minimap);
 					</OnLoad>
-
 					<OnClick>
-						DRUIDBAROptions_Toggle();
+						DRUIDBAROptions_Minimap();
 					</OnClick>
 				</Scripts>
 			</CheckButton>
@@ -130,7 +133,7 @@
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
 						<Offset>
-							<AbsDimension x="175" y="-30"/>
+							<AbsDimension x="125" y="-30"/>
 						</Offset>
 					</Anchor>
 				</Anchors>
@@ -153,6 +156,29 @@
 				</Scripts>
 			</CheckButton>
 
+			<!-- Toggle for 'Enable' -->
+			<CheckButton name="DRUIDBAROptionsToggle" inherits="OptionsCheckButtonTemplate">
+				<Size><AbsDimension x="30" y="30"/></Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="30" y="-30"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Toggle);
+					</OnLoad>
+
+					<OnClick>
+						DRUIDBAROptions_Toggle();
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+			<!-- ROW 2 -->
 			<!-- Toggle for 'Hide when in caster form' -->
 			<CheckButton name="DRUIDBAROptionsHide" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
@@ -195,6 +221,7 @@
 				</Scripts>
 			</CheckButton>
 
+			<!-- ROW 3 -->
 			<!-- Radio for style 'Replace' -->
 			<CheckButton name="DRUIDBAROptionsReplace" inherits="UIRadioButtonTemplate">
 				<Anchors>
@@ -277,6 +304,59 @@
 					</OnClick>
 				</Scripts>
 			</CheckButton>
+
+			<!-- Toggle for 'Lock' -->
+			<CheckButton name="DRUIDBAROptionsLock" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsCustom" relativePoint="LEFT">
+						<Offset>
+							<AbsDimension x="100" y=""/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+
+				<Scripts>
+					<OnLoad>
+						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Lock);
+					</OnLoad>
+
+					<OnClick>
+						DRUIDBAROptions_Lock();
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+			<!-- ROW 4 -->
+			<!-- Dropdown to select 'Text Style' -->
+			<Frame name="DRUIDBAROptionsTextDropDown" inherits="UIDropDownMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
+						<Offset>
+							<AbsDimension x="75" y="-130"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+
+				<Layers>
+					<Layer level="BACKGROUND">
+						<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="DRUIDBAR_OPTIONS_Text">
+							<Anchors>
+								<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsTextDropDown" relativePoint="LEFT">
+									<Offset>
+										<AbsDimension x="10" y="2"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+
+				<Scripts>
+					<OnShow>
+						DRUIDBAROptions_Text_OnShow(self);
+					</OnShow>
+				</Scripts>
+			</Frame>
 
 			<!-- Input for 'Width' -->
 			<EditBox name="DRUIDBAROptionsWidthEditBox" autoFocus="false" inherits="InputBoxTemplate" bytes="64">
@@ -384,58 +464,7 @@
 				</Layers>
 			</EditBox>
 
-			<!-- Toggle for 'Lock' -->
-			<CheckButton name="DRUIDBAROptionsLock" inherits="OptionsCheckButtonTemplate">
-				<Anchors>
-					<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsCustom" relativePoint="LEFT">
-						<Offset>
-							<AbsDimension x="100" y=""/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-
-				<Scripts>
-					<OnLoad>
-						getglobal(self:GetName().."Text"):SetText(DRUIDBAR_OPTIONS_Lock);
-					</OnLoad>
-
-					<OnClick>
-						DRUIDBAROptions_Lock();
-					</OnClick>
-				</Scripts>
-			</CheckButton>
-
-			<!-- Dropdown to select 'Text Style' -->
-			<Frame name="DRUIDBAROptionsTextDropDown" inherits="UIDropDownMenuTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="DRUIDBAROptions_Bar" relativePoint="TOPLEFT">
-						<Offset>
-							<AbsDimension x="75" y="-130"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-
-				<Layers>
-					<Layer level="BACKGROUND">
-						<FontString name="$parentLabel" inherits="GameFontNormalSmall" text="DRUIDBAR_OPTIONS_Text">
-							<Anchors>
-								<Anchor point="RIGHT" relativeTo="DRUIDBAROptionsTextDropDown" relativePoint="LEFT">
-									<Offset>
-										<AbsDimension x="10" y="2"/>
-									</Offset>
-								</Anchor>
-							</Anchors>
-						</FontString>
-					</Layer>
-				</Layers>
-
-				<Scripts>
-					<OnShow>
-						DRUIDBAROptions_Text_OnShow(self);
-					</OnShow>
-				</Scripts>
-			</Frame>
-
+			<!-- ROW 5 -->
 			<!-- Dropdown to select 'Number Style' -->
 			<Frame name="DRUIDBAROptionsPercentDropDown" inherits="UIDropDownMenuTemplate" enableMouse="true">
 				<Anchors>

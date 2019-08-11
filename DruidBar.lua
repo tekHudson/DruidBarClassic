@@ -172,6 +172,7 @@ function Load_Variables(className)
 		DruidBarKey.extra = 0;
 		DruidBarKey.Enabled = true;
 		DruidBarKey.Graphics = true;
+		DruidBarKey.Minimap = true;
 		DruidBarKey.DontShiftBack = false;
 		DruidBarKey.tempW = 170;
 		DruidBarKey.tempH = 18;
@@ -429,6 +430,12 @@ function DruidBar_MainGraphics()
 
 	if PlayerFrameManaBar:GetWidth() < 100 then PlayerFrameManaBar:SetWidth(120); end
 
+	-- If Minimap Icon should show based on settings
+  if DruidBarKey.Minimap then
+  	DruidBar_MinimapButton:Show();
+  else
+  	DruidBar_MinimapButton:Hide();
+  end
 	-- If DruidBar should show based on settings
 	if DruidBar_ShouldBeVisible() then
 		-- Render DruidBar
