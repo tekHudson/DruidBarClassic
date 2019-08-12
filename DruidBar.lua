@@ -444,9 +444,9 @@ function DruidBar_MainGraphics()
 
 	-- If Minimap Icon should show based on settings
   if DruidBarKey.Minimap then
-  	DruidBar_MinimapButton:Show();
+  	DruidBar_MinimapButton:Show("DruidBarMinimapIcon");
   else
-  	DruidBar_MinimapButton:Hide();
+  	DruidBar_MinimapButton:Hide("DruidBarMinimapIcon");
   end
 	-- If DruidBar should show based on settings
 	if DruidBar_ShouldBeVisible() then
@@ -1020,8 +1020,4 @@ function DruidBar_ChangeBestForm()
 		--then we allow error messages again
 		UIErrorsFrame.AddMessage = UIErrorsFrame.realEcho;
 	end
-end
-
-function DruidBar_MinimapButton_OnClick()
-	DRUIDBAROptionsFrame_Toggle();
 end
