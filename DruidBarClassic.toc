@@ -4,7 +4,9 @@
 ## Current Author: Tek (port to WoW Classic Beta)
 ## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
-## Version: 0.5
+## Version: @project-version@
+## X-Curse-Project-ID: 334762
+## X-WoWI-ID: 25036
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
