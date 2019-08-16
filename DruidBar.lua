@@ -6,6 +6,9 @@ local timer = 0;
 local lowregentimer = 0;
 local fullmanatimer = 0;
 local DruidBar_Anchored = nil;
+local MANA_POWER_TYPE = 0;
+local RAGE_POWER_TYPE = 1;
+local POWER_POWER_TYPE = 3;
 
 local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("DruidBarMinimapIcon", {
 	type = "data source",
@@ -37,7 +40,7 @@ function DruidBar_OnEvent(self, event,...)
 	_, className = UnitClass("player");
 
 	-- Not sure what 'firstshift' is for yet
-	if UnitPowerType("player") ~= 0 then firstshift = true; end
+	if UnitPowerType("player") ~= MANA_POWER_TYPE then firstshift = true; end
 
 	-- Set the tooltip anchor
 	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
@@ -93,15 +96,15 @@ function DruidBar_OnEvent(self, event,...)
 		-- Player gained or lost a form, buff, debuff, status, or item bonus
 		elseif event == "UNIT_AURA" or event == "UPDATE_SHAPESHIFT_FORMS" then
 
-			if UnitPowerType("player") == 1 and not inform then
+			if UnitPowerType("player") == RAGE_POWER_TYPE and not inform then
 				--Bear
 				inform = true;
 				DruidBar_Subtract();
-			elseif UnitPowerType("player") == 3 and not inform then
+			elseif UnitPowerType("player") == POWER_POWER_TYPE and not inform then
 				--Cat
 				inform = true;
 				DruidBar_Subtract();
-			elseif UnitPowerType("player") == 0 and inform then
+			elseif UnitPowerType("player") == MANA_POWER_TYPE and inform then
 				--Player/Aquatic/Travel
 				inform = nil;
 				-- Update current and max mana values
@@ -115,7 +118,8 @@ function DruidBar_OnEvent(self, event,...)
 
 		-- Player stopped casting, for any reason.
 		elseif (event == "UNIT_SPELLCAST_STOP") then
-			if UnitPowerType("player") == 0 then lowregentimer = 5;
+      --Player/Aquatic/Travel
+			if UnitPowerType("player") == MANA_POWER_TYPE then lowregentimer = 5;
 
 			waitonce = nil; end
 		end
@@ -144,7 +148,7 @@ function DruidBar_OnUpdate(self, elapsed)
 			if lowregentimer <= 0 then lowregentimer = 0; end
 		end
 
-		if UnitPowerType("player") ~= 0 then
+		if UnitPowerType("player") ~= MANA_POWER_TYPE then
 			fullmanatimer = fullmanatimer + elapsed;
 			if fullmanatimer > 6 and floor((DruidBarKey.currentmana*100) / DruidBarKey.maxmana) > 90 then
 				DruidBarKey.currentmana = DruidBarKey.maxmana;
@@ -502,7 +506,7 @@ function DruidBar_MainGraphics()
 end
 
 function DruidBar_ReplaceGraphics()
-	if UnitPowerType("player") ~= 0 then
+	if UnitPowerType("player") ~= MANA_POWER_TYPE then
 		dbarshow(DruidBarFrame);
 		dbarhide(DruidBarManaBackground);
 		dbarhide(DruidBarDontMove);
@@ -862,13 +866,15 @@ function DruidBar_MaxManaScript()
 	local _, int = UnitStat("player", 4);
 
 	DruidBar_GetShapeshiftCost();
-	if UnitPowerType("player") == 0 then
+
+  --Player/Aquatic/Travel
+	if UnitPowerType("player") == MANA_POWER_TYPE then
 		if UnitPowerMax("player") > 0 then
 			DruidBarKey.maxmana = UnitPowerMax("player");
 			DruidBarKey.currentmana = UnitPower("player");
 			DruidBarKey.int = int;
 		end
-	elseif UnitPowerType("player") ~= 0 then
+	elseif UnitPowerType("player") ~= MANA_POWER_TYPE then
 		if DruidBarKey.int ~= int then
 			if int > DruidBarKey.int then
 				local dif = int - DruidBarKey.int;
@@ -905,7 +911,7 @@ function DruidBar_MaxManaScript()
 end
 
 function DruidBar_ShouldBeVisible()
-	if (DruidBarKey.HideInCaster and UnitPowerType("player") == 0) then return false; end;
+	if (DruidBarKey.HideInCaster and UnitPowerType("player") == MANA_POWER_TYPE) then return false; end;
 	if (DruidBarKey.HideWhenFull and not (DruidBarKey.currentmana < DruidBarKey.maxmana)) then return false; end;
 	return true;
 end
