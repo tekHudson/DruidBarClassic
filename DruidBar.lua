@@ -111,8 +111,6 @@ function DruidBar_OnEvent(self, event,...)
 				end
 			end
 
-			DruidBar_Message();
-
 		-- Player stopped casting, for any reason.
 		elseif (event == "UNIT_SPELLCAST_STOP") then
 			if UnitPowerType("player") == 0 then lowregentimer = 5;
@@ -203,40 +201,10 @@ function Load_Variables(className)
 	if(not DruidBarKey.tempW or DruidBarKey.tempW == 0) then DruidBarKey.tempW = DruidBarKey.xvar; end
 	if(not DruidBarKey.tempH or DruidBarKey.tempH == 0) then DruidBarKey.tempH = DruidBarKey.yvar; end
 	if(not DruidBarKey.DontShiftBack) then DruidBarKey.DontShiftBack = false; end
-		-- Below aren't currently used
 	if not DruidBarKey.barstrata then DruidBarKey.barstrata = 2; end
+		-- Below aren't currently used
 	if not DruidBarKey.borderstrata then DruidBarKey.borderstrata = "BACKGROUND" end
 	if not DruidBarKey.bgstrata then DruidBarKey.bgstrata = "BORDER" end
-
-	if not DruidBarKey.BearMessage or not strfind(tostring(DruidBarKey.BearMessage), "table:") then
-		DruidBarKey.BearMessage = {};
-		DruidBarKey.BearMessage[1] = "ROAR! ROAR I SAY! I guess there's no denyin'...";
-		DruidBarKey.BearMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.CatMessage or not strfind(tostring(DruidBarKey.CatMessage), "table:") then
-		DruidBarKey.CatMessage = {};
-		DruidBarKey.CatMessage[1] = "Nyao.";
-		DruidBarKey.CatMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.AquaMessage or not strfind(tostring(DruidBarKey.AquaMessage), "table:") then
-		DruidBarKey.AquaMessage = {};
-		DruidBarKey.AquaMessage[1] = "Thrust vectoring owns the seas!";
-		DruidBarKey.AquaMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.TravMessage or not strfind(tostring(DruidBarKey.TravMessage), "table:") then
-		DruidBarKey.TravMessage = {};
-		DruidBarKey.TravMessage[1] = "Multi-cat drifting!";
-		DruidBarKey.TravMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.OOMMessage or not strfind(tostring(DruidBarKey.OOMMessage), "table:") then
-		DruidBarKey.OOMMessage = {};
-		DruidBarKey.OOMMessage[1] = "IMMA CHARGIN' MAH LAZOR";
-		DruidBarKey.OOMMessage[2] = "SAY";
-	end
 
 	if not DruidBarKey.manatexture then DruidBarKey.manatexture = "Interface\\TargetingFrame\\UI-StatusBar"; end
 	if not DruidBarKey.bordertexture then DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border"; end
@@ -302,52 +270,6 @@ function DruidBar_GetShapeshiftCost()
 					if DruidBarKey.Debug then DEFAULT_CHAT_FRAME:AddMessage(params); end
 					DruidBarKey.subtractmana = tonumber(params);
 					if DruidBarKey.subtractmana and DruidBarKey.subtractmana > 0 then return; end
-				end
-			end
-		end
-	end
-end
-
-function DruidBar_Message()
-	if DruidBarKey.message then
-		if not DruidBarKey.BearMessage or not strfind(tostring(DruidBarKey.BearMessage), "table:") then
-			DruidBarKey.BearMessage = {};
-			DruidBarKey.BearMessage[1] = "ROAR! ROAR I SAY! I guess there's no denyin'...";
-			DruidBarKey.BearMessage[2] = "SAY";
-		end
-		if not DruidBarKey.CatMessage or not strfind(tostring(DruidBarKey.CatMessage), "table:") then
-			DruidBarKey.CatMessage = {};
-			DruidBarKey.CatMessage[1] = "Nyao.";
-			DruidBarKey.CatMessage[2] = "SAY";
-		end
-		if not DruidBarKey.AquaMessage or not strfind(tostring(DruidBarKey.AquaMessage), "table:") then
-			DruidBarKey.AquaMessage = {};
-			DruidBarKey.AquaMessage[1] = "Thrust vectoring owns the seas!";
-			DruidBarKey.AquaMessage[2] = "SAY";
-		end
-		if not DruidBarKey.TravMessage or not strfind(tostring(DruidBarKey.TravMessage), "table:") then
-			DruidBarKey.TravMessage = {};
-			DruidBarKey.TravMessage[1] = "Multi-cat drifting!";
-			DruidBarKey.TravMessage[2] = "SAY";
-		end
-		if not DruidBarKey.OOMMessage or not strfind(tostring(DruidBarKey.OOMMessage), "table:") then
-			DruidBarKey.OOMMessage = {};
-			DruidBarKey.OOMMessage[1] = "IMMA CHARGIN' MAH LAZOR";
-			DruidBarKey.OOMMessage[2] = "SAY";
-		end
-		for i = 1, GetNumShapeshiftForms() do
-			local _,_,act = GetShapeshiftFormInfo(i);
-			if act == 1 then
-				if i == 1 and DruidBarKey.BearMessage then
-					SendChatMessage(DruidBarKey.BearMessage[1], DruidBarKey.BearMessage[2]);
-				elseif i == 2 and DruidBarKey.AquaMessage then
-					SendChatMessage(DruidBarKey.AquaMessage[1], DruidBarKey.AquaMessage[2]);
-				elseif i == 3 and DruidBarKey.CatMessage then
-					SendChatMessage(DruidBarKey.CatMessage[1], DruidBarKey.CatMessage[2]);
-				elseif i == 4 and DruidBarKey.TravMessage then
-					SendChatMessage(DruidBarKey.TravMessage[1], DruidBarKey.TravMessage[2]);
-				elseif i == 5 and DruidBarKey.OOMMessage then
-					SendChatMessage(DruidBarKey.OOMMessage[1], DruidBarKey.OOMMessage[2]);
 				end
 			end
 		end
@@ -696,61 +618,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 	elseif msg[1] == "vis" then
 		DruidBarKey.Graphics = DruidBar_Toggle(DruidBarKey.Graphics, "DruidBar's visual data is");
 		DRUIDBAR_FrameSet();
-	elseif msg[1] == "message" then
-		if msg[2] and msg[2] == "toggle" then
-			DruidBarKey.message = DruidBar_Toggle(DruidBarKey.message, "Shapeshifting messages are");
-			DRUIDBAR_FrameSet();
-		elseif msg[2] then
-			msg[2] = strlower(msg[2]);
-			if msg[3] then msg[3] = strlower(msg[3]); end
-			if msg[3] and (msg[3] == "say" or msg[3] == "party" or msg[3] == "raid" or msg[3] == "emote") then
-				--ookay...
-				DRUIDBAR_FrameSet();
-			else
-				DruidBar_Print("Invalid chat type. message format is: /dbar message [toggle/bear/cat/aqua/travel/moonkin] [say/party/raid/emote] [message]");
-				return;
-			end
-			if msg[2] == "bear" then
-				DruidBarKey.BearMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.BearMessage[1] = x;
-				DruidBarKey.BearMessage[2] = msg[3];
-				DruidBar_Print("Current Bear message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "cat" then
-				DruidBarKey.CatMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.CatMessage[1] = x;
-				DruidBarKey.CatMessage[2] = msg[3];
-				DruidBar_Print("Current Cat message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "aqua" then
-				DruidBarKey.AquaMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.AquaMessage[1] = x;
-				DruidBarKey.AquaMessage[2] = msg[3];
-				DruidBar_Print("Current Aquatic message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "travel" then
-				DruidBarKey.TravMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.TravMessage[1] = x;
-				DruidBarKey.TravMessage[2] = msg[3];
-				DruidBar_Print("Current Travel message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "moonkin" then
-				DruidBarKey.OOMMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.OOMMessage[1] = x;
-				DruidBarKey.OOMMessage[2] = msg[3];
-				DruidBar_Print("Current Moonkin message is now:"..x);
-				DRUIDBAR_FrameSet();
-			else
-				DruidBar_Print("Invalid message type. message takes 6 parameters: Toggle, Bear, Cat, Aqua, Travel, or Moonkin.");
-			end
-		else
-			DruidBar_Print("Invalid chat type. message format is: /dbar message [toggle/bear/cat/aqua/travel/moonkin] [say/party/raid/emote] [message]");
-		end
 	elseif msg[1] == "width" and msg[2] and tonumber(msg[2]) then
 		DruidBarKey.xvar = tonumber(msg[2]);
 		DruidBar_Print("Width is now set to "..msg[2]);
@@ -835,7 +702,6 @@ function DruidBar_Status()
 	DruidBar_Print("DruidBar Toggle Status:");
 	DruidBar_Print("DruidBar's enabled status is "..DruidBar_On(DruidBarKey.Enabled));
 	DruidBar_Print("Graphics are "..DruidBar_On(DruidBarKey.Graphics));
-	DruidBar_Print("Shapeshift messages are "..DruidBar_On(DruidBarKey.message));
 	DruidBar_Print("Prevention of shapeshifting to human using other forms is "..DruidBar_On(DruidBarKey.DontShiftBack));
 	DruidBar_Print("Hiding when in caster is "..DruidBar_On(DruidBarKey.HideInCaster));
 	DruidBar_Print("Hiding when mana is full is "..DruidBar_On(DruidBarKey.HideWhenFull));
