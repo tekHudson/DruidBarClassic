@@ -8,7 +8,6 @@ DRUIDBAR_FORM = "Form";
 DRUIDBAR_FORMX = "Aquatic";
 DRUIDBAR_FORMX2 = "Travel";
 BINDING_HEADER_DRUIDBAR = "Druid Bar";
-BINDING_NAME_DruidBarBest = "Best Form";
 DRUIDBAR_REGEN1 = "Equip: Restores %d+ mana per 5 sec.";
 DRUIDBAR_REGEN2 = "Mana Regen %d+ per 5 sec.";
 DRUIDBAR_REGEN3 = "Equip: Restores (%d+) mana per 5 sec."
@@ -32,8 +31,6 @@ DRUIDBAR_WAR = "Summon Warhorse";
 DRUIDBAR_OPTIONS_TITLE = "Druid Bar Options";
 DRUIDBAR_OPTIONS_Bar = "Bar Options";
 DRUIDBAR_OPTIONS_Style = "Display Style"
-DRUIDBAR_OPTIONS_MessageO = "Shapeshift Message Options";
-DRUIDBAR_OPTIONS_MessageTT = "Allows you to send messages in the channel you choose when shifted.";
 DRUIDBAR_OPTIONS_MiscO = "Misc";
 DRUIDBAR_OPTIONS_Toggle = "Enable";
 DRUIDBAR_OPTIONS_Vis = "Graphics";
@@ -49,7 +46,6 @@ DRUIDBAR_OPTIONS_Height = "Height";
 DRUIDBAR_OPTIONS_Lock = "Lock";
 DRUIDBAR_OPTIONS_Hide = "Hide when in caster form";
 DRUIDBAR_OPTIONS_Full = "Hide when mana is full";
-DRUIDBAR_OPTIONS_Message = "Enable";
 DRUIDBAR_OPTIONS_Close = "Close";
 DRUIDBAR_OPTIONS_Text = "Text Style";
 DRUIDBAR_OPTIONS_Percent = "Number Style";
@@ -64,12 +60,6 @@ DRUIDBAR_OPTIONS_DROP = {
 		[1] = "Percentages";
 		[2] = "Both above";
 	};
-	["Message"] = {
-		[0] = "SAY";
-		[1] = "PARTY";
-		[2] = "RAID";
-		[3] = "EMOTE";
-	};
 	["Strata"] = {
 		[0] = "BACKGROUND";
 		[1] = "BORDER";
@@ -77,19 +67,12 @@ DRUIDBAR_OPTIONS_DROP = {
 		[3] = "OVERLAY";
 	};
 };
-DRUIDBAR_OPTIONS_Message_Bear = "Bear Form";
-DRUIDBAR_OPTIONS_Message_Aqua = "Aqua Form";
-DRUIDBAR_OPTIONS_Message_Cat = "Cat Form";
-DRUIDBAR_OPTIONS_Message_Trav = "Trav Form";
-DRUIDBAR_OPTIONS_Message_Oom = "Moonkin";
 DRUIDBAR_OPTIONS_Shift = "Shifting to caster using any form";
 DRUIDBAR_OPTIONS_EZShift = "Easy Shifting";
 DRUIDBAR_OPTIONS_Debug = "Debug Mode";
 DRUIDBAR_OPTIONS_ColorBar = "Bar Color";
 DRUIDBAR_OPTIONS_ColorBack = "Bg Color";
 DRUIDBAR_OPTIONS_ColorBorder = "Border Color";
-DRUIDBAR_OPTIONS_Message_Mana = "Mana Bar";
-DRUIDBAR_OPTIONS_Message_border = "Bar Border";
 DRUIDBAR_OPTIONS_Version = "|cff9d9d9dDruid Bar Classic\nby Tek|r";
 
 
@@ -99,7 +82,6 @@ if ( GetLocale() == "frFR" ) then
 	DRUIDBAR_FORM = "Forme";
 	DRUIDBAR_FORMX = "aquatique";
 	DRUIDBAR_FORMX2 = "voyage";
-	BINDING_NAME_DruidBarBest = "Meilleure Forme";
 	DRUIDBAR_REGEN1 = "Equip\195\169 : Rend %d+ points de mana toutes les 5 secondes."
 	DRUIDBAR_REGEN2 = "R\195\169cup. mana %d+/5 sec."
 	DRUIDBAR_REGEN3 = "Equip\195\169 : Rend (%d+) points de mana toutes les 5 secondes."
@@ -126,7 +108,6 @@ elseif GetLocale() == "zhTW" then
 	DRUIDBAR_FORM = "形態"
 	DRUIDBAR_FORMX = "水棲";
 	DRUIDBAR_FORMX2 = "旅行";
-	BINDING_NAME_DruidBarBest = "最佳形態";
 	DRUIDBAR_REGEN1 = "裝備︰ 每5秒恢復%d+點法力值。";
 	DRUIDBAR_REGEN2 = "每5秒恢復%d+點法力值。";
 	DRUIDBAR_REGEN3 = "裝備︰ 每5秒恢復(%d+)點法力值。"
@@ -147,8 +128,6 @@ elseif GetLocale() == "zhTW" then
 
 	DRUIDBAR_OPTIONS_TITLE = "Druid Bar設定";
 	DRUIDBAR_OPTIONS_Bar = "狀態條設定";
-	DRUIDBAR_OPTIONS_MessageO = "變形訊息設定";
-	DRUIDBAR_OPTIONS_MessageTT = "允許你在變形時在指定的頻道送出訊息。";
 	DRUIDBAR_OPTIONS_MiscO = "其它";
 	DRUIDBAR_OPTIONS_Toggle = "啟用";
 	DRUIDBAR_OPTIONS_Vis = "變示";
@@ -163,7 +142,6 @@ elseif GetLocale() == "zhTW" then
 	DRUIDBAR_OPTIONS_Lock = "鎖定";
 	DRUIDBAR_OPTIONS_Hide = "人型狀態時隱藏";
 	DRUIDBAR_OPTIONS_Full = "法力全滿時隱藏";
-	DRUIDBAR_OPTIONS_Message = "啟用";
 	DRUIDBAR_OPTIONS_Close = "關閉";
 	DRUIDBAR_OPTIONS_Text = "文字格式";
 	DRUIDBAR_OPTIONS_Percent = "數值格式";
@@ -178,17 +156,7 @@ elseif GetLocale() == "zhTW" then
 			[1] = "百分比";
 			[2] = "數值/百分比";
 		};
-		["Message"] = {
-			[0] = "SAY";
-			[1] = "PARTY";
-			[2] = "RAID";
-			[3] = "EMOTE";
-		}
 	};
-	DRUIDBAR_OPTIONS_Message_Bear = "態形態";
-	DRUIDBAR_OPTIONS_Message_Aqua = "水棲形態";
-	DRUIDBAR_OPTIONS_Message_Cat = "獵豹形態";
-	DRUIDBAR_OPTIONS_Message_Trav = "旅行形態";
 	DRUIDBAR_OPTIONS_Shift = "由任何形態變回人型";
 	DRUIDBAR_OPTIONS_EZShift = "簡易變形";
 	DRUIDBAR_OPTIONS_Debug = "除錯模式";
@@ -211,8 +179,6 @@ elseif GetLocale() == "zhCN" then
 	DRUIDBAR_OPTIONS_TITLE = "Druid Bar 设置";
 	DRUIDBAR_OPTIONS_Toggle = "启用";
 	DRUIDBAR_OPTIONS_Bar = "法力条设置";
-	DRUIDBAR_OPTIONS_MessageO = "变形信息设置";
-	DRUIDBAR_OPTIONS_MessageTT = "在变形时向指定的频道内发送消息。";
 	DRUIDBAR_OPTIONS_MiscO = "其他设置";
 	DRUIDBAR_OPTIONS_Vis = "显示";
 	DRUIDBAR_OPTIONS_VisTT = "开启或关闭法力槽显示。\n如果你使用 StatusBars 等 Linoleum 等插件，请将该选项关闭。反之，请打开。";
@@ -226,7 +192,6 @@ elseif GetLocale() == "zhCN" then
 	DRUIDBAR_OPTIONS_Lock = "锁定";
 	DRUIDBAR_OPTIONS_Hide = "施法者形态下隐藏";
 	DRUIDBAR_OPTIONS_Full = "法力值为满时隐藏";
-	DRUIDBAR_OPTIONS_Message = "启用";
 	DRUIDBAR_OPTIONS_Close = "关闭";
 	DRUIDBAR_OPTIONS_Text = "文本样式";
 	DRUIDBAR_OPTIONS_Percent = "数字样式";
@@ -241,18 +206,8 @@ elseif GetLocale() == "zhCN" then
 			[1] = "百分比";
 			[2] = "显示两者";
 		};
-		["Message"] = {
-			[0] = "说";
-			[1] = "小队";
-			[2] = "团队";
-			[3] = "表情";
-		}
 	};
-	DRUIDBAR_OPTIONS_Message_Bear = "熊形态";
-	DRUIDBAR_OPTIONS_Message_Aqua = "水栖形态";
-	DRUIDBAR_OPTIONS_Message_Cat = "猎豹形态";
-	DRUIDBAR_OPTIONS_Message_Trav = "旅行形态";
-	DRUIDBAR_OPTIONS_Message_Oom = "枭兽形态";
+
 	DRUIDBAR_OPTIONS_Shift = "使用任意形态即可变回人形";
 	DRUIDBAR_OPTIONS_EZShift = "简易变形";
 	DRUIDBAR_OPTIONS_Debug = "Debug 模式";
@@ -271,7 +226,6 @@ elseif ( GetLocale() == "koKR" ) then
 	DRUIDBAR_FORM = "변신";
 	DRUIDBAR_FORMX = "바다표범";
 	DRUIDBAR_FORMX2 = "치타";
---	BINDING_NAME_DruidBarBest = "Best Form";
 	DRUIDBAR_REGEN1 = "착용 효과: 매 5초마다 %d+의 마나가 회복됩니다.";
 	DRUIDBAR_REGEN2 = "5초당 마나 회복 %d+";
 	DRUIDBAR_REGEN3 = "착용 효과: 매 5초마다 (%d+)의 마나가 회복됩니다.";

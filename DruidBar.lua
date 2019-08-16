@@ -114,7 +114,6 @@ function DruidBar_OnEvent(self, event,...)
 				end
 			end
 
-			DruidBar_Message();
 
 		-- Player stopped casting, for any reason.
 		elseif (event == "UNIT_SPELLCAST_STOP") then
@@ -207,43 +206,6 @@ function Load_Variables(className)
 	if(not DruidBarKey.tempW or DruidBarKey.tempW == 0) then DruidBarKey.tempW = DruidBarKey.xvar; end
 	if(not DruidBarKey.tempH or DruidBarKey.tempH == 0) then DruidBarKey.tempH = DruidBarKey.yvar; end
 	if(not DruidBarKey.DontShiftBack) then DruidBarKey.DontShiftBack = false; end
-		-- Below aren't currently used
-	if not DruidBarKey.barstrata then DruidBarKey.barstrata = 2; end
-	if not DruidBarKey.borderstrata then DruidBarKey.borderstrata = "BACKGROUND" end
-	if not DruidBarKey.bgstrata then DruidBarKey.bgstrata = "BORDER" end
-
-	if not DruidBarKey.BearMessage or not strfind(tostring(DruidBarKey.BearMessage), "table:") then
-		DruidBarKey.BearMessage = {};
-		DruidBarKey.BearMessage[1] = "ROAR! ROAR I SAY! I guess there's no denyin'...";
-		DruidBarKey.BearMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.CatMessage or not strfind(tostring(DruidBarKey.CatMessage), "table:") then
-		DruidBarKey.CatMessage = {};
-		DruidBarKey.CatMessage[1] = "Nyao.";
-		DruidBarKey.CatMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.AquaMessage or not strfind(tostring(DruidBarKey.AquaMessage), "table:") then
-		DruidBarKey.AquaMessage = {};
-		DruidBarKey.AquaMessage[1] = "Thrust vectoring owns the seas!";
-		DruidBarKey.AquaMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.TravMessage or not strfind(tostring(DruidBarKey.TravMessage), "table:") then
-		DruidBarKey.TravMessage = {};
-		DruidBarKey.TravMessage[1] = "Multi-cat drifting!";
-		DruidBarKey.TravMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.OOMMessage or not strfind(tostring(DruidBarKey.OOMMessage), "table:") then
-		DruidBarKey.OOMMessage = {};
-		DruidBarKey.OOMMessage[1] = "IMMA CHARGIN' MAH LAZOR";
-		DruidBarKey.OOMMessage[2] = "SAY";
-	end
-
-	if not DruidBarKey.manatexture then DruidBarKey.manatexture = "Interface\\TargetingFrame\\UI-StatusBar"; end
-	if not DruidBarKey.bordertexture then DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border"; end
 
 	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
 	DruidBarManaBackground:SetTexture(DruidBarKey.manatexture);
@@ -312,63 +274,20 @@ function DruidBar_GetShapeshiftCost()
 	end
 end
 
-function DruidBar_Message()
-	if DruidBarKey.message then
-		if not DruidBarKey.BearMessage or not strfind(tostring(DruidBarKey.BearMessage), "table:") then
-			DruidBarKey.BearMessage = {};
-			DruidBarKey.BearMessage[1] = "ROAR! ROAR I SAY! I guess there's no denyin'...";
-			DruidBarKey.BearMessage[2] = "SAY";
-		end
-		if not DruidBarKey.CatMessage or not strfind(tostring(DruidBarKey.CatMessage), "table:") then
-			DruidBarKey.CatMessage = {};
-			DruidBarKey.CatMessage[1] = "Nyao.";
-			DruidBarKey.CatMessage[2] = "SAY";
-		end
-		if not DruidBarKey.AquaMessage or not strfind(tostring(DruidBarKey.AquaMessage), "table:") then
-			DruidBarKey.AquaMessage = {};
-			DruidBarKey.AquaMessage[1] = "Thrust vectoring owns the seas!";
-			DruidBarKey.AquaMessage[2] = "SAY";
-		end
-		if not DruidBarKey.TravMessage or not strfind(tostring(DruidBarKey.TravMessage), "table:") then
-			DruidBarKey.TravMessage = {};
-			DruidBarKey.TravMessage[1] = "Multi-cat drifting!";
-			DruidBarKey.TravMessage[2] = "SAY";
-		end
-		if not DruidBarKey.OOMMessage or not strfind(tostring(DruidBarKey.OOMMessage), "table:") then
-			DruidBarKey.OOMMessage = {};
-			DruidBarKey.OOMMessage[1] = "IMMA CHARGIN' MAH LAZOR";
-			DruidBarKey.OOMMessage[2] = "SAY";
-		end
-		for i = 1, GetNumShapeshiftForms() do
-			local _,_,act = GetShapeshiftFormInfo(i);
-			if act == 1 then
-				if i == 1 and DruidBarKey.BearMessage then
-					SendChatMessage(DruidBarKey.BearMessage[1], DruidBarKey.BearMessage[2]);
-				elseif i == 2 and DruidBarKey.AquaMessage then
-					SendChatMessage(DruidBarKey.AquaMessage[1], DruidBarKey.AquaMessage[2]);
-				elseif i == 3 and DruidBarKey.CatMessage then
-					SendChatMessage(DruidBarKey.CatMessage[1], DruidBarKey.CatMessage[2]);
-				elseif i == 4 and DruidBarKey.TravMessage then
-					SendChatMessage(DruidBarKey.TravMessage[1], DruidBarKey.TravMessage[2]);
-				elseif i == 5 and DruidBarKey.OOMMessage then
-					SendChatMessage(DruidBarKey.OOMMessage[1], DruidBarKey.OOMMessage[2]);
-				end
-			end
-		end
-	end
-end
-
 function DruidBar_Subtract()
 	if not firstshift then
 		local j = 1;
+
 		while (UnitBuff("player",j)) do
 			DBarSpellCatch:SetUnitBuff("player", j);
 			local msg = DBarSpellCatchTextLeft1:GetText();
-			if msg and (strfind(msg,DRUIDBAR_META)) then
+
+      if msg and (strfind(msg,DRUIDBAR_META)) then
 				if DruidBarKey.Debug then DEFAULT_CHAT_FRAME:AddMessage("Rune detected, no mana cost!"); end
 				return;
 			end
-			j = j + 1;
+
+      j = j + 1;
 		end
 		DruidBarKey.currentmana = DruidBarKey.currentmana - DruidBarKey.subtractmana;
 		if DruidBarKey.Debug then DEFAULT_CHAT_FRAME:AddMessage("Mana Deduction: "..DruidBarKey.subtractmana); end
@@ -700,61 +619,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 	elseif msg[1] == "vis" then
 		DruidBarKey.Graphics = DruidBar_Toggle(DruidBarKey.Graphics, "DruidBar's visual data is");
 		DRUIDBAR_FrameSet();
-	elseif msg[1] == "message" then
-		if msg[2] and msg[2] == "toggle" then
-			DruidBarKey.message = DruidBar_Toggle(DruidBarKey.message, "Shapeshifting messages are");
-			DRUIDBAR_FrameSet();
-		elseif msg[2] then
-			msg[2] = strlower(msg[2]);
-			if msg[3] then msg[3] = strlower(msg[3]); end
-			if msg[3] and (msg[3] == "say" or msg[3] == "party" or msg[3] == "raid" or msg[3] == "emote") then
-				--ookay...
-				DRUIDBAR_FrameSet();
-			else
-				DruidBar_Print("Invalid chat type. message format is: /dbar message [toggle/bear/cat/aqua/travel/moonkin] [say/party/raid/emote] [message]");
-				return;
-			end
-			if msg[2] == "bear" then
-				DruidBarKey.BearMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.BearMessage[1] = x;
-				DruidBarKey.BearMessage[2] = msg[3];
-				DruidBar_Print("Current Bear message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "cat" then
-				DruidBarKey.CatMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.CatMessage[1] = x;
-				DruidBarKey.CatMessage[2] = msg[3];
-				DruidBar_Print("Current Cat message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "aqua" then
-				DruidBarKey.AquaMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.AquaMessage[1] = x;
-				DruidBarKey.AquaMessage[2] = msg[3];
-				DruidBar_Print("Current Aquatic message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "travel" then
-				DruidBarKey.TravMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.TravMessage[1] = x;
-				DruidBarKey.TravMessage[2] = msg[3];
-				DruidBar_Print("Current Travel message is now:"..x);
-				DRUIDBAR_FrameSet();
-			elseif msg[2] == "moonkin" then
-				DruidBarKey.OOMMessage = {};
-				local x = string.gsub(text, msg[1].." "..msg[2].." "..msg[3].." ", "");
-				DruidBarKey.OOMMessage[1] = x;
-				DruidBarKey.OOMMessage[2] = msg[3];
-				DruidBar_Print("Current Moonkin message is now:"..x);
-				DRUIDBAR_FrameSet();
-			else
-				DruidBar_Print("Invalid message type. message takes 6 parameters: Toggle, Bear, Cat, Aqua, Travel, or Moonkin.");
-			end
-		else
-			DruidBar_Print("Invalid chat type. message format is: /dbar message [toggle/bear/cat/aqua/travel/moonkin] [say/party/raid/emote] [message]");
-		end
 	elseif msg[1] == "width" and msg[2] and tonumber(msg[2]) then
 		DruidBarKey.xvar = tonumber(msg[2]);
 		DruidBar_Print("Width is now set to "..msg[2]);
@@ -839,7 +703,6 @@ function DruidBar_Status()
 	DruidBar_Print("DruidBar Toggle Status:");
 	DruidBar_Print("DruidBar's enabled status is "..DruidBar_On(DruidBarKey.Enabled));
 	DruidBar_Print("Graphics are "..DruidBar_On(DruidBarKey.Graphics));
-	DruidBar_Print("Shapeshift messages are "..DruidBar_On(DruidBarKey.message));
 	DruidBar_Print("Prevention of shapeshifting to human using other forms is "..DruidBar_On(DruidBarKey.DontShiftBack));
 	DruidBar_Print("Hiding when in caster is "..DruidBar_On(DruidBarKey.HideInCaster));
 	DruidBar_Print("Hiding when mana is full is "..DruidBar_On(DruidBarKey.HideWhenFull));
@@ -933,97 +796,11 @@ end
 
 function UIErrorsFrame:fakeEcho(str, a1, a2, a3, a4, a5, a6)
   --DruidBar_Print(str, a1, a2, a3)
-  --The outdoors message is normally delayed by lag so that it doesn't actually come until after the function is re-enabled.  However, on occasion when the latency is very low and the interface lags, it will come while the function is still disabled.  Allow the message through if this is the case.
+  --The outdoors message is normally delayed by lag so that it doesn't actually
+  --come until after the function is re-enabled.  However, on occasion when the
+  --latency is very low and the interface lags, it will come while the function
+  --is still disabled.  Allow the message through if this is the case.
   if(str == "Can only use outside") then
       UIErrorsFrame:realEcho(str, a1, a2, a3, a4, a5, a6)
   end
-end
-
---[[              Shapeshifting Code                    ]]--
---Thanks to mib for this code! it's awesome!
---also thanks to Zevzabich for a bit of help since the pure rapeage of both my character and my lua that is know as 0.10
-function DruidBar_ChangeBestForm()
-	local m_bag = -1;
-	local m_pos = -1;
-	local aq_bag = -1;
-	local aq_pos = -1;
-	-- search position of mount
-	for bag = 0,4 do
-		for i = 1,GetContainerNumSlots(bag) do
-			local t = GetContainerItemInfo(bag, i)
-			if (t) then
-				if (strfind(t,"\Ability_Mount_")) then
-					m_bag = bag;
-					m_pos = i;
-				end
-				if strfind(t, "\INV_Misc_Horn_01") and strfind(strlower(GetContainerItemLink(bag,i)), "frostwolf") then
-					m_bag = bag;
-					m_pos = i;
-				end
-				if (strfind(t, "INV_Misc_QirajiCrystal")) then
-					aq_bag = bag;
-					aq_pos = i;
-				end
-			end
-		end
-	end
-	local _, pqrs = UnitClass("player");
-	if pqrs == "DRUID" then
-		--first hide the error messages
-		--we try to do all 3 at once!
-
-		UIErrorsFrame.realEcho = UIErrorsFrame.AddMessage;
-		UIErrorsFrame.AddMessage = UIErrorsFrame.fakeEcho;
-		if (m_bag > -1 and m_pos > -1) or (aq_bag > -1 and aq_pos > -1) then
-			if strfind(GetRealZoneText(), DRUIDBAR_AQ1) and not strfind(GetRealZoneText(), DRUIDBAR_AQ2) and not strfind(GetRealZoneText(), DRUIDBAR_AQ3) then
-					UseContainerItem(aq_bag, aq_pos);
-				else
-					UseContainerItem(m_bag, m_pos);
-				end
-		end
-		ShapeshiftBar_ChangeForm(travelformid);
-		ShapeshiftBar_ChangeForm(aquaformid);
-		--then we allow error messages again
-		UIErrorsFrame.AddMessage = UIErrorsFrame.realEcho;
-	else
-		local i = 1;
-		--check for high-speed castable mounts.
-		while true do
-			local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-			if not spellName then
-				do break end
-			end
-			if spellName == DRUIDBAR_CHARGER or spellName == DRUIDBAR_DREAD then
-				CastSpell(i, BOOKTYPE_SPELL);
-				return;
-			end
-			i = i + 1;
-		end
-		i = 1;
-		--check for lv40 castable mounts, or ghost wolf.
-		while true do
-			local spellName = GetSpellName(i, BOOKTYPE_SPELL);
-			if not spellName then
-				do break end
-			end
-			if spellName == DRUIDBAR_FEL or spellName == DRUIDBAR_GHOST or spellName == DRUIDBAR_WAR then
-				CastSpell(i, BOOKTYPE_SPELL);
-				return;
-			end
-			i = i + 1;
-		end
-		--nothing yet? let's try to mount normally.
-		UIErrorsFrame.realEcho = UIErrorsFrame.AddMessage;
-		UIErrorsFrame.AddMessage = UIErrorsFrame.fakeEcho;
-		--and trying...
-		if (m_bag > -1 and m_pos > -1) or (aq_bag > -1 and aq_pos > -1) then
-			if strfind(GetRealZoneText(), DRUIDBAR_AQ1) and not strfind(GetRealZoneText(), DRUIDBAR_AQ2) and not strfind(GetRealZoneText(), DRUIDBAR_AQ3) then
-					UseContainerItem(aq_bag, aq_pos);
-				else
-					UseContainerItem(m_bag, m_pos);
-				end
-		end
-		--then we allow error messages again
-		UIErrorsFrame.AddMessage = UIErrorsFrame.realEcho;
-	end
 end
