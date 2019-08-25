@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tekHudson/DruidBarClassic.svg?branch=master)](https://travis-ci.org/tekHudson/DruidBarClassic)
+
 # Druid Bar Classic
 
 Druid Bar is a movable mana bar that keeps track of your current mana, even in a shapeshifted form like bear or cat. remember that this addon is an estimation of your mana, and it could be slightly higher or lower depending on your level(Lower levels will have more problems since there is much less room for error with their smaller mana pools).
