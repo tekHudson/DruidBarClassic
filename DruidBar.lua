@@ -674,25 +674,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 	elseif msg[1] == "debug" then
 		DruidBarKey.Debug = DruidBar_Toggle(DruidBarKey.Debug, "Debug options");
 		DRUIDBAR_FrameSet();
-	elseif msg[1] == "manatex" then
-		if msg[2] == "default" then
-			DruidBarKey.manatexture = "Interface\\TargetingFrame\\UI-StatusBar";
-			DruidBar_Print("Setting mana bar texture to default");
-		else
-			DruidBarKey.manatexture = msg[2];
-			DruidBar_Print("Setting mana bar texture to "..DruidBarKey.manatexture);
-		end
-		DRUIDBAR_FrameSet();
-	elseif msg[1] == "bordertex" then
-		if msg[2] == "default" then
-			DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border";
-			DruidBar_Print("Setting border texture to default");
-		else
-			DruidBarKey.bordertexture = msg[2];
-			DruidBar_Print("Setting border texture to "..DruidBarKey.bordertexture);
-
-		end
-		DRUIDBAR_FrameSet();
 	else
 		DRUIDBAROptionsFrame_Toggle();
 	end
