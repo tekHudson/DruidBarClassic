@@ -1,0 +1,10 @@
+package-as: DruidBarClassic
+
+enable-nolib-creation: no
+
+ignore:
+  - .travis.yml
+
+manual-changelog:
+    filename: CHANGELOG.txt
+    markup-type: markdown
