@@ -29,6 +29,20 @@ function DruidBar_OnLoad()
     -- Creating the minimap config icon
 	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 end
+function EventRegistration(event)
+		if event == "PLAYER_ENTERING_WORLD" then
+		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
+		DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
+		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
+		DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
+		return;
+	elseif event == "PLAYER_LEAVING_WORLD" then
+		DruidBarUpdateFrame:UnregisterEvent("UNIT_AURA");
+		DruidBarUpdateFrame:UnregisterEvent("UNIT_POWER_UPDATE");
+		DruidBarUpdateFrame:UnregisterEvent("UPDATE_SHAPESHIFT_FORMS");
+		return;
+	end
+end
 
 function DruidBar_OnEvent(self, event,...)
 	local arg1,arg2,arg3,arg4,arg5,arg6 = ...
@@ -42,84 +56,20 @@ function DruidBar_OnEvent(self, event,...)
 	-- Set the tooltip anchor
 	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
 
-	if event == "PLAYER_ENTERING_WORLD" then
-		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
-		DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
-		DruidBarUpdateFrame:RegisterEvent("UNIT_MAXPOWER");
-		DruidBarUpdateFrame:RegisterEvent("COMBAT_LOG_EVENT");
-		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
-		DruidBarUpdateFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
-		DruidBarUpdateFrame:RegisterEvent("UNIT_INVENTORY_CHANGED");
-		DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
-		return;
-	elseif event == "PLAYER_LEAVING_WORLD" then
-		DruidBarUpdateFrame:UnregisterEvent("UNIT_AURA");
-		DruidBarUpdateFrame:UnregisterEvent("UNIT_MAXPOWER");
-		DruidBarUpdateFrame:UnregisterEvent("COMBAT_LOG_EVENT");
-		DruidBarUpdateFrame:UnregisterEvent("UNIT_POWER_UPDATE");
-		DruidBarUpdateFrame:UnregisterEvent("UNIT_SPELLCAST_STOP");
-		DruidBarUpdateFrame:UnregisterEvent("UNIT_INVENTORY_CHANGED");
-		DruidBarUpdateFrame:UnregisterEvent("UPDATE_SHAPESHIFT_FORMS");
-		return;
-	end
-
-	if event == "ADDON_LOADED" then
+	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LEAVING_WORLD" then
+		EventRegistration(event)
+	elseif event == "ADDON_LOADED" then
 		Load_Variables(className);
 	elseif className and className == "DRUID" and DruidBarKey.Enabled then
 		-- Show DruidBarUpdateFrame if hidden
 		if not DruidBarUpdateFrame:IsVisible() then DruidBarUpdateFrame:Show(); end
 
-		-- Players maximum power (mana, rage, focus, energy, ...) changed
-		if event == "UNIT_MAXPOWER" and arg1 == "player" then
-			DruidBar_MaxManaScript();
-
 		-- Player equiped or unequiped an item
-		elseif event == "UNIT_INVENTORY_CHANGED" and arg1 == "player" then
-			DruidBar_MaxManaScript();
-
 		-- Player's power changed
-		elseif event == "UNIT_POWER_UPDATE" and arg1 == "player" then
-			if arg2 == "MANA" then
-				DruidBarKey.currentmana = UnitPower("player", 0);
-			elseif DruidBarKey.currentmana < DruidBarKey.maxmana then
-				-- Not sure whats going on in here yet
-				local add = DruidBar_ReflectionCheck();
-				DruidBarKey.currentmana = DruidBarKey.currentmana + add + DruidBarKey.extra;
-				if DruidBarKey.currentmana > DruidBarKey.maxmana then DruidBarKey.currentmana = DruidBarKey.maxmana; end
-			end
-
-			fullmanatimer = 0;
-
 		-- Player gained or lost a form, buff, debuff, status, or item bonus
-		elseif event == "UNIT_AURA" or event == "UPDATE_SHAPESHIFT_FORMS" then
-
-			if UnitPowerType("player") == 1 and not inform then
-				--Bear
-				inform = true;
-				DruidBar_Subtract();
-			elseif UnitPowerType("player") == 3 and not inform then
-				--Cat
-				inform = true;
-				DruidBar_Subtract();
-			elseif UnitPowerType("player") == 0 and inform then
-				--Player/Aquatic/Travel
-				inform = nil;
-				-- Update current and max mana values
-				DruidBarKey.currentmana = UnitPower("player");
-				if DruidBarKey.maxmana ~= UnitPowerMax("player") then
-					DruidBarKey.maxmana = UnitPowerMax("player");
-				end
-			end
-
-		-- Player stopped casting, for any reason.
-		elseif (event == "UNIT_SPELLCAST_STOP") then
-			if UnitPowerType("player") == 0 then lowregentimer = 5;
-
-			waitonce = nil; end
-		end
-	elseif className and className == "DRUID" and not DruidBarKey.Enabled then
-		if event == "UNIT_MAXPOWER" and arg1 == "player" then
-			DruidBar_MaxManaScript();
+		if event == "UNIT_AURA" or event == "UPDATE_SHAPESHIFT_FORMS" or event == "UNIT_POWER_UPDATE" then
+				DruidBarKey.maxmana = UnitPowerMax("player", 0);
+				DruidBarKey.currentmana = UnitPower("player", 0);
 		end
 	end
 end
@@ -673,6 +623,25 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		end
 	elseif msg[1] == "debug" then
 		DruidBarKey.Debug = DruidBar_Toggle(DruidBarKey.Debug, "Debug options");
+		DRUIDBAR_FrameSet();
+	elseif msg[1] == "manatex" then
+		if msg[2] == "default" then
+			DruidBarKey.manatexture = "Interface\\TargetingFrame\\UI-StatusBar";
+			DruidBar_Print("Setting mana bar texture to default");
+		else
+			DruidBarKey.manatexture = msg[2];
+			DruidBar_Print("Setting mana bar texture to "..DruidBarKey.manatexture);
+		end
+		DRUIDBAR_FrameSet();
+	elseif msg[1] == "bordertex" then
+		if msg[2] == "default" then
+			DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border";
+			DruidBar_Print("Setting border texture to default");
+		else
+			DruidBarKey.bordertexture = msg[2];
+			DruidBar_Print("Setting border texture to "..DruidBarKey.bordertexture);
+
+		end
 		DRUIDBAR_FrameSet();
 	else
 		DRUIDBAROptionsFrame_Toggle();
