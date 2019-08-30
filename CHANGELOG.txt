@@ -1,6 +1,13 @@
 ## Version History
 
-####
+#### 0.7.0
+Alter events we act on
+Fix [mana regen in combat bug](https://github.com/tekHudson/DruidBarClassic/issues/2)
+Little more code cleanup
+
+#### 0.6.0
+Change versioning
+
 #### 0.5
 Update Icon to use LibDBIcon.
 Remove Frame level UI options for now.

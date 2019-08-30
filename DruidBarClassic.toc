@@ -4,7 +4,7 @@
 ## Current Author: Tek (port to WoW Classic Beta)
 ## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
-## Version: 0.6.0
+## Version: 0.7.0
 ## X-Curse-Project-ID: 334762
 ## X-WoWI-ID: 25036
 
