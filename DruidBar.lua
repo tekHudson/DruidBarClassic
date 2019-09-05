@@ -360,11 +360,11 @@ function DruidBar_TextRenderer()
 			if DruidBarKey.Percent == 0 then -- Numbers
 				dbarShow(DruidBarTextCenter);
 				DruidBarTextCenter:SetText(ManaValues());
-				DruidBarTextCenter:SetTextColor(1,1,1,0);
+				DruidBarTextCenter:SetTextColor(1,1,1,1);
 			elseif DruidBarKey.Percent == 1 then -- Percent
 				dbarShow(DruidBarTextCenter);
 				DruidBarTextCenter:SetText(ManaPercentage());
-				DruidBarTextCenter:SetTextColor(1,1,1,0);
+				DruidBarTextCenter:SetTextColor(1,1,1,1);
 			end
 		else -- Both
 			dbarShow(DruidBarTextLeft);
