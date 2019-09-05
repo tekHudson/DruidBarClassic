@@ -167,7 +167,7 @@ end
 
 function DRUIDBAROptions_Percent_Initialize()
 	local info;
-	for i = 0, 2, 1 do
+	for i = 0, 3, 1 do
 		info = { };
 		info.text = DRUIDBAR_OPTIONS_DROP.Percent[i];
 		info.func = DRUIDBAROptions_Percent_OnClick;
@@ -183,6 +183,8 @@ function DRUIDBAROptions_Percent_OnShow()
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 2);
 	elseif( DruidBarKey.Percent == nil ) then
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 3);
+	elseif( DruidBarKey.Percent == 2 ) then
+		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 4);
 	end
 	UIDropDownMenu_SetWidth(DRUIDBAROptionsPercentDropDown, 100);
 end
@@ -197,6 +199,8 @@ function DRUIDBAROptions_Percent_OnClick(self)
 		DruidBarKey.Percent = 1;
 	elseif(i == 3) then -- Both
 		DruidBarKey.Percent = nil;
+	elseif(i == 4) then -- Bliz-like
+		DruidBarKey.Percent = 2;
 	end
 end
 

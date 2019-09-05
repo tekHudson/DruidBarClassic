@@ -365,14 +365,18 @@ function DruidBar_TextRenderer()
 				dbarShow(DruidBarTextCenter);
 				DruidBarTextCenter:SetText(ManaPercentage());
 				DruidBarTextCenter:SetTextColor(1,1,1,1);
-			end
-		else -- Both
+			elseif DruidBarKey.Percent == 2 then -- Bliz-Like
 			dbarShow(DruidBarTextLeft);
 			dbarShow(DruidBarTextRight);
 			DruidBarTextLeft:SetText(ManaPercentage());
 			DruidBarTextRight:SetText(ManaValues());
 			DruidBarTextLeft:SetTextColor(1,1,1,1);
 			DruidBarTextRight:SetTextColor(1,1,1,1);
+			end
+		else -- Both
+			dbarShow(DruidBarTextCenter);
+			DruidBarTextCenter:SetText(ManaValuesAndPercentage());
+			DruidBarTextCenter:SetTextColor(1,1,1,1);
 		end
 
 		if DruidBarKey.Text == 0 then
@@ -385,6 +389,10 @@ function DruidBar_TextRenderer()
 			DruidBarTextRight:SetFontObject("TextStatusBarText");
 		end
 	end
+end
+
+function ManaValuesAndPercentage()
+	return ManaValues().." "..ManaPercentage();
 end
 
 function ManaValues()

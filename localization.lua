@@ -63,6 +63,7 @@ DRUIDBAR_OPTIONS_DROP = {
 		[0] = "Raw numbers";
 		[1] = "Percentages";
 		[2] = "Both";
+		[3] = "Bliz-like";
 	};
 	["Message"] = {
 		[0] = "SAY";
