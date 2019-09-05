@@ -1,12 +1,16 @@
 ## Version History
 
+#### 0.7.1
+Update width when attached to playerframe
+Add Bliz-like option to text to match blizzard layout.
+
 #### 0.7.0
-Alter events we act on
-Fix [mana regen in combat bug](https://github.com/tekHudson/DruidBarClassic/issues/2)
-Little more code cleanup
+Alter events we act on.
+Fix [mana regen in combat bug](https://github.com/tekHudson/DruidBarClassic/issues/2).
+Little more code cleanup.
 
 #### 0.6.0
-Change versioning
+Change versioning.
 
 #### 0.5
 Update Icon to use LibDBIcon.

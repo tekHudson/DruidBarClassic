@@ -40,7 +40,20 @@
 			</Layer>
 
 			<Layer level="OVERLAY">
-				<FontString name="DruidBarText" inherits="GameFontNormalSmall" wraponspaces="true">
+				<FontString name="DruidBarTextLeft" inherits="GameFontNormalSmall" wraponspaces="true">
+					<Size>
+						<AbsDimension x="0" y="60"/>
+					</Size>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="$Parent" relativePoint="LEFT">
+							<Offset>
+								<AbsDimension x="5" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+
+				<FontString name="DruidBarTextCenter" inherits="GameFontNormalSmall" wraponspaces="true">
 					<Size>
 						<AbsDimension x="0" y="60"/>
 					</Size>
@@ -49,12 +62,16 @@
 					</Anchors>
 				</FontString>
 
-				<FontString name="DruidBarText1" inherits="TextStatusBarText" wraponspaces="true">
+				<FontString name="DruidBarTextRight" inherits="GameFontNormalSmall" wraponspaces="true">
 					<Size>
 						<AbsDimension x="0" y="60"/>
 					</Size>
 					<Anchors>
-						<Anchor point="CENTER" relativeTo="$Parent" relativePoint="CENTER"/>
+						<Anchor point="RIGHT" relativeTo="$Parent" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="-5" y="0"/>
+							</Offset>
+						</Anchor>
 					</Anchors>
 				</FontString>
 			</Layer>

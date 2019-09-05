@@ -71,6 +71,24 @@ function DRUIDBAROptions_Minimap()
 	DRUIDBAR_FrameSet();
 end
 
+function DRUIDBAROptions_HideInCaster()
+	if(DruidBarKey.HideInCaster) then
+		DruidBarKey.HideInCaster = false;
+	else
+		DruidBarKey.HideInCaster = true;
+	end
+	DRUIDBAR_FrameSet();
+end
+
+function DRUIDBAROptions_Full()
+	if(DruidBarKey.HideWhenFull) then
+		DruidBarKey.HideWhenFull = false;
+	else
+		DruidBarKey.HideWhenFull = true;
+	end
+	DRUIDBAR_FrameSet();
+end
+
 function DRUIDBAROptions_Replace()
 	DruidBarKey.Replace = true;
 	DruidBarKey.Player = false;
@@ -84,7 +102,7 @@ function DRUIDBAROptions_Player()
 	DruidBarKey.Player = true;
 	DruidBarKey.Custom = false;
 	--Assign value that default to match player frame
-	DruidBarKey.xvar = 150;
+	DruidBarKey.xvar = 125;
 	DruidBarKey.yvar = 18;
 	DruidBarKey.Lock = true;
 	DRUIDBAR_FrameSet();
@@ -105,24 +123,6 @@ function DRUIDBAROptions_Lock()
 		DruidBarKey.Lock = false;
 	else
 		DruidBarKey.Lock = true;
-	end
-	DRUIDBAR_FrameSet();
-end
-
-function DRUIDBAROptions_HideInCaster()
-	if(DruidBarKey.HideInCaster) then
-		DruidBarKey.HideInCaster = false;
-	else
-		DruidBarKey.HideInCaster = true;
-	end
-	DRUIDBAR_FrameSet();
-end
-
-function DRUIDBAROptions_Full()
-	if(DruidBarKey.HideWhenFull) then
-		DruidBarKey.HideWhenFull = false;
-	else
-		DruidBarKey.HideWhenFull = true;
 	end
 	DRUIDBAR_FrameSet();
 end
@@ -167,7 +167,7 @@ end
 
 function DRUIDBAROptions_Percent_Initialize()
 	local info;
-	for i = 0, 2, 1 do
+	for i = 0, 3, 1 do
 		info = { };
 		info.text = DRUIDBAR_OPTIONS_DROP.Percent[i];
 		info.func = DRUIDBAROptions_Percent_OnClick;
@@ -183,20 +183,24 @@ function DRUIDBAROptions_Percent_OnShow()
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 2);
 	elseif( DruidBarKey.Percent == nil ) then
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 3);
+	elseif( DruidBarKey.Percent == 2 ) then
+		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 4);
 	end
-	UIDropDownMenu_SetWidth(DRUIDBAROptionsPercentDropDown, 112);
+	UIDropDownMenu_SetWidth(DRUIDBAROptionsPercentDropDown, 100);
 end
 
 function DRUIDBAROptions_Percent_OnClick(self)
 	i = self:GetID();
 	UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, i);
 
-	if(i == 1) then
+	if(i == 1) then -- Numbers
 		DruidBarKey.Percent = 0;
-	elseif(i == 2) then
+	elseif(i == 2) then -- Percent
 		DruidBarKey.Percent = 1;
-	elseif(i == 3) then
+	elseif(i == 3) then -- Both
 		DruidBarKey.Percent = nil;
+	elseif(i == 4) then -- Bliz-like
+		DruidBarKey.Percent = 2;
 	end
 end
 

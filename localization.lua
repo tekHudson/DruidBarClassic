@@ -57,12 +57,13 @@ DRUIDBAR_OPTIONS_DROP = {
 	["Text"] = {
 		[0] = "Original";
 		[1] = "New";
-		[2] = "No Text";
+		[2] = "Mouseover";
 	};
 	["Percent"] = {
 		[0] = "Raw numbers";
 		[1] = "Percentages";
-		[2] = "Both above";
+		[2] = "Both";
+		[3] = "Bliz-like";
 	};
 	["Message"] = {
 		[0] = "SAY";
