@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.1
+Update width when attached to playerframe
+
 #### 0.7.0
 Alter events we act on
 Fix [mana regen in combat bug](https://github.com/tekHudson/DruidBarClassic/issues/2)

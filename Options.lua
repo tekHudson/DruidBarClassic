@@ -71,6 +71,24 @@ function DRUIDBAROptions_Minimap()
 	DRUIDBAR_FrameSet();
 end
 
+function DRUIDBAROptions_HideInCaster()
+	if(DruidBarKey.HideInCaster) then
+		DruidBarKey.HideInCaster = false;
+	else
+		DruidBarKey.HideInCaster = true;
+	end
+	DRUIDBAR_FrameSet();
+end
+
+function DRUIDBAROptions_Full()
+	if(DruidBarKey.HideWhenFull) then
+		DruidBarKey.HideWhenFull = false;
+	else
+		DruidBarKey.HideWhenFull = true;
+	end
+	DRUIDBAR_FrameSet();
+end
+
 function DRUIDBAROptions_Replace()
 	DruidBarKey.Replace = true;
 	DruidBarKey.Player = false;
@@ -84,7 +102,7 @@ function DRUIDBAROptions_Player()
 	DruidBarKey.Player = true;
 	DruidBarKey.Custom = false;
 	--Assign value that default to match player frame
-	DruidBarKey.xvar = 150;
+	DruidBarKey.xvar = 125;
 	DruidBarKey.yvar = 18;
 	DruidBarKey.Lock = true;
 	DRUIDBAR_FrameSet();
@@ -105,24 +123,6 @@ function DRUIDBAROptions_Lock()
 		DruidBarKey.Lock = false;
 	else
 		DruidBarKey.Lock = true;
-	end
-	DRUIDBAR_FrameSet();
-end
-
-function DRUIDBAROptions_HideInCaster()
-	if(DruidBarKey.HideInCaster) then
-		DruidBarKey.HideInCaster = false;
-	else
-		DruidBarKey.HideInCaster = true;
-	end
-	DRUIDBAR_FrameSet();
-end
-
-function DRUIDBAROptions_Full()
-	if(DruidBarKey.HideWhenFull) then
-		DruidBarKey.HideWhenFull = false;
-	else
-		DruidBarKey.HideWhenFull = true;
 	end
 	DRUIDBAR_FrameSet();
 end
@@ -184,18 +184,18 @@ function DRUIDBAROptions_Percent_OnShow()
 	elseif( DruidBarKey.Percent == nil ) then
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, 3);
 	end
-	UIDropDownMenu_SetWidth(DRUIDBAROptionsPercentDropDown, 112);
+	UIDropDownMenu_SetWidth(DRUIDBAROptionsPercentDropDown, 100);
 end
 
 function DRUIDBAROptions_Percent_OnClick(self)
 	i = self:GetID();
 	UIDropDownMenu_SetSelectedID(DRUIDBAROptionsPercentDropDown, i);
 
-	if(i == 1) then
+	if(i == 1) then -- Numbers
 		DruidBarKey.Percent = 0;
-	elseif(i == 2) then
+	elseif(i == 2) then -- Percent
 		DruidBarKey.Percent = 1;
-	elseif(i == 3) then
+	elseif(i == 3) then -- Both
 		DruidBarKey.Percent = nil;
 	end
 end

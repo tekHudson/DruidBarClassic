@@ -62,7 +62,7 @@ DRUIDBAR_OPTIONS_DROP = {
 	["Percent"] = {
 		[0] = "Raw numbers";
 		[1] = "Percentages";
-		[2] = "Both above";
+		[2] = "Both";
 	};
 	["Message"] = {
 		[0] = "SAY";
