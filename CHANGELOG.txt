@@ -1,7 +1,7 @@
 ## Version History
 
 #### 0.7.1
-Update width when attached to playerframe
+Update width when attached to player frame.
 Add Bliz-like option to text to match blizzard layout.
 
 #### 0.7.0
