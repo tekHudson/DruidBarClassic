@@ -130,6 +130,7 @@ function Load_Variables(className)
 		DruidBarKey.subtractmana = 0;
 		DruidBarKey.extra = 0;
 		DruidBarKey.Enabled = true;
+		DruidBarKey.Minimap = {}
 		DruidBarKey.Graphics = true;
 		DruidBarKey.DontShiftBack = false;
 		DruidBarKey.tempW = 170;
@@ -161,8 +162,12 @@ function Load_Variables(className)
 	DruidBarManaBackground:SetTexture(DruidBarKey.manatexture);
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
 	
+	if type(DruidBarKey.Minimap) == "boolean" then
+		local shouldHide = not DruidBarKey.Minimap
+		DruidBarKey.Minimap = { hide = shouldHide }
+	end
     -- Creating the minimap config icon
-	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
+	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey.Minimap);
 
 	-- Not sure what 'shiftload' is all about yet
 	if not shiftload and className == "DRUID" then
@@ -309,8 +314,7 @@ end
 
 function DruidBar_MainGraphics()
 	dbarHide(DruidBarReplaceText);
-	Minimap_Button_Renderer()
-
+	
 	if PlayerFrameManaBar:GetWidth() < 100 then PlayerFrameManaBar:SetWidth(120); end
 
 	-- If DruidBar should render based on settings
