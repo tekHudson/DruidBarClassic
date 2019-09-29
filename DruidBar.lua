@@ -25,16 +25,15 @@ function DruidBar_OnLoad()
 	SLASH_DRUIDBARSLASH1 = "/dbar";
 	SLASH_DRUIDBARSLASH2 = "/druidbar";
 	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
-
-    -- Creating the minimap config icon
-	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 end
+
 function EventRegistration(event)
 		if event == "PLAYER_ENTERING_WORLD" then
 		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
 		DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
+		Minimap_Button_Renderer()
 		return;
 	elseif event == "PLAYER_LEAVING_WORLD" then
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_AURA");
@@ -58,7 +57,7 @@ function DruidBar_OnEvent(self, event,...)
 
 	if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_LEAVING_WORLD" then
 		EventRegistration(event)
-	elseif event == "ADDON_LOADED" then
+	elseif event == "ADDON_LOADED" and arg1 == "DruidBarClassic" then
 		Load_Variables(className);
 	elseif className and className == "DRUID" and DruidBarKey.Enabled then
 		-- Show DruidBarUpdateFrame if hidden
@@ -132,7 +131,6 @@ function Load_Variables(className)
 		DruidBarKey.extra = 0;
 		DruidBarKey.Enabled = true;
 		DruidBarKey.Graphics = true;
-		DruidBarKey.Minimap = true;
 		DruidBarKey.DontShiftBack = false;
 		DruidBarKey.tempW = 170;
 		DruidBarKey.tempH = 18;
@@ -162,6 +160,9 @@ function Load_Variables(className)
 	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
 	DruidBarManaBackground:SetTexture(DruidBarKey.manatexture);
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
+	
+    -- Creating the minimap config icon
+	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 
 	-- Not sure what 'shiftload' is all about yet
 	if not shiftload and className == "DRUID" then
@@ -299,12 +300,11 @@ function dbarHeight()
 end
 
 function Minimap_Button_Renderer()
-	-- If Minimap Icon should show based on settings
-  if DruidBarKey.Minimap then
-  	DruidBar_MinimapButton:Show("DruidBarMinimapIcon");
-  else
-  	DruidBar_MinimapButton:Hide("DruidBarMinimapIcon");
-  end
+	if className ~= "DRUID" then
+		DruidBar_MinimapButton:Hide("DruidBarMinimapIcon")
+	else
+		DruidBar_MinimapButton:Refresh("DruidBarMinimapIcon")
+	end
 end
 
 function DruidBar_MainGraphics()

@@ -63,11 +63,8 @@ function DRUIDBAROptions_Vis()
 end
 
 function DRUIDBAROptions_Minimap()
-	if(DruidBarKey.Minimap) then
-		DruidBarKey.Minimap = false;
-	else
-		DruidBarKey.Minimap = true;
-	end
+	DruidBarKey.hide = not DruidBarKey.hide
+	Minimap_Button_Renderer()
 	DRUIDBAR_FrameSet();
 end
 
@@ -224,7 +221,7 @@ function DRUIDBAR_FrameSet()
 	-- Toggle Checkboxes/Buttons
 	DRUIDBAROptionsToggle:SetChecked(DruidBarKey.Enabled);
 	DRUIDBAROptionsVis:SetChecked(DruidBarKey.Graphics);
-	DRUIDBAROptionsMinimap:SetChecked(DruidBarKey.Minimap);
+	DRUIDBAROptionsMinimap:SetChecked(not DruidBarKey.hide);
 	DRUIDBAROptionsReplace:SetChecked(DruidBarKey.Replace);
 	DRUIDBAROptionsPlayer:SetChecked(DruidBarKey.Player);
 	DRUIDBAROptionsCustom:SetChecked(DruidBarKey.Custom);
