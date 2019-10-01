@@ -17,17 +17,22 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("DruidBarMinim
 local DruidBar_MinimapButton = LibStub("LibDBIcon-1.0");
 
 function DruidBar_OnLoad()
-	DruidBarUpdateFrame:RegisterEvent("ADDON_LOADED");
-	DruidBarUpdateFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
-	DruidBarUpdateFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
+	-- Get players className
+	_, className = UnitClass("player");
 
-	SlashCmdList["DRUIDBARSLASH"] = DruidBar_Enable_ChatCommandHandler;
-	SLASH_DRUIDBARSLASH1 = "/dbar";
-	SLASH_DRUIDBARSLASH2 = "/druidbar";
-	DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
+	if className and className == "DRUID" then
+		DruidBarUpdateFrame:RegisterEvent("ADDON_LOADED");
+		DruidBarUpdateFrame:RegisterEvent("PLAYER_LEAVING_WORLD");
+		DruidBarUpdateFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 
-    -- Creating the minimap config icon
-	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
+		SlashCmdList["DRUIDBARSLASH"] = DruidBar_Enable_ChatCommandHandler;
+		SLASH_DRUIDBARSLASH1 = "/dbar";
+		SLASH_DRUIDBARSLASH2 = "/druidbar";
+		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
+
+	    -- Creating the minimap config icon
+		DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
+	end
 end
 function EventRegistration(event)
 		if event == "PLAYER_ENTERING_WORLD" then
@@ -139,10 +144,6 @@ function Load_Variables(className)
 		DruidBarKey.color = {0,0,1,1};
 		DruidBarKey.bordercolor = {1,1,1,1};
 		DruidBarKey.bgcolor = {0,0,0,0.5};
-		DruidBarKey.barstrata = 2;
-		-- Below aren't currently used
-		DruidBarKey.borderstrata = "BACKGROUND";
-		DruidBarKey.bgstrata = "BORDER";
 	end
 
 	if not DruidBarKey.color then DruidBarKey.color = {0,0,1,1}; end
@@ -151,11 +152,7 @@ function Load_Variables(className)
 	if(not DruidBarKey.tempW or DruidBarKey.tempW == 0) then DruidBarKey.tempW = DruidBarKey.xvar; end
 	if(not DruidBarKey.tempH or DruidBarKey.tempH == 0) then DruidBarKey.tempH = DruidBarKey.yvar; end
 	if(not DruidBarKey.DontShiftBack) then DruidBarKey.DontShiftBack = false; end
-	if not DruidBarKey.barstrata then DruidBarKey.barstrata = 2; end
-		-- Below aren't currently used
-	if not DruidBarKey.borderstrata then DruidBarKey.borderstrata = "BACKGROUND" end
 	if not DruidBarKey.bgstrata then DruidBarKey.bgstrata = "BORDER" end
-
 	if not DruidBarKey.manatexture then DruidBarKey.manatexture = "Interface\\TargetingFrame\\UI-StatusBar"; end
 	if not DruidBarKey.bordertexture then DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border"; end
 
@@ -764,9 +761,7 @@ function DruidBar_ColorAndStrataAndTexture()
 	DruidBarMana:SetStatusBarTexture(DruidBarKey.manatexture);
 	DruidBarManaBackground:SetTexture(DruidBarKey.manatexture);
 	DruidBarBorder:SetTexture(DruidBarKey.bordertexture);
-	-- DruidBarMana:SetFrameLevel(DruidBarKey.barstrata);
 	DruidBarManaBackground:SetDrawLayer(DruidBarKey.bgstrata);
-	-- DruidBarBorder:SetDrawLayer(DruidBarKey.borderstrata);
 end
 
 function UIErrorsFrame:realEcho()

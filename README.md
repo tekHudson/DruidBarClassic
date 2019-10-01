@@ -49,6 +49,6 @@ There are 2 available /druidbar or /dbar and either may recieve a number of para
 	  * or all three at once (like /dbar color 1 0 0)
 
 ## Contact info:
-In-game: COMING SOON!
+In-game: Tek on Pagle
 
 Discord: https://discord.gg/b5sPQnu
