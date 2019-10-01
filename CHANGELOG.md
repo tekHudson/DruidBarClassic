@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.2
+Prevent addon load when player unit is not a druid.
+
 #### 0.7.1
 Update width when attached to player frame.
 Add Bliz-like option to text to match blizzard layout.
