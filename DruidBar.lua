@@ -194,35 +194,6 @@ function DruidBar_ReflectionCheck()
 	return managain;
 end
 
---Gets the mana cost of your shapeshifting spells.
-function DruidBar_GetShapeshiftCost()
-	if not DBarSpellCatch:IsOwned(DruidBarUpdateFrame) then
-		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
-	end
-
-	DruidBarKey.subtractmana = 0;
-	local a, b, c, d = GetSpellTabInfo(4);
-	for i = 1, c+d, 1 do
-		local spellname = GetSpellBookItemName(i, BOOKTYPE_SPELL);
-		spellname = strlower(spellname);
-		if spellname and (strfind(spellname, DRUIDBAR_CAT_FORM) or strfind(spellname, DRUIDBAR_BEAR_FORM)) then
-			DBarSpellCatch:SetSpellBookItem(i, BOOKTYPE_SPELL);
-			local msg = DBarSpellCatchTextLeft2:GetText();
-			if DruidBarKey.Debug then DEFAULT_CHAT_FRAME:AddMessage(msg); end
-			local params;
-			if msg then
-				local index = strfind(msg, DRUIDBAR_MANA_DELIM);
-				if index then
-					if (GetLocale() == "frFR" or GetLocale() == "koKR") then params = strsub(msg, index+1); else params = strsub(msg, 1, index-1); end
-					if DruidBarKey.Debug then DEFAULT_CHAT_FRAME:AddMessage(params); end
-					DruidBarKey.subtractmana = tonumber(params);
-					if DruidBarKey.subtractmana and DruidBarKey.subtractmana > 0 then return; end
-				end
-			end
-		end
-	end
-end
-
 function DruidBar_Subtract()
 	if not firstshift then
 		local j = 1;
