@@ -216,10 +216,12 @@ end
 --Change form! whatever you cast, if you're shifted, you'll shift back to caster.
 function DruidBar_ChangeForm(id)
 	local changingback = nil;
+
 	for i = 1, GetNumShapeshiftForms() do
 		local icon, name, active = GetShapeshiftFormInfo(i);
 		if active and not DruidBarKey.DontShiftBack then id = i; changingback = true; end
 	end
+
 	if (id) then
 		pre_ShapeshiftBar_ChangeForm(id);
 		return nil;
@@ -656,67 +658,43 @@ function DruidBar_Status()
 	DruidBar_Print("Hiding when mana is full is "..DruidBar_On(DruidBarKey.HideWhenFull));
 	DruidBar_Print("Replacing the Player Frame's mana bar is "..DruidBar_On(DruidBarKey.Replace));
 	DruidBar_Print("Showing under the Player Frame is "..DruidBar_On(DruidBarKey.Player));
-	local str;
-	if not DruidBarKey.Text then str = "|CFF888888Off|r"; elseif DruidBarKey.Text == 1 then str = "|CFFFFFFFFModern|r"; else str = "|CFF00FF00Classic|r"; end
-	DruidBar_Print("The current style of text is "..str);
-	if not DruidBarKey.Percent then str = "|CFF00FF00Percent and Raw|r"; elseif DruidBarKey.Percent == 1 then str = "|CFFFF00FFRaw|r"; else str = "|CFF0000FFPercent|r"; end
-	DruidBar_Print("The current display of text is "..str);
+	DruidBar_Print("The current style of text is "..DruidBar_Text_Style());
+	DruidBar_Print("The current display of text is "..DruidBar_Text_Display());
 	DruidBar_Print("Debugging is "..DruidBar_On(DruidBarKey.Debug));
 end
 
-function DruidBar_On(tog)
-	if tog then
+function DruidBar_On(druidBarKeyValue)
+	if druidBarKeyValue then
 		return "|CFF00FF00On.|r";
 	else
 		return "|CFFFF0000Off.|r";
 	end
 end
 
+function DruidBar_Text_Style()
+	if not DruidBarKey.Text then
+		return "|CFF888888Off|r";
+	elseif DruidBarKey.Text == 1 then
+		return "|CFFFFFFFFModern|r";
+	else
+		return "|CFF00FF00Classic|r";
+	end
+end
+
+function DruidBar_Text_Display()
+	if not DruidBarKey.Percent then
+		return "|CFF00FF00Percent and Raw|r";
+	elseif DruidBarKey.Percent == 1 then
+		return "|CFFFF00FFRaw|r";
+	else
+		return "|CFF0000FFPercent|r";
+	end
+end
+
 function DruidBar_MaxManaScript()
-	-- TODO: not sure what int is in this case, RENAME
-	local _, int = UnitStat("player", 4);
-
-	DruidBar_GetShapeshiftCost();
-	if UnitPowerType("player") == 0 then
-		if UnitPowerMax("player") > 0 then
-			DruidBarKey.maxmana = UnitPowerMax("player");
-			DruidBarKey.currentmana = UnitPower("player");
-			DruidBarKey.int = int;
-		end
-	elseif UnitPowerType("player") ~= 0 then
-		if DruidBarKey.int ~= int then
-			if int > DruidBarKey.int then
-				local dif = int - DruidBarKey.int;
-				DruidBarKey.maxmana = DruidBarKey.maxmana + (dif * 15);
-				DruidBarKey.int = int;
-			elseif int < DruidBarKey.int then
-				local dif = DruidBarKey.int - int;
-				DruidBarKey.maxmana = DruidBarKey.maxmana - (dif * 15);
-				DruidBarKey.int = int;
-			end
-		end
-		if DruidBarKey.currentmana > DruidBarKey.maxmana then
-			DruidBarKey.currentmana = DruidBarKey.maxmana;
-		end
-	end
-	DruidBarKey.extra = 0;
-	for i = 1, 18 do
-		DBarSpellCatch:ClearLines();
-		DBarSpellCatch:SetInventoryItem("player", i);
-		for j = 1, DBarSpellCatch:NumLines() do
-			local strchek = getglobal("DBarSpellCatchTextLeft"..j):GetText();
-			if strchek then
-
-				if strfind(strchek, DRUIDBAR_REGEN1) then
-					DruidBarKey.extra = DruidBarKey.extra + string.gsub(strchek, DRUIDBAR_REGEN3, "%1")
-				end
-				if strfind(strchek, DRUIDBAR_REGEN2) then
-					DruidBarKey.extra = DruidBarKey.extra + string.gsub(strchek, DRUIDBAR_REGEN4, "%1");
-				end
-			end
-		end
-	end
-	DruidBarKey.extra = (DruidBarKey.extra * 2) / 5;
+	DruidBarKey.maxmana = UnitPowerMax("player", 0);
+	DruidBarKey.currentmana = UnitPower("player", 0);
+	DruidBarKey.int = intellect;
 end
 
 function DruidBar_ShouldBeVisible()
