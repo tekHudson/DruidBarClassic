@@ -1,5 +1,9 @@
 ## Version History
 
+#### 0.7.3
+Update WoW version compatability to `1.13.3`.
+
+
 #### 0.7.2
 Prevent addon load when player unit is not a druid.
 
