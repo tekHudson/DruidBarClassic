@@ -1,45 +1,0 @@
-[1;33mdiff --git a/DruidBar.lua b/DruidBar.lua[m
-[1;33mindex 1d2e691..d7907ed 100644[m
-[1;33m--- a/DruidBar.lua[m
-[1;33m+++ b/DruidBar.lua[m
-[1;35m@@ -6,12 +6,27 @@[m [mlocal timer = 0;[m
- local lowregentimer = 0;[m
- local fullmanatimer = 0;[m
- local DruidBar_Anchored = nil;[m
-[1;32m+[m[1;32m-- local DruidBar_MinimapPos = {[m[41m[m
-[1;32m+[m[1;32m--   ["minimapPos"] = 90,[m[41m[m
-[1;32m+[m[1;32m--   ["hide"] = false,[m[41m[m
-[1;32m+[m[1;32m-- }[m[41m[m
-[1;32m+[m[41m[m
-[1;32m+[m[1;32m-- local ldb = LibStub:GetLibrary("LibDataBroker-1.1")[m[41m[m
-[1;32m+[m[41m[m
-[1;32m+[m[1;32m-- if not ldb:GetDataObjectByName("DruidBarMinimapIcon") then[m[41m[m
-[1;32m+[m[1;32m--   ldb:NewDataObject("DruidBarMinimapIcon", {[m[41m[m
-[1;32m+[m[1;32m--     type = "data source",[m[41m[m
-[1;32m+[m[1;32m--     text = "Druid Bar Classic",[m[41m[m
-[1;32m+[m[1;32m--     icon = "Interface\\Icons\\ABILITY_DRUID_DEMORALIZINGROAR",[m[41m[m
-[1;32m+[m[1;32m--     OnClick = function (self, button) if button == "LeftButton" then DRUIDBAROptionsFrame_Toggle(); end end[m[41m[m
-[1;32m+[m[1;32m--   });[m[41m[m
-[1;32m+[m[1;32m-- end[m[41m[m
- [m
- local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("DruidBarMinimapIcon", {[m
-[1;31m-	type = "data source",[m
-[1;31m-	text = "Druid Bar Classic",[m
-[1;31m-	icon = "Interface\\Icons\\ABILITY_DRUID_DEMORALIZINGROAR",[m
-[1;31m-	OnClick = function (self, button) if button == "LeftButton" then DRUIDBAROptionsFrame_Toggle(); end end[m
-[1;32m+[m[1;32m       type = "data source",[m[41m[m
-[1;32m+[m[1;32m       text = "Druid Bar Classic",[m[41m[m
-[1;32m+[m[1;32m       icon = "Interface\\Icons\\ABILITY_DRUID_DEMORALIZINGROAR",[m[41m[m
-[1;32m+[m[1;32m       OnClick = function (self, button) if button == "LeftButton" then DRUIDBAROptionsFrame_Toggle(); end end[m[41m[m
- });[m
- [m
- local DruidBar_MinimapButton = LibStub("LibDBIcon-1.0");[m
-[1;35m@@ -31,7 +46,7 @@[m [mfunction DruidBar_OnLoad()[m
- 		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");[m
- [m
- 	    -- Creating the minimap config icon[m
-[1;31m-		DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);[m
-[1;32m+[m		[1;32mDruidBar_MinimapButton:Register("DruidBarMinimapIcon", ldb, DruidBar_MinimapPos);[m[41m[m
- 	end[m
- end[m
- function EventRegistration(event)[m
