@@ -1,4 +1,4 @@
-## Interface: 11302
+## Interface: 11303
 ## Title: Druid Bar Classic
 ## Notes: Shows mana in bear/cat form.
 ## Current Author: Tek (port to WoW Classic Beta)
