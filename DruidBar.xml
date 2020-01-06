@@ -102,35 +102,9 @@
 					<OnLoad>
 						self:SetFrameLevel("1");
 					</OnLoad>
-					<OnMouseDown>
-						if button == "LeftButton" and not self.isMoving then
-						self:GetParent():StartMoving();
-						self.isMoving = true;
-						end
-					</OnMouseDown>
-					<OnMouseUp>
-						if button == "LeftButton" and self.isMoving then
-						self:GetParent():StopMovingOrSizing();
-						self.isMoving = false;
-						end
-					</OnMouseUp>
-					<OnHide>
-						if self.isMoving then
-						self:GetParent():StopMovingOrSizing();
-						self.isMoving = false;
-						end
-					</OnHide>
 				</Scripts>
 			</StatusBar>
 		</Frames>
-
-		<Scripts>
-			<OnLoad>
-				self:RegisterForDrag("LeftButton");
-			</OnLoad>
-			<OnDragStart>self:StartMoving();</OnDragStart>
-			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
-		</Scripts>
 	</Frame>
 
 	<Frame name="DruidBarUpdateFrame">
@@ -155,7 +129,7 @@
 		</Anchors>
 	</Button>
 
-	<Frame name="DruidBarReplaceText" frameStrata="LOW" enableMouse="true" movable="true" parent="UIParent" hidden="true">
+	<Frame name="DruidBarReplaceText" frameStrata="LOW" enableMouse="true" movable="false" parent="UIParent" hidden="true">
 		<Size>
 			<AbsDimension x="120" y="10"/>
 		</Size>

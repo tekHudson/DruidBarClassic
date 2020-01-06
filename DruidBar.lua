@@ -29,9 +29,6 @@ function DruidBar_OnLoad()
 		SLASH_DRUIDBARSLASH1 = "/dbar";
 		SLASH_DRUIDBARSLASH2 = "/druidbar";
 		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
-
-	    -- Creating the minimap config icon
-		DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 	end
 end
 function EventRegistration(event)
@@ -166,6 +163,9 @@ function Load_Variables(className)
 		ShapeshiftBar_ChangeForm = DruidBar_ChangeForm;
 		shiftload = true;
 	end
+
+  -- Creating the minimap config icon
+	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 end
 
 function DruidBar_ReflectionCheck()
@@ -306,12 +306,19 @@ function DruidBar_MainGraphics()
 			DruidBar_Anchored = nil;
 		end
 
+		-- Set the position lock and dragability
 		if DruidBarKey.Lock then
 			dbarShow(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(0);
+			DruidBarFrame:SetMovable(false)
+			DruidBarFrame:RegisterForDrag()
 		else
 			dbarHide(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(1);
+			DruidBarFrame:SetMovable(true)
+			DruidBarFrame:RegisterForDrag("LeftButton")
+			DruidBarFrame:SetScript("OnDragStart", DruidBarFrame.StartMoving)
+			DruidBarFrame:SetScript("OnDragStop", DruidBarFrame.StopMovingOrSizing)
 		end
 	else
 		dbarHide(DruidBarFrame);
@@ -604,8 +611,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "status" then
 		DruidBar_Status();
-	elseif msg[1] == "best" then
-		DruidBar_ChangeBestForm();
 	elseif msg[1] == "color" then
 		if tonumber(msg[3]) then
 			if msg[2] == "r" then
