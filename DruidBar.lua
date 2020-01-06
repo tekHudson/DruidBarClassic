@@ -604,8 +604,6 @@ function DruidBar_Enable_ChatCommandHandler(text)
 		DRUIDBAR_FrameSet();
 	elseif msg[1] == "status" then
 		DruidBar_Status();
-	elseif msg[1] == "best" then
-		DruidBar_ChangeBestForm();
 	elseif msg[1] == "color" then
 		if tonumber(msg[3]) then
 			if msg[2] == "r" then
