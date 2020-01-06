@@ -29,9 +29,6 @@ function DruidBar_OnLoad()
 		SLASH_DRUIDBARSLASH1 = "/dbar";
 		SLASH_DRUIDBARSLASH2 = "/druidbar";
 		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
-
-	    -- Creating the minimap config icon
-		DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 	end
 end
 function EventRegistration(event)
@@ -166,6 +163,9 @@ function Load_Variables(className)
 		ShapeshiftBar_ChangeForm = DruidBar_ChangeForm;
 		shiftload = true;
 	end
+
+  -- Creating the minimap config icon
+	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 end
 
 function DruidBar_ReflectionCheck()
