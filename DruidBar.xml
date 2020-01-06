@@ -7,7 +7,7 @@
 
 	<GameTooltip name="DBarSpellCatch" frameStrata="TOOLTIP" inherits="GameTooltipTemplate"/>
 
-	<Frame name="DruidBarFrame" hidden="true" frameStrata="BACKGROUND" enableMouse="true" parent="UIParent">
+	<Frame name="DruidBarFrame" hidden="true" frameStrata="BACKGROUND" enableMouse="true" movable="true" parent="UIParent">
 		<Size>
 			<AbsDimension x="170" y="18"/>
 		</Size>
