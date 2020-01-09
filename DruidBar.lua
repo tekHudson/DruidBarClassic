@@ -11,7 +11,7 @@ local minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("DruidBarMinim
 	type = "data source",
 	text = "Druid Bar Classic",
 	icon = "Interface\\Icons\\ABILITY_DRUID_DEMORALIZINGROAR",
-	OnClick = function (self, button) if button == "LeftButton" then DRUIDBAROptionsFrame_Toggle(); end end
+	OnClick = function (self, button) if button == "LeftButton" then DRUIDBAROptionsFrame_Toggle(); end end,
 });
 
 local DruidBar_MinimapButton = LibStub("LibDBIcon-1.0");
@@ -29,8 +29,12 @@ function DruidBar_OnLoad()
 		SLASH_DRUIDBARSLASH1 = "/dbar";
 		SLASH_DRUIDBARSLASH2 = "/druidbar";
 		DBarSpellCatch:SetOwner(DruidBarUpdateFrame, "ANCHOR_NONE");
+
+  	-- Creating the minimap config icon
+		DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 	end
 end
+
 function EventRegistration(event)
 		if event == "PLAYER_ENTERING_WORLD" then
 		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
@@ -163,9 +167,6 @@ function Load_Variables(className)
 		ShapeshiftBar_ChangeForm = DruidBar_ChangeForm;
 		shiftload = true;
 	end
-
-  -- Creating the minimap config icon
-	DruidBar_MinimapButton:Register("DruidBarMinimapIcon", minimapIconLDB, DruidBarKey);
 end
 
 function DruidBar_ReflectionCheck()
