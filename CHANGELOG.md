@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.4
+Fix bug with minimap icon load.
+
 #### 0.7.3
 Update WoW version compatability to `1.13.3`.
 Fix on draggable bug.
