@@ -363,7 +363,7 @@ function DruidBar_TextRenderer()
 			dbarShow(DruidBarTextLeft);
 			dbarShow(DruidBarTextRight);
 			DruidBarTextLeft:SetText(ManaPercentage());
-			DruidBarTextRight:SetText(ManaValues());
+			DruidBarTextRight:SetText(CurrentMana());
 			DruidBarTextLeft:SetTextColor(1,1,1,1);
 			DruidBarTextRight:SetTextColor(1,1,1,1);
 			end
@@ -391,6 +391,10 @@ end
 
 function ManaValues()
 	return floor(DruidBarKey.currentmana).."/"..floor(DruidBarKey.maxmana);
+end
+
+function CurrentMana()
+	return floor(DruidBarKey.currentmana);
 end
 
 function ManaPercentage()
