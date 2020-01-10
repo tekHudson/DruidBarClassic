@@ -39,11 +39,13 @@ function EventRegistration(event)
 		if event == "PLAYER_ENTERING_WORLD" then
 		--Thanks to Tigerheart from Argent Dawn for this little piece of work, as well as fireball and prudence for bringing it up!
 		DruidBarUpdateFrame:RegisterEvent("UNIT_AURA");
+		DruidBarUpdateFrame:RegisterEvent("UNIT_STATS");
 		DruidBarUpdateFrame:RegisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS");
 		return;
 	elseif event == "PLAYER_LEAVING_WORLD" then
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_AURA");
+		DruidBarUpdateFrame:UnregisterEvent("UNIT_STATS");
 		DruidBarUpdateFrame:UnregisterEvent("UNIT_POWER_UPDATE");
 		DruidBarUpdateFrame:UnregisterEvent("UPDATE_SHAPESHIFT_FORMS");
 		return;
