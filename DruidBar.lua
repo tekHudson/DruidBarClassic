@@ -329,15 +329,13 @@ function DruidBar_MainGraphics()
 		if DruidBarKey.Lock then
 			dbarShow(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(0);
-			DruidBarFrame:SetMovable(false)
-			DruidBarFrame:RegisterForDrag()
+			DruidBarFrame:RegisterForDrag();
 		else
 			dbarHide(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(1);
-			DruidBarFrame:SetMovable(true)
-			DruidBarFrame:RegisterForDrag("LeftButton")
-			DruidBarFrame:SetScript("OnDragStart", DruidBarFrame.StartMoving)
-			DruidBarFrame:SetScript("OnDragStop", DruidBarFrame.StopMovingOrSizing)
+			DruidBarFrame:RegisterForDrag("LeftButton");
+			DruidBarFrame:SetScript("OnDragStart", DruidBarFrame.StartMoving);
+			DruidBarFrame:SetScript("OnDragStop", DruidBarFrame.StopMovingOrSizing);
 		end
 	else
 		dbarHide(DruidBarFrame);
