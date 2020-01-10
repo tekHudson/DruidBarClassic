@@ -66,6 +66,8 @@ function DruidBar_OnEvent(self, event,...)
 		EventRegistration(event)
 	elseif event == "ADDON_LOADED" then
 		Load_Variables(className);
+		-- Now that we have loaded variables (including icon position), refresh the poisition of the icon
+		DruidBar_MinimapButton:Refresh("DruidBarMinimapIcon", DruidBarKey);
 	elseif className and className == "DRUID" and DruidBarKey.Enabled then
 		-- Show DruidBarUpdateFrame if hidden
 		if not DruidBarUpdateFrame:IsVisible() then DruidBarUpdateFrame:Show(); end
