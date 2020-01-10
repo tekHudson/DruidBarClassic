@@ -267,7 +267,7 @@ function dbarLength()
 
 	DruidBarMana:SetWidth(DruidBarKey.width*0.95);
 	DruidBarManaBackground:SetWidth(DruidBarKey.width*0.95);
-	-- DruidBarDontMove:SetWidth(DruidBarKey.width*0.95);
+	DruidBarDontMove:SetWidth(DruidBarKey.width*0.95);
 end
 
 function dbarHeight()
@@ -280,7 +280,7 @@ function dbarHeight()
 
 	DruidBarMana:SetHeight(DruidBarKey.height*(2/3));
 	DruidBarManaBackground:SetHeight(DruidBarKey.height*(2/3));
-	-- DruidBarDontMove:SetHeight(DruidBarKey.height*(2/3));
+	DruidBarDontMove:SetHeight(DruidBarKey.height*(2/3));
 end
 
 function Minimap_Button_Renderer()
@@ -323,12 +323,12 @@ function DruidBar_MainGraphics()
 
 		-- Set the position lock and dragability
 		if DruidBarKey.Lock then
-			-- dbarShow(DruidBarDontMove);
+			dbarShow(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(0);
 			DruidBarFrame:SetMovable(false)
 			DruidBarFrame:RegisterForDrag()
 		else
-			-- dbarHide(DruidBarDontMove);
+			dbarHide(DruidBarDontMove);
 			DruidBarFrame:EnableMouse(1);
 			DruidBarFrame:SetMovable(true)
 			DruidBarFrame:RegisterForDrag("LeftButton")
@@ -337,7 +337,7 @@ function DruidBar_MainGraphics()
 		end
 	else
 		dbarHide(DruidBarFrame);
-		-- dbarHide(DruidBarDontMove);
+		dbarHide(DruidBarDontMove);
 	end
 end
 
@@ -345,9 +345,9 @@ function DruidBar_TextRenderer()
 	dbarHide(DruidBarTextLeft);
 	dbarHide(DruidBarTextCenter);
 	dbarHide(DruidBarTextRight);
- -- and MouseIsOver(DruidBarDontMove)
+
 	-- Text options --
-	if DruidBarKey.Text or (not DruidBarKey.Text) then
+	if DruidBarKey.Text or (not DruidBarKey.Text and MouseIsOver(DruidBarDontMove)) then
 		if DruidBarKey.Percent then
 			if DruidBarKey.Percent == 0 then -- Numbers
 				dbarShow(DruidBarTextCenter);
@@ -399,7 +399,7 @@ function DruidBar_ReplaceGraphics()
 	if UnitPowerType("player") ~= 0 then
 		dbarShow(DruidBarFrame);
 		dbarHide(DruidBarManaBackground);
-		-- dbarHide(DruidBarDontMove);
+		dbarHide(DruidBarDontMove);
 		dbarHide(DruidBarBorder);
 		dbarHide(DruidBarTextLeft);
 		dbarHide(DruidBarTextCenter);
