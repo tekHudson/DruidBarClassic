@@ -16,15 +16,15 @@ end
 function DRUIDBAROptions_Width(self)
 	if ( DRUIDBAROptionsWidthEditBox:GetText() < "1" ) then
 		DRUIDBAROptionsWidthEditBox:SetText("170");
-		DruidBarKey.xvar = self:GetNumber();
-		DruidBarKey.tempW = DruidBarKey.xvar;
+		DruidBarKey.width = self:GetNumber();
+		DruidBarKey.tempW = DruidBarKey.width;
 	elseif( DRUIDBAROptionsWidthEditBox:GetText() > "9999" ) then
 		DRUIDBAROptionsWidthEditBox:SetText("9999");
-		DruidBarKey.xvar = self:GetNumber();
-		DruidBarKey.tempW = DruidBarKey.xvar;
+		DruidBarKey.width = self:GetNumber();
+		DruidBarKey.tempW = DruidBarKey.width;
 	else
-		DruidBarKey.xvar = self:GetNumber();
-		DruidBarKey.tempW = DruidBarKey.xvar;
+		DruidBarKey.width = self:GetNumber();
+		DruidBarKey.tempW = DruidBarKey.width;
 	end
 end
 
@@ -32,15 +32,15 @@ end
 function DRUIDBAROptions_Height(self)
 	if ( DRUIDBAROptionsHeightEditBox:GetText() < "1" ) then
 		DRUIDBAROptionsHeightEditBox:SetText("18");
-		DruidBarKey.yvar = self:GetNumber();
-		DruidBarKey.tempH = DruidBarKey.yvar;
+		DruidBarKey.height = self:GetNumber();
+		DruidBarKey.tempH = DruidBarKey.height;
 	elseif( DRUIDBAROptionsHeightEditBox:GetText() > "999" ) then
 		DRUIDBAROptionsHeightEditBox:SetText("999");
-		DruidBarKey.yvar = self:GetNumber();
-		DruidBarKey.tempH = DruidBarKey.yvar;
+		DruidBarKey.height = self:GetNumber();
+		DruidBarKey.tempH = DruidBarKey.height;
 	else
-		DruidBarKey.yvar = self:GetNumber();
-		DruidBarKey.tempH = DruidBarKey.yvar;
+		DruidBarKey.height = self:GetNumber();
+		DruidBarKey.tempH = DruidBarKey.height;
 	end
 end
 
@@ -112,8 +112,8 @@ function DRUIDBAROptions_Player()
 	DruidBarKey.Player = true;
 	DruidBarKey.Custom = false;
 	--Assign value that default to match player frame
-	DruidBarKey.xvar = 125;
-	DruidBarKey.yvar = 18;
+	DruidBarKey.width = 125;
+	DruidBarKey.height = 18;
 	DruidBarKey.Lock = true;
 	renderOptionsFrame();
 end
@@ -124,8 +124,8 @@ function DRUIDBAROptions_Custom()
 	DruidBarKey.Replace = false;
 	DruidBarKey.Player = false;
 	DruidBarKey.Lock = false;
-	DruidBarKey.xvar = DruidBarKey.tempW;
-	DruidBarKey.yvar = DruidBarKey.tempH;
+	DruidBarKey.width = DruidBarKey.tempW;
+	DruidBarKey.height = DruidBarKey.tempH;
 	renderOptionsFrame();
 end
 
