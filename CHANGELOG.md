@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.6
+Finaly resolve `bar reset on lock` issue :D
+
 #### 0.7.5
 Add event so when stats change the bar updates (think buffs or gear swap).
 Add refresh to minimap icon on addon load so it uses stored position from last session.
