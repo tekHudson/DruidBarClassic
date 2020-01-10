@@ -115,7 +115,7 @@
 		</Scripts>
 	</Frame>
 
-	<Button name="DruidBarDontMove" frameStrata="TOOLTIP" toplevel="true" parent="DruidBarFrame" enableMouse="false" movable="false" hidden="true">
+	<!-- <Button name="DruidBarDontMove" frameStrata="TOOLTIP" toplevel="true" parent="DruidBarFrame" enableMouse="false" movable="false" hidden="true">
 		<Size>
 			<AbsDimension x="170" y="18"/>
 		</Size>
@@ -127,7 +127,7 @@
 				</Offset>
 			</Anchor>
 		</Anchors>
-	</Button>
+	</Button> -->
 
 	<Frame name="DruidBarReplaceText" frameStrata="LOW" enableMouse="true" movable="false" parent="UIParent" hidden="true">
 		<Size>
