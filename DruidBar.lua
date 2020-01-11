@@ -338,44 +338,52 @@ function DruidBar_MainGraphics()
 	end
 end
 
-function DruidBar_TextRenderer()
-	dbarHide(DruidBarTextLeft);
-	dbarHide(DruidBarTextCenter);
-	dbarHide(DruidBarTextRight);
-
-	-- Text options --
-	if DruidBarKey.Text or (not DruidBarKey.Text) then
-		if DruidBarKey.Percent then
-			if DruidBarKey.Percent == 0 then -- Numbers
-				dbarShow(DruidBarTextCenter);
-				DruidBarTextCenter:SetText(ManaValues());
-				DruidBarTextCenter:SetTextColor(1,1,1,1);
-			elseif DruidBarKey.Percent == 1 then -- Percent
-				dbarShow(DruidBarTextCenter);
-				DruidBarTextCenter:SetText(ManaPercentage());
-				DruidBarTextCenter:SetTextColor(1,1,1,1);
-			elseif DruidBarKey.Percent == 2 then -- Bliz-Like
+function DruidBar_TextStyle()
+	if DruidBarKey.Percent then
+		if DruidBarKey.Percent == 0 then -- Numbers
+			dbarShow(DruidBarTextCenter);
+			DruidBarTextCenter:SetText(ManaValues());
+			DruidBarTextCenter:SetTextColor(1,1,1,1);
+		elseif DruidBarKey.Percent == 1 then -- Percent
+			dbarShow(DruidBarTextCenter);
+			DruidBarTextCenter:SetText(ManaPercentage());
+			DruidBarTextCenter:SetTextColor(1,1,1,1);
+		elseif DruidBarKey.Percent == 2 then -- Bliz-Like
 			dbarShow(DruidBarTextLeft);
 			dbarShow(DruidBarTextRight);
 			DruidBarTextLeft:SetText(ManaPercentage());
 			DruidBarTextRight:SetText(CurrentMana());
 			DruidBarTextLeft:SetTextColor(1,1,1,1);
 			DruidBarTextRight:SetTextColor(1,1,1,1);
-			end
-		else -- Both
-			dbarShow(DruidBarTextCenter);
-			DruidBarTextCenter:SetText(ManaValuesAndPercentage());
-			DruidBarTextCenter:SetTextColor(1,1,1,1);
 		end
+	else -- Both
+		dbarShow(DruidBarTextCenter);
+		DruidBarTextCenter:SetText(ManaValuesAndPercentage());
+		DruidBarTextCenter:SetTextColor(1,1,1,1);
+	end
 
-		if DruidBarKey.Text == 0 then
-			DruidBarTextLeft:SetFontObject("GameTooltipTextSmall");
-			DruidBarTextCenter:SetFontObject("GameTooltipTextSmall");
-			DruidBarTextRight:SetFontObject("GameTooltipTextSmall");
-		elseif DruidBarKey.Text == 1 then
-			DruidBarTextLeft:SetFontObject("TextStatusBarText");
-			DruidBarTextCenter:SetFontObject("TextStatusBarText");
-			DruidBarTextRight:SetFontObject("TextStatusBarText");
+	if DruidBarKey.Text == 0 then
+		DruidBarTextLeft:SetFontObject("GameTooltipTextSmall");
+		DruidBarTextCenter:SetFontObject("GameTooltipTextSmall");
+		DruidBarTextRight:SetFontObject("GameTooltipTextSmall");
+	elseif DruidBarKey.Text == 1 then
+		DruidBarTextLeft:SetFontObject("TextStatusBarText");
+		DruidBarTextCenter:SetFontObject("TextStatusBarText");
+		DruidBarTextRight:SetFontObject("TextStatusBarText");
+	end
+end
+
+function DruidBar_TextRenderer()
+	dbarHide(DruidBarTextLeft);
+	dbarHide(DruidBarTextCenter);
+	dbarHide(DruidBarTextRight);
+
+	-- Text options --
+	if DruidBarKey.Text then
+		if DruidBarKey.Text == 0 or DruidBarKey.Text == 1 then
+			DruidBar_TextStyle()
+		elseif DruidBarKey.Text == 2 and (MouseIsOver(DruidBarFrame) or MouseIsOver(PlayerFrameManaBar)) then
+			DruidBar_TextStyle()
 		end
 	end
 end
@@ -422,7 +430,7 @@ function DruidBar_ReplaceGraphics()
 			str1 = "|CFFFFFFFF"..(floor(DruidBarKey.currentmana / 100)/10).."k,"..floor(DruidBarKey.currentmana / DruidBarKey.maxmana * 100).."%|r";
 		end
 		-- DruidBarReplaceText:SetFrameLevel("2");
-		if (DruidBarKey.Text and DruidBarKey.Text == 1) or (not DruidBarKey.Text and (MouseIsOver(DruidBarFrame) or MouseIsOver(PlayerFrameManaBar)))then
+		if (DruidBarKey.Text and DruidBarKey.Text == 1) or (DruidBarKey.Text == 2 and (MouseIsOver(DruidBarFrame) or MouseIsOver(PlayerFrameManaBar))) then
 			dbarShow(DEnergyText1);
 			dbarShow(DManaText1);
 			dbarHide(DManaText);
