@@ -339,7 +339,7 @@ function DruidBar_MainGraphics()
 	end
 end
 
-function DruidBar_TextStyle
+function DruidBar_TextStyle()
 	if DruidBarKey.Percent then
 		if DruidBarKey.Percent == 0 then -- Numbers
 			dbarShow(DruidBarTextCenter);
