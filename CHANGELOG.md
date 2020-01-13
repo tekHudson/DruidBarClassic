@@ -1,5 +1,9 @@
 ## Version History
 
+#### 0.7.7
+Fix text on mouseover.
+Change text when setting `replace` is selected.
+
 #### 0.7.6
 Finaly resolve `bar reset on lock` issue :D
 

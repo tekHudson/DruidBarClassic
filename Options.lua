@@ -158,7 +158,7 @@ function DRUIDBAROptions_Text_OnShow()
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 1);
 	elseif( DruidBarKey.Text == 1 ) then -- NEW
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 2);
-	elseif( DruidBarKey.Text == nil ) then -- NO TEXT
+	elseif( DruidBarKey.Text == 2 ) then -- MOUSEOVER
 		UIDropDownMenu_SetSelectedID(DRUIDBAROptionsTextDropDown, 3);
 	end
 	UIDropDownMenu_SetWidth(DRUIDBAROptionsTextDropDown, 100);
@@ -173,7 +173,7 @@ function DRUIDBAROptions_Text_OnClick(self)
 	elseif(i == 2) then
 		DruidBarKey.Text = 1;
 	elseif(i == 3) then
-		DruidBarKey.Text = nil;
+		DruidBarKey.Text = 2;
 	end
 end
 
