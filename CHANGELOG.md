@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.8
+Bunmp interface version to 1.13.04
+
 #### 0.7.7
 Fix text on mouseover.
 Change text when setting `replace` is selected.
