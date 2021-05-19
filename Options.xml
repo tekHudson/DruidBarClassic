@@ -1,27 +1,15 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
-	<Frame name="DRUIDBAROptionsFrame" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent">
-		<Size>
-			<AbsDimension x="460" y="340"/>
-		</Size>
+	<Frame name="DRUIDBAROptionsFrame" parent="UIParent" inherits="BackdropTemplate" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true">
+		<KeyValues>
+			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" type="global">
+		</KeyValues>
+
+		<Size x="460" y="340"/>
 
 		<Anchors>
 			<Anchor point="CENTER"/>
 		</Anchors>
-
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11"/>
-			</BackgroundInsets>
-
-			<TileSize>
-				<AbsValue val="32"/>
-			</TileSize>
-
-			<EdgeSize>
-				<AbsValue val="32"/>
-			</EdgeSize>
-		</Backdrop>
 
 		<Layers>
 			<Layer level="ARTWORK">
@@ -744,7 +732,7 @@
 		</Frames>
 
 		<Scripts>
-			<OnLoad>
+			<OnLoad inherit="prepend">
 				DRUIDBAROptions_OnLoad();
 				self:RegisterForDrag("LeftButton");
 			</OnLoad>

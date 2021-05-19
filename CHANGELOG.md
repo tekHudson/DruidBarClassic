@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.10
+Fix options panel background
+
 #### 0.7.9
 Bump interface version to 2.05.01
 Remove backgroup for options pannels that was buggy.
