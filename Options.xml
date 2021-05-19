@@ -95,13 +95,6 @@
 						</FontString>
 					</Layer>
 				</Layers>
-
-				<Scripts>
-					<OnLoad>
-						self:SetBackdropBorderColor(0.4, 0.4, 0.4);
-						self:SetBackdropColor(0.1, 0.1, 0.1);
-					</OnLoad>
-				</Scripts>
 			</Frame>
 
 			<!-- IMPORTANT -->
@@ -537,13 +530,6 @@
 						</FontString>
 					</Layer>
 				</Layers>
-
-				<Scripts>
-					<OnLoad>
-						self:SetBackdropBorderColor(0.4, 0.4, 0.4);
-						self:SetBackdropColor(0.1, 0.1, 0.1);
-					</OnLoad>
-				</Scripts>
 			</Frame>
 
 			<Button name="DBColorSwatch" hidden="false" virtual="true">
