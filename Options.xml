@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Frame name="DRUIDBAROptionsFrame" parent="UIParent" inherits="BackdropTemplate" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true">
 		<KeyValues>
-			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" type="global">
+			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" type="global"/>
 		</KeyValues>
 
 		<Size x="460" y="340"/>

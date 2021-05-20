@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.11
+Add missing closing slash in xml
+
 #### 0.7.10
 Fix options panel background
 
