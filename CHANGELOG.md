@@ -1,5 +1,8 @@
 ## Version History
 
+#### 0.7.12
+Update version for latest WoW Classic version.
+
 #### 0.7.11
 Add missing closing slash in xml
 
