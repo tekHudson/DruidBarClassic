@@ -2,7 +2,7 @@ local className, inform, lowregentimer, fullmanatimer, lastshift, inCombat,
 			pre_UseAction, shiftload, isMoving, waitonce, firstshift, aquaformid,
 			travelformid, notyet;
 
-local timer = 0;
+DruidBar_ColorStrataTextureDirty = true;
 local lowregentimer = 0;
 local fullmanatimer = 0;
 local DruidBar_Anchored = nil;
@@ -86,14 +86,8 @@ end
 
 function DruidBar_OnUpdate(self, elapsed)
 	if className and className == "DRUID" and DruidBarKey.Enabled then
-		timer = (timer or 0) + elapsed;
 		if not notyet then
 			DruidBar_MaxManaScript();
-			for i = 1, GetNumShapeshiftForms() do
-				local icon = GetShapeshiftFormInfo(i);
-				if icon == "Interface\\Icons\\Ability_Druid_AquaticForm" then aquaformid = i; end
-				if icon == "Interface\\Icons\\Ability_Druid_TravelForm" then travelformid = i; end
-			end
 			notyet = true;
 		end
 
@@ -117,7 +111,7 @@ function DruidBar_OnUpdate(self, elapsed)
 			else
 				DruidBarMana:SetMinMaxValues(0, DruidBarKey.maxmana);
 				DruidBarMana:SetValue(DruidBarKey.currentmana);
-				if timer > 2 then DruidBar_ColorAndStrataAndTexture(); timer = 0; end
+				DruidBar_ColorAndStrataAndTexture();
 				DruidBar_MainGraphics();
 			end
 		--Graphics OFF
@@ -659,6 +653,7 @@ function DruidBar_Enable_ChatCommandHandler(text)
 				DruidBarKey.color[3] = tonumber(msg[4]);
 			end
 		end
+		DruidBar_ColorStrataTextureDirty = true;
 	elseif msg[1] == "debug" then
 		DruidBarKey.Debug = DruidBar_Toggle(DruidBarKey.Debug, "Debug options");
 		DRUIDBAR_FrameSet();
@@ -671,6 +666,7 @@ function DruidBar_Enable_ChatCommandHandler(text)
 			DruidBar_Print("Setting mana bar texture to "..DruidBarKey.manatexture);
 		end
 		DRUIDBAR_FrameSet();
+		DruidBar_ColorStrataTextureDirty = true;
 	elseif msg[1] == "bordertex" then
 		if msg[2] == "default" then
 			DruidBarKey.bordertexture = "Interface\\Tooltips\\UI-StatusBar-Border";
@@ -681,6 +677,7 @@ function DruidBar_Enable_ChatCommandHandler(text)
 
 		end
 		DRUIDBAR_FrameSet();
+		DruidBar_ColorStrataTextureDirty = true;
 	else
 		DRUIDBAROptionsFrame_Toggle();
 	end
@@ -741,6 +738,11 @@ function DruidBar_ShouldBeVisible()
 end
 
 function DruidBar_ColorAndStrataAndTexture()
+	if not DruidBar_ColorStrataTextureDirty then
+		return;
+	end
+	DruidBar_ColorStrataTextureDirty = false;
+
 	DruidBarMana:SetStatusBarColor(DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3], DruidBarKey.color[4]);
 	DruidBarManaBackground:SetVertexColor(DruidBarKey.bgcolor[1],DruidBarKey.bgcolor[2],DruidBarKey.bgcolor[3],DruidBarKey.bgcolor[4]);
 	DruidBarBorder:SetVertexColor(DruidBarKey.bordercolor[1],DruidBarKey.bordercolor[2],DruidBarKey.bordercolor[3],DruidBarKey.bordercolor[4]);

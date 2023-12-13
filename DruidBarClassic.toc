@@ -1,10 +1,10 @@
-## Interface: 20503
+## Interface: 30403
 ## Title: Druid Bar Classic
 ## Notes: Shows mana in bear/cat form.
 ## Current Author: Tek (port to WoW Classic)
 ## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
-## Version: 0.7.12
+## Version: 0.7.13
 ## X-Curse-Project-ID: 334762
 ## X-WoWI-ID: 25036
 
