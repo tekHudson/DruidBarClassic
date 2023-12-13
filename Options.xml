@@ -1,5 +1,7 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\FrameXML\UI.xsd">
+<Ui xmlns="http://www.blizzard.com/wow/ui/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+	                    https://raw.githubusercontent.com/Gethe/wow-ui-source/classic_era/Interface/FrameXML/UI_shared.xsd">
 	<Frame name="DRUIDBAROptionsFrame" parent="UIParent" inherits="BackdropTemplate" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true">
 		<KeyValues>
 			<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" type="global"/>
@@ -43,7 +45,7 @@
 		<Frames>
 			<!-- BAR OPTIONS SUBFRAME -->
 			<!-- Text Header for 'Bar Options' -->
-			<Frame name="DRUIDBAROptions_Bar">
+			<Frame name="DRUIDBAROptions_Bar" inherits="BackdropTemplate">
 				<Size>
 					<AbsDimension x="420" y="200"/>
 				</Size>
@@ -55,20 +57,6 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-
-				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-					<EdgeSize>
-						<AbsValue val="8"/>
-					</EdgeSize>
-
-					<TileSize>
-						<AbsValue val="8"/>
-					</TileSize>
-
-					<BackgroundInsets>
-						<AbsInset left="2" right="2" top="2" bottom="2"/>
-					</BackgroundInsets>
-				</Backdrop>
 
 				<Layers>
 					<Layer>
@@ -83,6 +71,19 @@
 						</FontString>
 					</Layer>
 				</Layers>
+
+				<Scripts>
+					<OnLoad>
+						self:SetBackdrop({
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							edgeSize = 8,
+							tileSize = 8,
+							insets = { left = 2, right = 2, top = 2, bottom = 2 }
+						})
+					</OnLoad>
+				</Scripts>
 			</Frame>
 
 			<!-- IMPORTANT -->
@@ -478,7 +479,7 @@
 
 			<!-- MISC SUBFRAME -->
 			<!-- Text Header for 'Misc' -->
-			<Frame name="DRUIDBAROptions_Misc">
+			<Frame name="DRUIDBAROptions_Misc" inherits="BackdropTemplate">
 				<Size>
 					<AbsDimension x="420" y="60"/>
 				</Size>
@@ -490,20 +491,6 @@
 						</Offset>
 					</Anchor>
 				</Anchors>
-
-				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-					<EdgeSize>
-						<AbsValue val="8"/>
-					</EdgeSize>
-
-					<TileSize>
-						<AbsValue val="8"/>
-					</TileSize>
-
-					<BackgroundInsets>
-						<AbsInset left="2" right="2" top="2" bottom="2"/>
-					</BackgroundInsets>
-				</Backdrop>
 
 				<Layers>
 					<Layer>
@@ -518,6 +505,19 @@
 						</FontString>
 					</Layer>
 				</Layers>
+
+				<Scripts>
+					<OnLoad>
+						self:SetBackdrop({
+							bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+							edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+							tile = true,
+							edgeSize = 8,
+							tileSize = 8,
+							insets = { left = 2, right = 2, top = 2, bottom = 2 }
+						})
+					</OnLoad>
+				</Scripts>
 			</Frame>
 
 			<Button name="DBColorSwatch" hidden="false" virtual="true">
