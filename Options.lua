@@ -313,14 +313,21 @@ function DRUIDBAROptions_GetColor(self)
 	info.b = DruidBarKey.color[3];
 	info.notCheckable = 1;
 	info.opacity = 1.0 - DruidBarKey.color[4];
-	info.swatchFunc = function() DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3] = ColorPickerFrame:GetColorRGB(); end
+	info.swatchFunc = function()
+		DruidBar_ColorStrataTextureDirty = true;
+		DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3] = ColorPickerFrame:GetColorRGB(); 
+	end
 	info.func = UIDropDownMenuButton_OpenColorPicker;
 	info.hasOpacity = 0;
-	info.opacityFunc = function() DruidBarKey.color[4] = 1.0 - OpacitySliderFrame:GetValue(); end;
+	info.opacityFunc = function()
+		DruidBar_ColorStrataTextureDirty = true;
+		DruidBarKey.color[4] = 1.0 - OpacitySliderFrame:GetValue(); 
+	end;
 	info.cancelFunc = function()    DruidBarKey.color[1] = ColorPickerFrame.previousValues.r;
 									DruidBarKey.color[2] = ColorPickerFrame.previousValues.g;
 									DruidBarKey.color[3] = ColorPickerFrame.previousValues.b;
-									DruidBarKey.color[4] = 1.0 - ColorPickerFrame.previousValues.opacity; end;
+		DruidBarKey.color[4] = 1.0 - ColorPickerFrame.previousValues.opacity;
+	end;
 	getglobal(self:GetName().."_SwatchBg"):SetVertexColor(DruidBarKey.color[1], DruidBarKey.color[2], DruidBarKey.color[3]);
 end
 
@@ -334,10 +341,16 @@ function DRUIDBAROptions_GetBGColor(self)
 	info.b = DruidBarKey.bgcolor[3];
 	info.notCheckable = 1;
 	info.opacity = 1.0 - DruidBarKey.bgcolor[4];
-	info.swatchFunc = function() DruidBarKey.bgcolor[1], DruidBarKey.bgcolor[2], DruidBarKey.bgcolor[3] = ColorPickerFrame:GetColorRGB(); end
+	info.swatchFunc = function()
+		DruidBar_ColorStrataTextureDirty = true;
+		DruidBarKey.bgcolor[1], DruidBarKey.bgcolor[2], DruidBarKey.bgcolor[3] = ColorPickerFrame:GetColorRGB(); 
+	end
 	info.func = UIDropDownMenuButton_OpenColorPicker;
 	info.hasOpacity = 0;
-	info.opacityFunc = function() DruidBarKey.bgcolor[4] = 1.0 - OpacitySliderFrame:GetValue(); end;
+	info.opacityFunc = function()
+		DruidBar_ColorStrataTextureDirty = true;
+		DruidBarKey.bgcolor[4] = 1.0 - OpacitySliderFrame:GetValue();
+	end;
 	info.cancelFunc = function()    DruidBarKey.bgcolor[1] = ColorPickerFrame.previousValues.r;
 									DruidBarKey.bgcolor[2] = ColorPickerFrame.previousValues.g;
 									DruidBarKey.bgcolor[3] = ColorPickerFrame.previousValues.b;
@@ -355,10 +368,16 @@ function DRUIDBAROptions_GetBorderColor(self)
 	info.b = DruidBarKey.bordercolor[3];
 	info.notCheckable = 1;
 	info.opacity = 1.0 - DruidBarKey.bordercolor[4];
-	info.swatchFunc = function() DruidBarKey.bordercolor[1], DruidBarKey.bordercolor[2], DruidBarKey.bordercolor[3] = ColorPickerFrame:GetColorRGB(); end
+	info.swatchFunc = function() 
+		DruidBar_ColorStrataTextureDirty = true;
+		DruidBarKey.bordercolor[1], DruidBarKey.bordercolor[2], DruidBarKey.bordercolor[3] = ColorPickerFrame:GetColorRGB(); 
+	end
 	info.func = UIDropDownMenuButton_OpenColorPicker;
 	info.hasOpacity = 0;
-	info.opacityFunc = function() DruidBarKey.bordercolor[4] = 1.0 - OpacitySliderFrame:GetValue(); end;
+	info.opacityFunc = function()
+		DruidBar_ColorStrataTextureDirty = true;
+		DruidBarKey.bordercolor[4] = 1.0 - OpacitySliderFrame:GetValue();
+	end;
 	info.cancelFunc = function()    DruidBarKey.bordercolor[1] = ColorPickerFrame.previousValues.r;
 									DruidBarKey.bordercolor[2] = ColorPickerFrame.previousValues.g;
 									DruidBarKey.bordercolor[3] = ColorPickerFrame.previousValues.b;
