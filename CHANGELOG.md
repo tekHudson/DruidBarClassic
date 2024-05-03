@@ -1,5 +1,11 @@
 ## Version History
 
+#### 0.7.14
+Add pr to fix options window
+
+#### 0.7.13
+Unknown
+
 #### 0.7.12
 Update version for latest WoW Classic version.
 
