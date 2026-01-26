@@ -15,8 +15,5 @@ jobs:
 
       - name: Package and publish
         uses: BigWigsMods/packager@v2
-        with:
-          api-token: ${{ secrets.CURSEFORGE_API_TOKEN }}
-          curse-id: 334762
-          game-versions: "2.5.5"
-          strict: true
+        env:
+          CF_API_KEY: ${{ secrets.CURSEFORGE_API_TOKEN }}
