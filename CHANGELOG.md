@@ -1,5 +1,10 @@
 ## Version History
 
+#### 1.0.0
+Complete rewrite for TBC Anniversary.
+Single file architecture.
+All Lua, no more XML for view or settings.
+
 #### 0.7.13
 Update for version 2.5.5 of th game
 Serious refactor to single file architecture
