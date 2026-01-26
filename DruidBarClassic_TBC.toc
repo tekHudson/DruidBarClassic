@@ -4,7 +4,7 @@
 ## Current Author: TekHudson
 ## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
-## Version: 1.0.0
+## Version: v1.0.0
 ## X-Curse-Project-ID: 334762
 ## X-WoWI-ID: 25036
 

@@ -1,0 +1,22 @@
+name: Deploy to CurseForge
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: {}
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Package and publish
+        uses: curseforge/wow-addon-packager@v4
+        with:
+          api-token: ${{ secrets.CURSEFORGE_API_TOKEN }}
+          curse-id: 334762
+          game-versions: "2.5.5"
+          strict: true
