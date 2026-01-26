@@ -1,0 +1,10 @@
+lightweight tag 12eb275206538e46645c1a1809c183156bcb677d 0.7.12
+Author:	Tek Hudson <tek.hudson@gmail.com>
+Date:	Wed Feb 16 04:30:03 2022 -0800
+
+commit 12eb275206538e46645c1a1809c183156bcb677d
+Author: Tek Hudson <tek.hudson@gmail.com>
+Date:   Wed Feb 16 04:30:03 2022 -0800
+
+    Bump WoW version
+

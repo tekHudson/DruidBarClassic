@@ -1,10 +1,8 @@
 ## Version History
 
-#### 0.7.14
-Add pr to fix options window
-
 #### 0.7.13
-Unknown
+Update for version 2.5.5 of th game
+Serious refactor to single file architecture
 
 #### 0.7.12
 Update version for latest WoW Classic version.
