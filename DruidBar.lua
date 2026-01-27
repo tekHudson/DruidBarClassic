@@ -15,6 +15,13 @@ local defaults = {
 	width = 170,
 	height = 18,
 	show_frame = true,
+	show_text = true,
+	text_format = "BOTH",
+	text_anchor = "CENTER",
+	text_offset_x = 0,
+	text_offset_y = 0,
+	minimap = true,
+	minimapPos = 225,
 	color = {0, 0, 1, 1},
 	manatexture = "Interface\\TargetingFrame\\UI-StatusBar",
 	point = "CENTER",
@@ -28,6 +35,8 @@ local className
 
 local AceConfig = LibStub("AceConfig-3.0", true)
 local AceConfigDialog = LibStub("AceConfigDialog-3.0", true)
+local LDB = LibStub("LibDataBroker-1.1", true)
+local LDBIcon = LibStub("LibDBIcon-1.0", true)
 
 local frame = CreateFrame("Frame", "DruidBarFrame", UIParent, "BackdropTemplate")
 frame:SetClampedToScreen(true)
@@ -39,6 +48,22 @@ local bar = CreateFrame("StatusBar", nil, frame)
 bar:SetMinMaxValues(0, 1)
 bar:SetValue(0)
 bar:SetPoint("CENTER", frame, "CENTER", 0, 0)
+bar.text = bar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+bar.text:SetPoint("CENTER", bar, "CENTER", 0, 0)
+
+local minimapDataObject
+
+local function OpenOptions()
+	if InterfaceOptionsFrame_OpenToCategory then
+		InterfaceOptionsFrame_OpenToCategory("DruidBarClassic")
+		InterfaceOptionsFrame_OpenToCategory("DruidBarClassic")
+		if InterfaceOptionsFrame then
+			InterfaceOptionsFrame:Show()
+		end
+	elseif AceConfigDialog then
+		AceConfigDialog:Open("DruidBarClassicConfig")
+	end
+end
 
 local function ApplyDefaults()
 	_G[DB_NAME] = _G[DB_NAME] or {}
@@ -66,6 +91,7 @@ local function ApplySize()
 	local height = math.max(5, db.height or defaults.height)
 	frame:SetSize(width, height)
 	bar:SetSize(math.max(1, width - 4), math.max(1, height - 4))
+	if UpdateText then UpdateText() end
 end
 
 local function EnsureFrameArt()
@@ -117,6 +143,45 @@ local function ShouldShow()
 	return true
 end
 
+local function GetTextAnchor()
+	if db.text_anchor == "LEFT" then
+		return "LEFT", 4, 0
+	end
+	if db.text_anchor == "RIGHT" then
+		return "RIGHT", -4, 0
+	end
+	return "CENTER", 0, 0
+end
+
+function UpdateText()
+	if not bar.text then return end
+	if not db.show_text then
+		bar.text:SetText("")
+		bar.text:Hide()
+		return
+	end
+
+	local anchor, defaultX, defaultY = GetTextAnchor()
+	bar.text:ClearAllPoints()
+	bar.text:SetPoint(anchor, bar, anchor, (db.text_offset_x or 0) + defaultX, (db.text_offset_y or 0) + defaultY)
+
+	local current = db.currentmana or 0
+	local max = db.maxmana or 0
+	local percent = 0
+	if max > 0 then
+		percent = math.floor((current / max) * 100 + 0.5)
+	end
+
+	if db.text_format == "CURRENT" then
+		bar.text:SetText(string.format("%d / %d", current, max))
+	elseif db.text_format == "PERCENT" then
+		bar.text:SetText(string.format("%d%%", percent))
+	else
+		bar.text:SetText(string.format("%d / %d (%d%%)", current, max, percent))
+	end
+	bar.text:Show()
+end
+
 local function UpdateBar()
 	db.maxmana = UnitPowerMax("player", 0)
 	db.currentmana = UnitPower("player", 0)
@@ -129,6 +194,7 @@ local function UpdateBar()
 
 	bar:SetMinMaxValues(0, db.maxmana or 0)
 	bar:SetValue(db.currentmana or 0)
+	UpdateText()
 
 	if ShouldShow() then
 		frame:Show()
@@ -171,6 +237,18 @@ local options = {
 					order = 2,
 					get = function() return db.lock end,
 					set = function(_, val) db.lock = val end,
+				},
+				minimap = {
+					name = "Minimap Icon",
+					type = "toggle",
+					order = 3,
+					get = function() return db.minimap end,
+					set = function(_, val)
+						db.minimap = val
+						if LDBIcon then
+							if val then LDBIcon:Show("DruidBarClassic") else LDBIcon:Hide("DruidBarClassic") end
+						end
+					end,
 				},
 			},
 		},
@@ -224,11 +302,66 @@ local options = {
 				},
 			},
 		},
+		text = {
+			type = "group",
+			name = "Text",
+			inline = true,
+			order = 3,
+			args = {
+				show_text = {
+					name = "Show Text",
+					type = "toggle",
+					order = 6,
+					get = function() return db.show_text end,
+					set = function(_, val) db.show_text = val UpdateText() end,
+				},
+				text_format = {
+					name = "Text Format",
+					type = "select",
+					order = 7,
+					values = {
+						CURRENT = "Current / Max",
+						PERCENT = "Percent",
+						BOTH = "Current / Max (Percent)",
+					},
+					get = function() return db.text_format end,
+					set = function(_, val) db.text_format = val UpdateText() end,
+				},
+				text_anchor = {
+					name = "Text Position",
+					type = "select",
+					order = 8,
+					values = {
+						LEFT = "Left",
+						CENTER = "Center",
+						RIGHT = "Right",
+					},
+					get = function() return db.text_anchor end,
+					set = function(_, val) db.text_anchor = val UpdateText() end,
+				},
+				text_offset_x = {
+					name = "Text Offset X",
+					type = "range",
+					order = 9,
+					min = -200, max = 200, step = 1,
+					get = function() return db.text_offset_x end,
+					set = function(_, val) db.text_offset_x = val UpdateText() end,
+				},
+				text_offset_y = {
+					name = "Text Offset Y",
+					type = "range",
+					order = 10,
+					min = -100, max = 100, step = 1,
+					get = function() return db.text_offset_y end,
+					set = function(_, val) db.text_offset_y = val UpdateText() end,
+				},
+			},
+		},
 		size = {
 			type = "group",
 			name = "Size",
 			inline = true,
-			order = 3,
+			order = 4,
 			args = {
 				width = {
 					name = "Width",
@@ -257,9 +390,30 @@ local function SetupOptions()
 	AceConfigDialog:AddToBlizOptions("DruidBarClassicConfig", "DruidBarClassic")
 end
 
+local function SetupMinimap()
+	if not (LDB and LDBIcon) then return end
+	minimapDataObject = LDB:NewDataObject("DruidBarClassic", {
+		type = "data source",
+		text = "DruidBarClassic",
+		icon = "Interface\\Icons\\Ability_Druid_Maul",
+		OnClick = function()
+			OpenOptions()
+		end,
+		OnTooltipShow = function(tooltip)
+			tooltip:AddLine("DruidBarClassic")
+			tooltip:AddLine("Click to open options", 1, 1, 1)
+		end,
+	})
+	LDBIcon:Register("DruidBarClassic", minimapDataObject, db)
+	if not db.minimap then
+		LDBIcon:Hide("DruidBarClassic")
+	end
+end
+
 local function Initialize()
 	ApplyDefaults()
 	SetupOptions()
+	SetupMinimap()
 	ApplyPosition()
 	ApplySize()
 	ApplyFrameStyle()

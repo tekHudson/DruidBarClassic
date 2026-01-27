@@ -1,5 +1,9 @@
 ## Version History
 
+#### 1.1.0
+Add druidbar icon back
+Add text back to bar
+
 #### 1.0.0
 Complete rewrite for TBC Anniversary.
 Single file architecture.
