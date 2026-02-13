@@ -392,6 +392,29 @@ end
 
 local function SetupMinimap()
 	if not (LDB and LDBIcon) then return end
+	local minimapDB = setmetatable({}, {
+		__index = function(_, key)
+			if key == "hide" then
+				return not db.minimap
+			end
+			if key == "minimapPos" then
+				return db.minimapPos
+			end
+			return nil
+		end,
+		__newindex = function(_, key, value)
+			if key == "hide" then
+				db.minimap = not value
+				return
+			end
+			if key == "minimapPos" then
+				db.minimapPos = value
+				return
+			end
+			rawset(_, key, value)
+		end,
+	})
+
 	minimapDataObject = LDB:NewDataObject("DruidBarClassic", {
 		type = "data source",
 		text = "DruidBarClassic",
@@ -404,7 +427,7 @@ local function SetupMinimap()
 			tooltip:AddLine("Click to open options", 1, 1, 1)
 		end,
 	})
-	LDBIcon:Register("DruidBarClassic", minimapDataObject, db)
+	LDBIcon:Register("DruidBarClassic", minimapDataObject, minimapDB)
 	if not db.minimap then
 		LDBIcon:Hide("DruidBarClassic")
 	end

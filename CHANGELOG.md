@@ -1,5 +1,8 @@
 ## Version History
 
+#### 1.1.1
+Fix bug with LDBIcon not hiding minimap icon as user had set
+
 #### 1.1.0
 Add druidbar icon back
 Add text back to bar
