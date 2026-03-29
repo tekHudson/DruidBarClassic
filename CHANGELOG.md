@@ -1,5 +1,11 @@
 ## Version History
 
+#### 1.1.3
+Update localization
+
+#### 1.1.2
+Unknown
+
 #### 1.1.1
 Fix bug with LDBIcon not hiding minimap icon as user had set
 

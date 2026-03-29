@@ -216,30 +216,30 @@ end)
 
 local options = {
 	type = "group",
-	name = "DruidBarClassic",
+	name = DRUIDBAR_L.ADDON_NAME,
 	args = {
 		general = {
 			type = "group",
-			name = "General",
+			name = DRUIDBAR_L.GROUP_GENERAL,
 			inline = true,
 			order = 1,
 			args = {
 				enabled = {
-					name = "Enable Addon",
+					name = DRUIDBAR_L.OPT_ENABLE,
 					type = "toggle",
 					order = 1,
 					get = function() return db.enabled end,
 					set = function(_, val) db.enabled = val UpdateBar() end,
 				},
 				lock = {
-					name = "Lock Bar",
+					name = DRUIDBAR_L.OPT_LOCK,
 					type = "toggle",
 					order = 2,
 					get = function() return db.lock end,
 					set = function(_, val) db.lock = val end,
 				},
 				minimap = {
-					name = "Minimap Icon",
+					name = DRUIDBAR_L.OPT_MINIMAP,
 					type = "toggle",
 					order = 3,
 					get = function() return db.minimap end,
@@ -254,40 +254,40 @@ local options = {
 		},
 		display = {
 			type = "group",
-			name = "Display",
+			name = DRUIDBAR_L.GROUP_DISPLAY,
 			inline = true,
 			order = 2,
 			args = {
 				graphics = {
-					name = "Show Bar",
+					name = DRUIDBAR_L.OPT_SHOW_BAR,
 					type = "toggle",
 					order = 1,
 					get = function() return db.graphics end,
 					set = function(_, val) db.graphics = val UpdateBar() end,
 				},
 				show_frame = {
-					name = "Show Frame",
+					name = DRUIDBAR_L.OPT_SHOW_FRAME,
 					type = "toggle",
 					order = 2,
 					get = function() return db.show_frame end,
 					set = function(_, val) db.show_frame = val ApplyFrameStyle() end,
 				},
 				hide_in_caster = {
-					name = "Hide in Caster",
+					name = DRUIDBAR_L.OPT_HIDE_IN_CASTER,
 					type = "toggle",
 					order = 3,
 					get = function() return db.hide_in_caster end,
 					set = function(_, val) db.hide_in_caster = val UpdateBar() end,
 				},
 				hide_when_full = {
-					name = "Hide When Full",
+					name = DRUIDBAR_L.OPT_HIDE_WHEN_FULL,
 					type = "toggle",
 					order = 4,
 					get = function() return db.hide_when_full end,
 					set = function(_, val) db.hide_when_full = val UpdateBar() end,
 				},
 				color = {
-					name = "Bar Color",
+					name = DRUIDBAR_L.OPT_BAR_COLOR,
 					type = "color",
 					hasAlpha = true,
 					order = 5,
@@ -304,43 +304,43 @@ local options = {
 		},
 		text = {
 			type = "group",
-			name = "Text",
+			name = DRUIDBAR_L.GROUP_TEXT,
 			inline = true,
 			order = 3,
 			args = {
 				show_text = {
-					name = "Show Text",
+					name = DRUIDBAR_L.OPT_SHOW_TEXT,
 					type = "toggle",
 					order = 6,
 					get = function() return db.show_text end,
 					set = function(_, val) db.show_text = val UpdateText() end,
 				},
 				text_format = {
-					name = "Text Format",
+					name = DRUIDBAR_L.OPT_TEXT_FORMAT,
 					type = "select",
 					order = 7,
 					values = {
-						CURRENT = "Current / Max",
-						PERCENT = "Percent",
-						BOTH = "Current / Max (Percent)",
+						CURRENT = DRUIDBAR_L.OPT_TEXT_FORMAT_CURRENT,
+						PERCENT = DRUIDBAR_L.OPT_TEXT_FORMAT_PERCENT,
+						BOTH    = DRUIDBAR_L.OPT_TEXT_FORMAT_BOTH,
 					},
 					get = function() return db.text_format end,
 					set = function(_, val) db.text_format = val UpdateText() end,
 				},
 				text_anchor = {
-					name = "Text Position",
+					name = DRUIDBAR_L.OPT_TEXT_POSITION,
 					type = "select",
 					order = 8,
 					values = {
-						LEFT = "Left",
-						CENTER = "Center",
-						RIGHT = "Right",
+						LEFT   = DRUIDBAR_L.OPT_TEXT_LEFT,
+						CENTER = DRUIDBAR_L.OPT_TEXT_CENTER,
+						RIGHT  = DRUIDBAR_L.OPT_TEXT_RIGHT,
 					},
 					get = function() return db.text_anchor end,
 					set = function(_, val) db.text_anchor = val UpdateText() end,
 				},
 				text_offset_x = {
-					name = "Text Offset X",
+					name = DRUIDBAR_L.OPT_TEXT_OFFSET_X,
 					type = "range",
 					order = 9,
 					min = -200, max = 200, step = 1,
@@ -348,7 +348,7 @@ local options = {
 					set = function(_, val) db.text_offset_x = val UpdateText() end,
 				},
 				text_offset_y = {
-					name = "Text Offset Y",
+					name = DRUIDBAR_L.OPT_TEXT_OFFSET_Y,
 					type = "range",
 					order = 10,
 					min = -100, max = 100, step = 1,
@@ -359,12 +359,12 @@ local options = {
 		},
 		size = {
 			type = "group",
-			name = "Size",
+			name = DRUIDBAR_L.GROUP_SIZE,
 			inline = true,
 			order = 4,
 			args = {
 				width = {
-					name = "Width",
+					name = DRUIDBAR_L.OPT_WIDTH,
 					type = "range",
 					min = 50, max = 500, step = 1,
 					order = 1,
@@ -372,7 +372,7 @@ local options = {
 					set = function(_, val) db.width = val ApplySize() ApplyFrameStyle() end,
 				},
 				height = {
-					name = "Height",
+					name = DRUIDBAR_L.OPT_HEIGHT,
 					type = "range",
 					min = 5, max = 100, step = 1,
 					order = 2,
@@ -423,8 +423,8 @@ local function SetupMinimap()
 			OpenOptions()
 		end,
 		OnTooltipShow = function(tooltip)
-			tooltip:AddLine("DruidBarClassic")
-			tooltip:AddLine("Click to open options", 1, 1, 1)
+			tooltip:AddLine(DRUIDBAR_L.MINIMAP_TOOLTIP_TITLE)
+			tooltip:AddLine(DRUIDBAR_L.MINIMAP_TOOLTIP_HINT, 1, 1, 1)
 		end,
 	})
 	LDBIcon:Register("DruidBarClassic", minimapDataObject, minimapDB)

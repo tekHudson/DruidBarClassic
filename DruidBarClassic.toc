@@ -4,7 +4,7 @@
 ## Current Author: TekHudson
 ## Original Authors: SkaDemon (GUI: DiabloHu)
 ## SavedVariables: DruidBarKey
-## Version: v1.1.1
+## Version: v1.1.3
 ## X-Curse-Project-ID: 334762
 ## X-WoWI-ID: 25036
 
@@ -18,4 +18,5 @@ Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 
 # Addon logic
+localization.lua
 DruidBar.lua
