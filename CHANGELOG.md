@@ -1,5 +1,9 @@
 ## Version History
 
+#### 1.1.4
+Fix TBC Anniversary client reporting addon as out of date (bump Interface to 20506 for game version 2.5.6)
+Add IconTexture so the addon list no longer shows a placeholder icon
+
 #### 1.1.3
 Update localization
 
