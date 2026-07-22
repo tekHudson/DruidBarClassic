@@ -1,4 +1,4 @@
-## Interface: 11508
+## Interface: 11509
 ## IconTexture: Interface\Icons\Ability_Druid_Maul
 ## Title: Druid Bar Classic
 ## Notes: Shows mana in bear/cat form.
