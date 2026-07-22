@@ -1,5 +1,8 @@
 ## Version History
 
+#### 1.1.5
+Fix Classic Era/SoD client reporting addon as out of date (bump Interface to 11509 for game version 1.15.9)
+
 #### 1.1.4
 Fix TBC Anniversary client reporting addon as out of date (bump Interface to 20506 for game version 2.5.6)
 Add IconTexture so the addon list no longer shows a placeholder icon
