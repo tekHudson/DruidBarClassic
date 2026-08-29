@@ -135,11 +135,26 @@ local function ApplyFrameStyle()
 	end
 end
 
+local function IsSoD()
+	return C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfDiscovery
+end
+
+local TREE_OF_LIFE_SPELL_ID = 439733 -- SoD Tree of Life rune form (https://www.wowhead.com/classic/spell=439733/tree-of-life)
+
+local function IsTreeOfLifeForm()
+	local formIndex = GetShapeshiftForm()
+	if not formIndex or formIndex == 0 then return false end
+	local _, _, _, spellID = GetShapeshiftFormInfo(formIndex)
+	return spellID == TREE_OF_LIFE_SPELL_ID
+end
+
 local function ShouldShow()
 	if not db.enabled or not db.graphics then return false end
 	if className ~= "DRUID" then return false end
 	if db.hide_in_caster and (GetShapeshiftForm() or 0) == 0 then return false end
 	if db.hide_when_full and db.currentmana and db.maxmana and db.currentmana >= db.maxmana then return false end
+	-- Tree of Life already shows Blizzard's default mana bar in SoD, so don't duplicate it.
+	if IsSoD() and IsTreeOfLifeForm() then return false end
 	return true
 end
 
@@ -478,4 +493,5 @@ frame:RegisterEvent("PLAYER_LOGIN")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("UNIT_POWER_UPDATE")
 frame:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
+frame:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 frame:RegisterEvent("UNIT_AURA")

@@ -1,5 +1,8 @@
 ## Version History
 
+#### 1.1.6
+Hide the bar in Tree of Life form on Season of Discovery, since Blizzard's default UI already shows a mana bar there
+
 #### 1.1.5
 Fix Classic Era/SoD client reporting addon as out of date (bump Interface to 11509 for game version 1.15.9)
 
