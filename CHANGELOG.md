@@ -1,5 +1,8 @@
 ## Version History
 
+#### 1.1.7
+CI: drop the packager's automatic "-classic" filename suffix, so release zips are named DruidBarClassic-<version>.zip instead of DruidBarClassic-<version>-classic.zip
+
 #### 1.1.6
 Hide the bar in Tree of Life form on Season of Discovery, since Blizzard's default UI already shows a mana bar there
 
