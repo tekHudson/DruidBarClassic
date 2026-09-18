@@ -148,17 +148,28 @@ local function IsTreeOfLifeForm()
 	return spellID == TREE_OF_LIFE_SPELL_ID
 end
 
--- On 12.0+ clients (Forever, retail) UnitPower/UnitPowerMax can return
--- "secret" values that error on arithmetic or comparison. UnitPowerPercent
--- doesn't exist pre-12.0, so its presence doubles as the feature check.
+-- On 12.0+ clients (Forever, retail) UnitPower/UnitPowerMax -- and, it turns
+-- out, UnitPowerPercent too -- can return "secret" values that error on any
+-- arithmetic or comparison. Don't trust any single API to be safe; check
+-- with issecretvalue() and bail to nil (meaning "can't be turned into a
+-- number right now") instead of guessing.
 local HasPowerPercentAPI = type(UnitPowerPercent) == "function"
 
+local function IsSecret(value)
+	return issecretvalue ~= nil and issecretvalue(value)
+end
+
+-- Returns a plain 0-100 number, or nil if the underlying value is secret
+-- and can't be safely turned into one. Callers must handle nil.
 local function GetManaPercent()
 	if HasPowerPercentAPI then
-		return UnitPowerPercent("player", 0) or 0
+		local pct = UnitPowerPercent("player", 0)
+		if pct == nil or IsSecret(pct) then return nil end
+		return pct
 	end
 	local current = db.currentmana or 0
 	local max = db.maxmana or 0
+	if IsSecret(current) or IsSecret(max) then return nil end
 	if max <= 0 then return 0 end
 	return (current / max) * 100
 end
@@ -167,7 +178,10 @@ local function ShouldShow()
 	if not db.enabled or not db.graphics then return false end
 	if className ~= "DRUID" then return false end
 	if db.hide_in_caster and (GetShapeshiftForm() or 0) == 0 then return false end
-	if db.hide_when_full and db.maxmana and GetManaPercent() >= 100 then return false end
+	if db.hide_when_full and db.maxmana then
+		local pct = GetManaPercent()
+		if pct and pct >= 100 then return false end
+	end
 	-- Tree of Life already shows Blizzard's default mana bar in SoD, so don't duplicate it.
 	if IsSoD() and IsTreeOfLifeForm() then return false end
 	return true
@@ -197,16 +211,25 @@ function UpdateText()
 
 	local current = db.currentmana or 0
 	local max = db.maxmana or 0
-	local percent = math.floor(GetManaPercent() + 0.5)
+	local rawPercent = GetManaPercent()
+	local percent = rawPercent and math.floor(rawPercent + 0.5) or nil
 
 	-- current/max may be secret values on 12.0+ clients; SetFormattedText
 	-- accepts them natively, plain string.format()+SetText does not.
+	-- percent can be nil when the source value is secret and unreadable --
+	-- fall back to showing what we can rather than erroring.
 	if db.text_format == "CURRENT" then
 		bar.text:SetFormattedText("%d / %d", current, max)
 	elseif db.text_format == "PERCENT" then
-		bar.text:SetText(string.format("%d%%", percent))
-	else
+		if percent then
+			bar.text:SetText(string.format("%d%%", percent))
+		else
+			bar.text:SetText("")
+		end
+	elseif percent then
 		bar.text:SetFormattedText("%d / %d (%d%%)", current, max, percent)
+	else
+		bar.text:SetFormattedText("%d / %d", current, max)
 	end
 	bar.text:Show()
 end
