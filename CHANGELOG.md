@@ -1,5 +1,9 @@
 ## Version History
 
+#### Unreleased (Forever beta, dev branch)
+Add DruidBarClassic_Forever.toc (Interface 16001, client 1.60.1) so the addon loads on WoW Forever
+Fix Lua error on Forever/Midnight-era clients where UnitPower/UnitPowerMax can return secret (non-arithmetic) values: mana-percent math now uses UnitPowerPercent when available, and text display uses SetFormattedText instead of string.format+SetText
+
 #### 1.1.7
 CI: drop the packager's automatic "-classic" filename suffix, so release zips are named DruidBarClassic-<version>.zip instead of DruidBarClassic-<version>-classic.zip
 

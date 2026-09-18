@@ -148,11 +148,26 @@ local function IsTreeOfLifeForm()
 	return spellID == TREE_OF_LIFE_SPELL_ID
 end
 
+-- On 12.0+ clients (Forever, retail) UnitPower/UnitPowerMax can return
+-- "secret" values that error on arithmetic or comparison. UnitPowerPercent
+-- doesn't exist pre-12.0, so its presence doubles as the feature check.
+local HasPowerPercentAPI = type(UnitPowerPercent) == "function"
+
+local function GetManaPercent()
+	if HasPowerPercentAPI then
+		return UnitPowerPercent("player", 0) or 0
+	end
+	local current = db.currentmana or 0
+	local max = db.maxmana or 0
+	if max <= 0 then return 0 end
+	return (current / max) * 100
+end
+
 local function ShouldShow()
 	if not db.enabled or not db.graphics then return false end
 	if className ~= "DRUID" then return false end
 	if db.hide_in_caster and (GetShapeshiftForm() or 0) == 0 then return false end
-	if db.hide_when_full and db.currentmana and db.maxmana and db.currentmana >= db.maxmana then return false end
+	if db.hide_when_full and db.maxmana and GetManaPercent() >= 100 then return false end
 	-- Tree of Life already shows Blizzard's default mana bar in SoD, so don't duplicate it.
 	if IsSoD() and IsTreeOfLifeForm() then return false end
 	return true
@@ -182,17 +197,16 @@ function UpdateText()
 
 	local current = db.currentmana or 0
 	local max = db.maxmana or 0
-	local percent = 0
-	if max > 0 then
-		percent = math.floor((current / max) * 100 + 0.5)
-	end
+	local percent = math.floor(GetManaPercent() + 0.5)
 
+	-- current/max may be secret values on 12.0+ clients; SetFormattedText
+	-- accepts them natively, plain string.format()+SetText does not.
 	if db.text_format == "CURRENT" then
-		bar.text:SetText(string.format("%d / %d", current, max))
+		bar.text:SetFormattedText("%d / %d", current, max)
 	elseif db.text_format == "PERCENT" then
 		bar.text:SetText(string.format("%d%%", percent))
 	else
-		bar.text:SetText(string.format("%d / %d (%d%%)", current, max, percent))
+		bar.text:SetFormattedText("%d / %d (%d%%)", current, max, percent)
 	end
 	bar.text:Show()
 end
